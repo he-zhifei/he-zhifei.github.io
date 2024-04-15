@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="JVM监控工具介绍以及性能调优。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM调优">
+<meta property="og:url" content="https://he-zhifei.github.io/2021/12/12/JVM%E8%B0%83%E4%BC%98/index.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="JVM监控工具介绍以及性能调优。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-12T03:24:11.000Z">
+<meta property="article:modified_time" content="2024-04-15T09:56:04.267Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/2021/12/12/JVM%E8%B0%83%E4%BC%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2021/12/12/JVM%E8%B0%83%E4%BC%98/","path":"2021/12/12/JVM调优/","title":"JVM调优"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JVM调优 | Zhifei's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="nav-text">1. 命令行监控工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-jps%EF%BC%88%E6%9F%A5%E7%9C%8Bjava%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%EF%BC%89"><span class="nav-text">1.1 jps（查看java进程状态）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-jstat%EF%BC%88%E6%9F%A5%E7%9C%8Bjvm%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF%EF%BC%89"><span class="nav-text">1.2 jstat（查看jvm统计信息）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-jinfo%EF%BC%88%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E5%92%8C%E4%BF%AE%E6%94%B9JVM%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%EF%BC%89"><span class="nav-text">1.3 jinfo（实时查看和修改JVM配置参数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-jmap%EF%BC%88%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F%E6%96%87%E4%BB%B6%E5%92%8C%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5%E7%AD%89%E7%AD%89%EF%BC%89"><span class="nav-text">1.4 jmap（导出内存映像文件和内存使用情况等等）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-jhat%EF%BC%88jdk%E8%87%AA%E5%B8%A6%E5%A0%86%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%EF%BC%8CVisualVM%E6%9B%BF%E4%BB%A3%EF%BC%89"><span class="nav-text">1.5 jhat（jdk自带堆分析工具，VisualVM替代）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-jstack%EF%BC%88%E6%89%93%E5%8D%B0jvm%E4%B8%AD%E7%BA%BF%E7%A8%8B%E5%BF%AB%E7%85%A7%EF%BC%89"><span class="nav-text">1.6 jstack（打印jvm中线程快照）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-jcmd%EF%BC%88%E5%A4%9A%E5%8A%9F%E8%83%BD%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-text">1.7 jcmd（多功能命令）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-jstatd%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%89"><span class="nav-text">1.8 jstatd（远程主机信息收集）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="nav-text">2. 可视化工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-jConsole-jdk%E8%87%AA%E5%B8%A6"><span class="nav-text">2.1 jConsole(jdk自带)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Visual-VM-jdk%E8%87%AA%E5%B8%A6"><span class="nav-text">2.2 Visual VM(jdk自带)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-eclipse-MAT-%E7%AC%AC%E4%B8%89%E6%96%B9"><span class="nav-text">2.3 eclipse MAT(第三方)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-JProfiler-%E7%AC%AC%E4%B8%89%E6%96%B9"><span class="nav-text">2.4 JProfiler(第三方)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-Arthas-%E7%AC%AC%E4%B8%89%E6%96%B9"><span class="nav-text">2.5 Arthas(第三方)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-text">2.5.1 基础命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-jvm%E7%9B%B8%E5%85%B3"><span class="nav-text">2.5.2 jvm相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3-class-classloader%E7%9B%B8%E5%85%B3"><span class="nav-text">2.5.3 class&#x2F;classloader相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-monitor-watch-trace%E7%9B%B8%E5%85%B3"><span class="nav-text">2.5.4 monitor&#x2F;watch&#x2F;trace相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-6-profiler-%E7%81%AB%E7%84%B0%E5%9B%BE"><span class="nav-text">2.5.6 profiler&#x2F;火焰图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-7-%E9%89%B4%E6%9D%83"><span class="nav-text">2.5.7 鉴权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-8-options"><span class="nav-text">2.5.8 options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-9-%E7%AE%A1%E9%81%93"><span class="nav-text">2.5.9 管道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-10-%E5%90%8E%E5%8F%B0%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-text">2.5.10 后台异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-Java-Mission-Control-jdk%E8%87%AA%E5%B8%A6"><span class="nav-text">2.6 Java Mission Control(jdk自带)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-Btrace-%E7%AC%AC%E4%B8%89%E6%96%B9"><span class="nav-text">2.7 Btrace(第三方)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-Flame-Graphs%EF%BC%88%E7%81%AB%E7%84%B0%E5%9B%BE%EF%BC%89"><span class="nav-text">2.8 Flame Graphs（火焰图）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-text">3. 内存泄漏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-JVM%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-text">4. JVM参数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%A0%87%E5%87%86%E5%8F%82%E6%95%B0%E9%80%89%E9%A1%B9"><span class="nav-text">4.1 标准参数选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-X%E5%8F%82%E6%95%B0%E9%80%89%E9%A1%B9"><span class="nav-text">4.2 -X参数选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-XX%E5%8F%82%E6%95%B0%E9%80%89%E9%A1%B9"><span class="nav-text">4.3 -XX参数选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-JVM%E5%85%B7%E4%BD%93%E7%9A%84%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="nav-text">4.4 JVM具体的参数设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-1-%E6%89%93%E5%8D%B0%E8%AE%BE%E7%BD%AE%E7%9A%84XX%E9%80%89%E9%A1%B9%E5%8F%8A%E5%80%BC"><span class="nav-text">4.4.1 打印设置的XX选项及值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-2-%E5%A0%86%E6%A0%88%E6%96%B9%E6%B3%95%E5%8C%BA%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%BE%E7%BD%AE"><span class="nav-text">4.4.2 堆栈方法区内存大小设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89%E6%A0%88"><span class="nav-text">1）栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%EF%BC%89%E5%A0%86"><span class="nav-text">2）堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%EF%BC%89%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-text">3）方法区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%EF%BC%89%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="nav-text">4）直接内存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-3-OutOfMemory%E7%9B%B8%E5%85%B3%E9%80%89%E9%A1%B9"><span class="nav-text">4.4.3 OutOfMemory相关选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-4-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%9F%E7%9B%B8%E5%85%B3%E9%80%89%E9%A1%B9"><span class="nav-text">4.4.4 垃圾回收期相关选项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89Serial%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">1）Serial回收器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%EF%BC%89ParNew%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">2）ParNew回收器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%EF%BC%89Parallel%E5%9B%9E%E6%94%B6%E5%99%A8-java8%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">3）Parallel回收器(java8默认垃圾回收器)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%EF%BC%89CMS%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">4）CMS回收器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%EF%BC%89G1%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">5）G1回收器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-5-GC%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3%E9%80%89%E9%A1%B9"><span class="nav-text">4.4.5 GC日志相关选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-6-%E5%85%B6%E5%AE%83%E5%8F%82%E6%95%B0"><span class="nav-text">4.4.6 其它参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%9A"><span class="nav-text">面试题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%89%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%BC%9A%E8%A7%A6%E5%8F%91Full-GC%EF%BC%9F"><span class="nav-text">1）哪些情况会触发Full GC？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E4%BB%B6%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">附件响应时间对照表</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2021/12/12/JVM%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile-pic.svg">
+      <meta itemprop="name" content="he-zhifei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhifei's Blog">
+      <meta itemprop="description" content="keep it up.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JVM调优 | Zhifei's Blog">
+      <meta itemprop="description" content="JVM监控工具介绍以及性能调优。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM调优
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-12-12 11:24:11" itemprop="dateCreated datePublished" datetime="2021-12-12T11:24:11+08:00">2021-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-15 17:56:04" itemprop="dateModified" datetime="2024-04-15T17:56:04+08:00">2024-04-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>37 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">JVM监控工具介绍以及性能调优。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>JVM特点：一次编译，到处运行；自动内存管理；自动垃圾回收</p>
+<p>JVM调优步骤：性能监控 -&gt; 性能分析 -&gt; 性能调优</p>
+<h1 id="1-命令行监控工具"><a href="#1-命令行监控工具" class="headerlink" title="1. 命令行监控工具"></a>1. 命令行监控工具</h1><h2 id="1-1-jps（查看java进程状态）"><a href="#1-1-jps（查看java进程状态）" class="headerlink" title="1.1 jps（查看java进程状态）"></a>1.1 jps（查看java进程状态）</h2><p>java process status：查看java进程状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">usage: jps [-help]</span><br><span class="line">       jps [-q] [-mlvV] [&lt;hostid&gt;]</span><br><span class="line"></span><br><span class="line">Definitions:</span><br><span class="line">    &lt;hostid&gt;:      &lt;hostname&gt;[:&lt;port&gt;]</span><br><span class="line">    </span><br><span class="line">具体说明：</span><br><span class="line">-q	只显示进程id</span><br><span class="line">-l	输出进程id和进程主类全类名</span><br><span class="line">-m	输出虚拟机进程启动时传递给主类main方法的参数</span><br><span class="line">-v	列出虚拟机进程启动时的jvm参数</span><br><span class="line"></span><br><span class="line">以上参数可以综合使用。另外，如果某Java进程关闭了默认开启的UsePerfData参数(即使用参数-XX:-UsePerfData) ，那么jps命令(以及jstat)将无法探知该Java 进程。</span><br><span class="line"></span><br><span class="line">可以通过&lt;hostname&gt;[:&lt;port&gt;]查看远程的主机的java进程，需要搭配jstatd使用，但是不安全，建议本地使用</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-jstat（查看jvm统计信息）"><a href="#1-2-jstat（查看jvm统计信息）" class="headerlink" title="1.2 jstat（查看jvm统计信息）"></a>1.2 jstat（查看jvm统计信息）</h2><ul>
+<li>用法</li>
+</ul>
+<p>jstat(JVM Statistics Monitoring Tool)：用于监视虚拟机各种运行状态信息的命令行工具。它可以显示本地或者远程虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。</p>
+<p>在没有GUI图形界面，只提供了纯文本控制台环境的服务器上，它将是运行期定位虚拟机性能问题的首选工具。常用于检测垃圾回收问题以及内存泄漏问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Usage: jstat -help|-options</span><br><span class="line">       jstat -&lt;option&gt; [-t] [-h&lt;lines&gt;] &lt;vmid&gt; [&lt;interval&gt; [&lt;count&gt;]]</span><br><span class="line">示例：jstat -class -t -h5 12924 1000ms 10	输出进程id为12924的统计信息，隔5条输出一个表头，隔1s输出一次，共输出10次，并显示该进程的运行总时长</span><br><span class="line"></span><br><span class="line">Definitions:</span><br><span class="line">  &lt;option&gt;      An option reported by the -options option（可选参数）</span><br><span class="line">  </span><br><span class="line">  -t			timestamp.（显示程序运行的总时长）</span><br><span class="line">  </span><br><span class="line">  &lt;vmid&gt;        Virtual Machine Identifier. A vmid takes the following form:</span><br><span class="line">                     &lt;lvmid&gt;[@&lt;hostname&gt;[:&lt;port&gt;]]</span><br><span class="line">                Where &lt;lvmid&gt; is the local vm identifier for the target</span><br><span class="line">                Java virtual machine, typically a process id; &lt;hostname&gt; is</span><br><span class="line">                the name of the host running the target Java virtual machine;</span><br><span class="line">                and &lt;port&gt; is the port number for the rmiregistry on the</span><br><span class="line">                target host. See the jvmstat documentation for a more complete</span><br><span class="line">                description of the Virtual Machine Identifier.（java进程id）</span><br><span class="line">                </span><br><span class="line">  &lt;lines&gt;       Number of samples between header lines.(隔多少行输出一次表头信息)</span><br><span class="line">  </span><br><span class="line">  &lt;interval&gt;    Sampling interval. The following forms are allowed:</span><br><span class="line">                    &lt;n&gt;[&quot;ms&quot;|&quot;s&quot;]</span><br><span class="line">                Where &lt;n&gt; is an integer and the suffix specifies the units as</span><br><span class="line">                milliseconds(&quot;ms&quot;) or seconds(&quot;s&quot;). The default units are &quot;ms&quot;.（隔多长时间输出一次，默认单位ms，可选单位：ms/s）</span><br><span class="line">                </span><br><span class="line">  &lt;count&gt;       Number of samples to take before terminating.（输出多少次）</span><br><span class="line">  </span><br><span class="line">  -J&lt;flag&gt;      Pass &lt;flag&gt; directly to the runtime system.</span><br></pre></td></tr></table></figure>
+
+<p>可选参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">1）类装载相关：</span><br><span class="line">-class:显示ClassLoader的相关信息: 类的装载、卸载数量、总空间、类装载所消耗的时间等</span><br><span class="line"></span><br><span class="line">2）垃圾回收相关：</span><br><span class="line">-gc:显示与GC相关的堆信息。包括Eden区、两个Survivor区、老年代、永久代等的容量、已用空间GC时间合计等信息。</span><br><span class="line">-gccapacity:显示内容与-gc基本相同，但输出主要关注Java堆各个区域使用到的最大、最小空间。</span><br><span class="line">-gcutil:显示内容与-gc基本相同，但输出主要关注已使用空间占总空间的百分比。</span><br><span class="line">-gccause:与-gcutil功能一样，但是会额外输出导致最后一次或当前正在发生的GC产生的原因。</span><br><span class="line">-gcnew:显示新生代GC状况</span><br><span class="line">-gcnewcapacity:显示内容与-gcnew基本相同，输出主要关注使用到的最大、最小空间</span><br><span class="line">-gcold:显示老年代GC状况</span><br><span class="line">-gcoldcapacity:显示内容与-gcold基本相同，输出主要关注使用到的最大、最小空间</span><br><span class="line">-gcpermcapacity:显示永久代使用到的最大、最小空间。</span><br><span class="line">结果含义：</span><br><span class="line">S0C：survivor0大小（字节）</span><br><span class="line">S1C：survivor1大小（字节）</span><br><span class="line">S0U：survivor0已使用的大小（字节）</span><br><span class="line">S1U：survivor1已使用的大小（字节）</span><br><span class="line">EC：Eden空间大小（字节）</span><br><span class="line">EU：Eden已使用空间大小（字节）</span><br><span class="line">OC：老年代大小（字节）</span><br><span class="line">OU：老年代已使用大小（字节）</span><br><span class="line">MC：方法区大小（字节）</span><br><span class="line">MU：方法区已使用大小（字节）（字节）</span><br><span class="line">CCSC：压缩类空间大小（字节）</span><br><span class="line">CCSU：压缩类空间已使用大小（字节）</span><br><span class="line">YGC：从应用程序启动到采样时young gc次数</span><br><span class="line">YGCT：从应用程序启动到采样时young gc消耗的时间（秒）</span><br><span class="line">FGC：从应用程序启动到采样时full gc次数</span><br><span class="line">FGCT：从应用程序启动到采样时full gc消耗的时间（秒）</span><br><span class="line">GCT：从应用程序启动到采样时gc的总时间</span><br><span class="line"></span><br><span class="line">3）JIT相关:</span><br><span class="line">-compiler:显示JIT编 译器编译过的方法、耗时等信息</span><br><span class="line">-printcompilation:输出已经被JIT编译的方法</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>1）比较Java进程运行时间以及总GC时间（GCT）,或者两次测量时间间隔以及总GC的增量，得出GC时间占运行时间的比例。超过20%说明堆压力较大，超过90%说明堆几乎没什么空间可用，随时可能OOM。</p>
+<p>2）在长时间的运行的Java程序中，获取连续多行的性能数据，找到OU最小值。隔一段时间，再重复次操作，再获取OU最小值，反复次操作，如果OU不断增大，说明不可回收的对象不断增加，很可能内存泄漏。</p>
+<h2 id="1-3-jinfo（实时查看和修改JVM配置参数）"><a href="#1-3-jinfo（实时查看和修改JVM配置参数）" class="headerlink" title="1.3 jinfo（实时查看和修改JVM配置参数）"></a>1.3 jinfo（实时查看和修改JVM配置参数）</h2><p>说明：Configuration Info for Java，查看虚拟机配置参数信息，也可以调整虚拟机配置参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">jinfo -sysprops	[PID]	查看可以由System.getProperties()获取的参数</span><br><span class="line">jinfo -flags [PID]	查看赋值过的参数</span><br><span class="line">jinfo -flag [具体参数] [PID]	查看具体参数的值</span><br><span class="line"></span><br><span class="line">jinfo -flag [+|-][具体参数] [PID]	修改boolean类型参数的值</span><br><span class="line">jinfo -flag [具体参数=参数值] [PID]	修改非boolean类型参数的值</span><br><span class="line"></span><br><span class="line">java -XX:+PrintFlagsInitial	查看所有jvm参数启动的初始值</span><br><span class="line">java -XX:+PrintFlagsFinal	查看所有jvm参数最终值</span><br><span class="line">java -XX:+PrintCommandLineFlags	查看已被用户修改或者jvm设置锅的详细参数</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>具体可以被实时修改的参数：java -XX:+PrintFlagsFinal -version | grep manageable	&#x2F;&#x2F;被{manageable}标记的参数</p>
+<pre><code> intx CMSAbortablePrecleanWaitMillis            = 100                                 &#123;manageable&#125;
+ intx CMSTriggerInterval                        = -1                                  &#123;manageable&#125;
+ intx CMSWaitDuration                           = 2000                                &#123;manageable&#125;
+ bool HeapDumpAfterFullGC                       = false                               &#123;manageable&#125;
+ bool HeapDumpBeforeFullGC                      = false                               &#123;manageable&#125;
+ bool HeapDumpOnOutOfMemoryError                = false                               &#123;manageable&#125;
+ccstr HeapDumpPath                              =                                     &#123;manageable&#125;
+uintx MaxHeapFreeRatio                          = 70                                  &#123;manageable&#125;
+uintx MinHeapFreeRatio                          = 40                                  &#123;manageable&#125;
+ bool PrintClassHistogram                       = false                               &#123;manageable&#125;
+ bool PrintClassHistogramAfterFullGC            = false                               &#123;manageable&#125;
+ bool PrintClassHistogramBeforeFullGC           = false                               &#123;manageable&#125;
+ bool PrintConcurrentLocks                      = false                               &#123;manageable&#125;
+ bool PrintGC                                   = false                               &#123;manageable&#125;
+ bool PrintGCDateStamps                         = false                               &#123;manageable&#125;
+ bool PrintGCDetails                            = false                               &#123;manageable&#125;
+ bool PrintGCID                                 = false                               &#123;manageable&#125;
+ bool PrintGCTimeStamps                         = false                               &#123;manageable&#125;
+</code></pre>
+</blockquote>
+<h2 id="1-4-jmap（导出内存映像文件和内存使用情况等等）"><a href="#1-4-jmap（导出内存映像文件和内存使用情况等等）" class="headerlink" title="1.4 jmap（导出内存映像文件和内存使用情况等等）"></a>1.4 jmap（导出内存映像文件和内存使用情况等等）</h2><p>说明：jmap(JVM Memory Map)，用于获取dump文件（堆转储快照文件，二进制文件），可以获取Java进程的内存相关信息，包括Java堆各区域的使用情况、堆中对象的统计信息、类加载信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Usage:</span><br><span class="line">    jmap [option] &lt;pid&gt;</span><br><span class="line">        (to connect to running process)</span><br><span class="line">    jmap [option] &lt;executable &lt;core&gt;</span><br><span class="line">        (to connect to a core file)</span><br><span class="line">    jmap [option] [server_id@]&lt;remote server IP or hostname&gt;</span><br><span class="line">        (to connect to remote debug server)</span><br><span class="line">        </span><br><span class="line">-dump	生成java堆转储快照，dump文件，-dump:live只保存存活的对象</span><br><span class="line">-heap	整个堆的详细信息，包括GC的使用、堆配置信息，以及内存的使用信息等</span><br><span class="line">-histo	输出堆中对象的统计信息，包括类、实例数量和合计容量，-histo:live只统计堆中存活的对象</span><br><span class="line">-permstat	以ClassLoader为统计口径输出永久代的内存状态信息(仅linux/solaris平台有效)</span><br><span class="line">-finalizerinfo	显示在F-Queue中等待Finalizer线程执行finalize方法的对象(仅linux/solaris平台有效)</span><br><span class="line">-F	当虚拟机进程对-dump选项没有任何响应时，可使用此选项强制执行生成dump文件(仅linux/solaris平台有效)</span><br><span class="line">-h|-help	帮助文档</span><br><span class="line">-J &lt;flag&gt;	传递参数给jmap启动的jvm</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>常用：</p>
+<p>jmap -dump:[live,]format&#x3D;b,file&#x3D;&lt;filename.hprof&gt; <pid>		手动导出堆内存信息，加live表示只dump出存活的对象</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath&#x3D;&lt;filename.hprof&gt;	在启动时加上此jvm参数，会在OOM的时候，导出内存信息</p>
+</blockquote>
+<p>结论：由于jmap将访问堆中的所有对象，为了保证在此过程中不被应用线程干扰，jmap 需要借助安全点机制，让所有线程停留在不改变堆中数据的状态。也就是说，由jmap导出的堆快照必定是安全点位置的。这可能导致基于该堆快照的分析结果存在偏差。<br>举个例子，假设在编译生成的机器码中，某些对象的生命周期在两个安全点之间，那么:live选项将无法探知到这些对象。另外，如果某个线程长时间无法跑到安全点，jmap将一直等下去。与前面讲的jstat则不同，垃圾回收器会主动将jstat所需要的摘要数据保存至固定位置之中，而jstat只需直接读取即可。</p>
+<h2 id="1-5-jhat（jdk自带堆分析工具，VisualVM替代）"><a href="#1-5-jhat（jdk自带堆分析工具，VisualVM替代）" class="headerlink" title="1.5 jhat（jdk自带堆分析工具，VisualVM替代）"></a><del>1.5 jhat（jdk自带堆分析工具，VisualVM替代）</del></h2><p>jhat(JVM Heap Analysis Tool)：Sun JDK提供的jhat命令与jmap命令搭配使用，用于分析jmap生成的heap dump文件(堆转储快照)。jhat内置了一个微型的HTTP&#x2F;HTML服务器，生 成dump文件的分析结果后，用户可以在浏览器中查看分析结果(分析虚拟机转储快照信息)。<br>使用了jhat命令，就启动了一个http服务， 端口是7000， 即<a target="_blank" rel="noopener" href="http://localhost:7000/%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E9%87%8C%E5%88%86%E6%9E%90%E3%80%82%E5%8F%A6%E5%A4%96%EF%BC%8Cjhat%E5%9C%A8jdk9%E3%80%81jdk10%E4%B8%AD%E5%B7%B2%E7%BB%8F%E5%88%A0%E9%99%A4%EF%BC%8C%E5%AE%98%E6%96%B9%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8VisualVM%E4%BB%A3%E6%9B%BF%E3%80%82">http://localhost:7000/，就可以在浏览器里分析。另外，jhat在jdk9、jdk10中已经删除，官方建议使用VisualVM代替。</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Usage:  jhat [-stack &lt;bool&gt;] [-refs &lt;bool&gt;] [-port &lt;port&gt;] [-baseline &lt;file&gt;] [-debug &lt;int&gt;] [-version] [-h|-help] &lt;file&gt;</span><br><span class="line"></span><br><span class="line">        -J&lt;flag&gt;          Pass &lt;flag&gt; directly to the runtime system. For</span><br><span class="line">                          example, -J-mx512m to use a maximum heap size of 512MB</span><br><span class="line">        -stack false:     Turn off tracking object allocation call stack.</span><br><span class="line">        -refs false:      Turn off tracking of references to objects</span><br><span class="line">        -port &lt;port&gt;:     Set the port for the HTTP server.  Defaults to 7000</span><br><span class="line">        -exclude &lt;file&gt;:  Specify a file that lists data members that should</span><br><span class="line">                          be excluded from the reachableFrom query.</span><br><span class="line">        -baseline &lt;file&gt;: Specify a baseline object dump.  Objects in</span><br><span class="line">                          both heap dumps with the same ID and same class will</span><br><span class="line">                          be marked as not being &quot;new&quot;.</span><br><span class="line">        -debug &lt;int&gt;:     Set debug level.</span><br><span class="line">                            0:  No debug output</span><br><span class="line">                            1:  Debug hprof file parsing</span><br><span class="line">                            2:  Debug hprof file parsing, no server</span><br><span class="line">        -version          Report version number</span><br><span class="line">        -h|-help          Print this help and exit</span><br><span class="line">        &lt;file&gt;            The file to read</span><br><span class="line">        </span><br><span class="line">-stack false|true	关闭|打开对象分配调用栈跟踪</span><br><span class="line">-refs false|true	关闭|打开对象引用跟踪</span><br><span class="line">-port port-number	设置jhat httpserver端口号，默认7000</span><br><span class="line">-exclude exclude-file	执行对象查询时需要排除的数据</span><br><span class="line">-baseline exclude-file	指定一个基准堆转储</span><br><span class="line">-debug int	设置debug级别</span><br><span class="line">-version	启动后显示版本信息就退出</span><br><span class="line">-J&lt;flag&gt;	传入启动参数，比如-J -Xmx512m</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-jstack（打印jvm中线程快照）"><a href="#1-6-jstack（打印jvm中线程快照）" class="headerlink" title="1.6 jstack（打印jvm中线程快照）"></a>1.6 jstack（打印jvm中线程快照）</h2><p>jstack(JVMStackTrace):用于生成虚拟机指定进程当前时刻的线程快照(虚拟机堆栈跟踪)。线程快照就 是当前虚拟机内指定进程的每-条线程正在执行的方法堆 栈的集合。</p>
+<p>生成线程快照的作用：可用于定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等问题。这些都是导致线程长时间停顿的常见原因。当线程出现停顿时，就可以用jstack显示各个线程调用的堆栈情况，<a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/11/tools/jstack.html">官方帮助文档</a><br>在thread dump中，要留意下面几种状态：</p>
+<ul>
+<li>死锁，Deadlock (重点关注)</li>
+<li>等待资源，Waiting on condition (重点关注)</li>
+<li>等待获取监视器，Waiting on monitor entry (重点关注)</li>
+<li>阻塞，Blocked (重点关注)</li>
+<li>执行中，Runnable</li>
+<li>暂停，Suspended</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jstack [parmas] &lt;pid&gt;</span><br><span class="line">可选参数：</span><br><span class="line">-F	正常输出的请求不被响应，强制输出</span><br><span class="line">-l	除堆栈外，显示关于锁的附加信息</span><br><span class="line">-m	如果调用到本地方法的话，可以显示C/C++的堆栈信息</span><br><span class="line">-h	帮助命令</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-7-jcmd（多功能命令）"><a href="#1-7-jcmd（多功能命令）" class="headerlink" title="1.7 jcmd（多功能命令）"></a>1.7 jcmd（多功能命令）</h2><p>在JDK 1.7以后，新增了一个命令行工具jcmd。它是一个多功能的工具，可以用来实现前面除了jstat之外所有命令的功能。比如:用它来导出堆、内存使用、查看Java进程、导出线程信息、执行GC、JVM运行时间等，<a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/11/tools/jcmd.html">官方帮助文档</a></p>
+<p>jcmd拥有jmap的大部分功能，并且在Oracle的官方网站上也推荐使用jcmd命令代jmap命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jcmd -l	列出所有jvm进程</span><br><span class="line">jcmd &lt;pid&gt; help	针对指定进程，列出支持的所有命令</span><br><span class="line">jcmd &lt;pid&gt; &lt;具体命令&gt;	显示指定进程的指令命令数据</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-8-jstatd（远程主机信息收集）"><a href="#1-8-jstatd（远程主机信息收集）" class="headerlink" title="1.8 jstatd（远程主机信息收集）"></a>1.8 jstatd（远程主机信息收集）</h2><p>之前的指令只涉及到监控本机的Java应用程序，而在这些工具中，一些监控工具也支持对远程计算机的监控(如jps、jstat)。为了启用远程监控，则需要配合使用jstatd工具。<br>命令jstatd是一个RMI服务端程序，它的作用相当于代理服务器，建立本地计算机与远程监控工具的通信。jstatd服务器将本机的Java应用程序信息传递到远程计算机。</p>
+<h1 id="2-可视化工具"><a href="#2-可视化工具" class="headerlink" title="2. 可视化工具"></a>2. 可视化工具</h1><blockquote>
+<p>命令行监控工具缺陷：</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>无法获取方法级别的分析数据，如方法间的调用关系、各方法的调用次数和调用时间等(这对定位应用性能瓶颈至关重要)</li>
+<li>要求用户登录到目标Java应用所在的宿主机上，使用起来不是很方便。</li>
+<li>分析数据通过终端输出，结果展示不够直观。</li>
+</ul>
+</blockquote>
+<h2 id="2-1-jConsole-jdk自带"><a href="#2-1-jConsole-jdk自带" class="headerlink" title="2.1 jConsole(jdk自带)"></a>2.1 jConsole(jdk自带)</h2><p>命令行双击jconsole.exe即可启动</p>
+<p>概述：从java5开始， 在JDK中自带的java监控和管理控制台。用于对JVM中内存、线程和类等的监控，是一个基于JMX(java management extensions)的GUI性能监控工具。</p>
+<p>1）本地连接：使用JConsole连接-个正在本地系统运行的JVM，并且执行程序的和运行JConsole的需要是同一个用户。JConsole使用文件系统的授权通过RMI连接器连接到平台的MBean服务器上。这种从本地连接的监控能力只有Sun的JDK具有。</p>
+<p>2）远程连接：使用下面的URL通过RMI连接器连接到一 个JMX代理， servicejmx:mi&#x2F;:&#x2F;&#x2F;jnd&#x2F;rmi:&#x2F;&#x2F;hostName:portNum&#x2F;jmxrmi。JConsole为建立连接，需要在环境变量中设置mx.remote.credentials来指定用户名和密码，从而进行授权。</p>
+<p>3）Advanced：使用一个特殊的URL连接JMX代理。-般情况使用自己定制的连接器而不是RMI提供的连接器来连接JMX代理，或者是一个使用JDK1.4的实现了JMX和JMX Rmote的应用。</p>
+<h2 id="2-2-Visual-VM-jdk自带"><a href="#2-2-Visual-VM-jdk自带" class="headerlink" title="2.2 Visual VM(jdk自带)"></a>2.2 Visual VM(jdk自带)</h2><p>概述：VisualVM是–个功能强大的多合一故障诊断和性能监控的可视化工具。它集成了多个JDK命令行工具，使用VisualVM可用于显示虚拟机进程及进程的配置和环境信息(jps, jinfo)，监视应用程序的CPU、GC、堆、方法区及线程的信息(jstat、jstack)等，甚至代替pConsole。在JDK 6 Update 7以后，Visual VM便作为JDK的一部分发布(VisualVM 在JDK&#x2F;bin目录下)，即完全免费。此外，Visual VM也可以作为独立的软件安装。</p>
+<p>Visual VM的一大特点是支持插件扩展，并且插件安装非常方便。我们既可以通过离线下载插件文件* .nbm,然后在Plugin对话框的已下载页面下，添加己下载的插件。也可以在可用插件页面下，在线安装插件。(这里建议安装 上: VisualGC)，插件地址：<a target="_blank" rel="noopener" href="https://visualvm.github.io/pluginscenters.html%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%B8%8B%E8%BD%BD%E4%B8%8D%E4%BA%86%EF%BC%8C%E9%85%8D%E7%BD%AEhosts%EF%BC%9A">https://visualvm.github.io/pluginscenters.html，如果下载不了，配置hosts：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">140.82.113.4 github.com</span><br><span class="line">185.199.108.153	visualvm.github.io</span><br></pre></td></tr></table></figure>
+
+<p>1）本地连接：监控本地Java进程的CPU、类、线程等</p>
+<p>2）远程连接，步骤如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1-确定远程服务器的ip地址</span><br><span class="line">2-添加JMX（通过JMX技术具体监控远端服务器哪个Java进程）</span><br><span class="line">3-修改bin/catalina.sh文件，连接远程的tomcat</span><br><span class="line">4-在../conf中添加jmxremote.access和jmxremote.password文件</span><br><span class="line">5-将服务器地址改为公网ip地址</span><br><span class="line">6-设置阿里云安全策略和防火墙策略</span><br><span class="line">7-启动tomcat,查看tomcat启动日志和端口监听</span><br><span class="line">8-JMX中输入端口号、用户名、密码登录</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-eclipse-MAT-第三方"><a href="#2-3-eclipse-MAT-第三方" class="headerlink" title="2.3 eclipse MAT(第三方)"></a>2.3 eclipse MAT(第三方)</h2><h2 id="2-4-JProfiler-第三方"><a href="#2-4-JProfiler-第三方" class="headerlink" title="2.4 JProfiler(第三方)"></a>2.4 JProfiler(第三方)</h2><h2 id="2-5-Arthas-第三方"><a href="#2-5-Arthas-第三方" class="headerlink" title="2.5 Arthas(第三方)"></a>2.5 Arthas(第三方)</h2><h3 id="2-5-1-基础命令"><a href="#2-5-1-基础命令" class="headerlink" title="2.5.1 基础命令"></a>2.5.1 基础命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">help——查看命令帮助信息，查看出来的命令的具体用法可以通过，&lt;具体命令&gt; -h查看具体用法</span><br><span class="line">cat——打印文件内容，和linux里的cat命令类似</span><br><span class="line">echo–打印参数，和linux里的echo命令类似</span><br><span class="line">grep——匹配查找，和linux里的grep命令类似</span><br><span class="line">base64——base64编码转换，和linux里的base64命令类似</span><br><span class="line">tee——复制标准输入到标准输出和指定的文件，和linux里的tee命令类似</span><br><span class="line">pwd——返回当前的工作目录，和linux命令类似</span><br><span class="line">cls——清空当前屏幕区域</span><br><span class="line">session——查看当前会话的信息</span><br><span class="line">reset——重置增强类，将被 Arthas 增强过的类全部还原，Arthas 服务端关闭时会重置所有增强过的类</span><br><span class="line">version——输出当前目标 Java 进程所加载的 Arthas 版本号</span><br><span class="line">history——打印命令历史</span><br><span class="line">quit——退出当前 Arthas 客户端，其他 Arthas 客户端不受影响</span><br><span class="line">stop——关闭 Arthas 服务端，所有 Arthas 客户端全部退出</span><br><span class="line">keymap——Arthas快捷键列表及自定义快捷键</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-2-jvm相关"><a href="#2-5-2-jvm相关" class="headerlink" title="2.5.2 jvm相关"></a>2.5.2 jvm相关</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dashboard——当前系统的实时数据面板</span><br><span class="line">thread——查看当前 JVM 的线程堆栈信息</span><br><span class="line">jvm——查看当前 JVM 的信息</span><br><span class="line">sysprop——查看和修改JVM的系统属性</span><br><span class="line">sysenv——查看JVM的环境变量</span><br><span class="line">vmoption——查看和修改JVM里诊断相关的option</span><br><span class="line">perfcounter——查看当前 JVM 的Perf Counter信息</span><br><span class="line">logger——查看和修改logger</span><br><span class="line">getstatic——查看类的静态属性</span><br><span class="line">ognl——执行ognl表达式</span><br><span class="line">mbean——查看 Mbean 的信息</span><br><span class="line">heapdump——dump java heap, 类似jmap命令的heap dump功能</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-3-class-classloader相关"><a href="#2-5-3-class-classloader相关" class="headerlink" title="2.5.3 class&#x2F;classloader相关"></a>2.5.3 class&#x2F;classloader相关</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sc——查看JVM已加载的类信息</span><br><span class="line">sm——查看已加载类的方法信息</span><br><span class="line">jad——反编译指定已加载类的源码</span><br><span class="line">mc——内存编译器，内存编译.java文件为.class文件</span><br><span class="line">retransform——加载外部的.class文件，retransform到JVM里</span><br><span class="line">redefine——加载外部的.class文件，redefine到JVM里</span><br><span class="line">dump——dump 已加载类的 byte code 到特定目录</span><br><span class="line">classloader——查看classloader的继承树，urls，类加载信息，使用classloader去getResource</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-4-monitor-watch-trace相关"><a href="#2-5-4-monitor-watch-trace相关" class="headerlink" title="2.5.4 monitor&#x2F;watch&#x2F;trace相关"></a>2.5.4 monitor&#x2F;watch&#x2F;trace相关</h3><blockquote>
+<p>请注意，这些命令，都通过字节码增强技术来实现的，会在指定类的方法中插入一些切面来实现数据统计和观测，因此在线上、预发使用时，请尽量明确需要观测的类、方法以及条件，诊断结束要执行 <code>stop</code> 或将增强过的类执行 <code>reset</code> 命令。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">monitor——方法执行监控</span><br><span class="line">watch——方法执行数据观测</span><br><span class="line">trace——方法内部调用路径，并输出方法路径上的每个节点上耗时</span><br><span class="line">stack——输出当前方法被调用的调用路径</span><br><span class="line">tt——方法执行数据的时空隧道，记录下指定方法每次调用的入参和返回信息，并能对这些不同的时间下调用进行观测</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-6-profiler-火焰图"><a href="#2-5-6-profiler-火焰图" class="headerlink" title="2.5.6 profiler&#x2F;火焰图"></a>2.5.6 profiler&#x2F;火焰图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">profiler–使用async-profiler对应用采样，生成火焰图</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-7-鉴权"><a href="#2-5-7-鉴权" class="headerlink" title="2.5.7 鉴权"></a>2.5.7 鉴权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth–鉴权</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-8-options"><a href="#2-5-8-options" class="headerlink" title="2.5.8 options"></a>2.5.8 options</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options——查看或设置Arthas全局开关</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-9-管道"><a href="#2-5-9-管道" class="headerlink" title="2.5.9 管道"></a>2.5.9 管道</h3><p>Arthas支持使用管道对上述命令的结果进行进一步的处理，如<code>sm java.lang.String * | grep &#39;index&#39;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep——搜索满足条件的结果</span><br><span class="line">plaintext——将命令的结果去除ANSI颜色</span><br><span class="line">wc——按行统计输出结果</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-10-后台异步任务"><a href="#2-5-10-后台异步任务" class="headerlink" title="2.5.10 后台异步任务"></a>2.5.10 后台异步任务</h3><p>当线上出现偶发的问题，比如需要watch某个条件，而这个条件一天可能才会出现一次时，异步后台任务就派上用场了，详情请参考<a target="_blank" rel="noopener" href="https://arthas.gitee.io/async.html">这里</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">使用 &gt; 将结果重写向到日志文件，使用 &amp; 指定命令是后台运行，session断开不影响任务执行（生命周期默认为1天）</span><br><span class="line">jobs——列出所有job</span><br><span class="line">kill——强制终止任务</span><br><span class="line">fg——将暂停的任务拉到前台执行</span><br><span class="line">bg——将暂停的任务放到后台执行</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-Java-Mission-Control-jdk自带"><a href="#2-6-Java-Mission-Control-jdk自带" class="headerlink" title="2.6 Java Mission Control(jdk自带)"></a>2.6 Java Mission Control(jdk自带)</h2><h2 id="2-7-Btrace-第三方"><a href="#2-7-Btrace-第三方" class="headerlink" title="2.7 Btrace(第三方)"></a>2.7 Btrace(第三方)</h2><h2 id="2-8-Flame-Graphs（火焰图）"><a href="#2-8-Flame-Graphs（火焰图）" class="headerlink" title="2.8 Flame Graphs（火焰图）"></a>2.8 Flame Graphs（火焰图）</h2><h1 id="3-内存泄漏"><a href="#3-内存泄漏" class="headerlink" title="3. 内存泄漏"></a>3. 内存泄漏</h1><ol>
+<li><p>静态集合类</p>
+<p>静态集合类，如HashMap、 ArrayList等等。 如果这些容器为静态的，那么它们的生命周期与JVM程序一致，则容器中的对象在程序结束之前将不能被释放，从而造成内存泄漏。简单而言，生命周期的对象持有短生命周期对象的引用，尽管短生命周期的对象不再使用，但是因为长生命周期对象持有它的引用而导致不能被回收。</p>
+</li>
+<li><p>单例模式</p>
+<p>单例模式，和静态集合导致内存泄露的原因类似，因为单例的静态特性，它的生命周期和JVM的生命周期一样长，所以如果单例对象如果持有外部对象的引用，那么这个外部对象也不会被回收，那么就会造成内存泄漏。</p>
+</li>
+<li><p>内部类持有外部类</p>
+<p>内部类持有外部类，如果一个外部类的实例对象的方法返回了一个内部类的实例对象。这个内部类对象被长期引用了，即使那个外部类实例对象不再被使用，但由于内部类持有外部类的实例对象，这个外部类对象将不会被垃圾回收，这也会造成内存泄漏。</p>
+</li>
+<li><p>各种连接，如数据库连接、网络连接和IO连接等</p>
+<p>各种连接，如数据库连接、网络连接和IO连接等。在对数据库进行操作的过程中，首先需要建立与数据库的连接，当不再使用时，需要调用close方法来释放与数据库的连接。只有连接被关闭后，垃圾回收器才会回收对应的对象。否则，如果在访问数据库的过程中，对Connection、Statement或ResultSet不显性地关闭， 将会造成大量的对象无法被回收，从而引起内存泄漏。</p>
+</li>
+<li><p>变量不合理的作用域</p>
+<p>变量不合理的作用域。-般而言，一个变量的定义的作用范围大于其使用范围，很有可能会造成内存泄漏。另一方面，如果没有及时地把对象设置为null, 很有可能导致内存泄漏的发生。</p>
+</li>
+<li><p>改变哈希值</p>
+<p>改变哈希值，当一个对象被存储进HashSet集合中以后，就不能修改这个对象中的那些参与计算哈希值的字段了。否则，对象修改后的哈希值与最初存储进HashSet集合中时的哈希值就不同了，在这种情况下，即使在contains方法使用该对象的当前引用作为的参数去HashSet集合中检索对象，也将返回找不到对象的结果，这也会导致无法从HashSet集合中单独删除当前对象，造成内存泄漏。</p>
+</li>
+<li><p>缓存泄漏</p>
+<p>内存泄漏的另一一个常见来源是缓存，-旦 你把对象引用放入到缓存中，他就很容易遗忘。比如:之前项目在一次上线的时候，应用启动奇慢直到夯死，就是因为代码中会加载一个表中的数据到缓存(内存)中，测试环境只有几百条数据，但是生产环境有几百万的数据。对于这个问题，可以使用WeakHashMap代表缓存，此种Map的特点是，当除了自身有对key的引用外，此key没有其他引用那么此map会自动丢弃此值。</p>
+</li>
+<li><p>监听器和回调</p>
+<p>内存泄漏第三个常见来源是监听器和其他回调，如果客户端在你实现的API中注册回调，却没有显示的取消，那么就会积聚。需要确保回调立即被当作垃圾回收的最佳方法是只保存它的弱引用，例如将他们保存成为WeakHashMap中的键。</p>
+</li>
+</ol>
+<h1 id="4-JVM参数类型"><a href="#4-JVM参数类型" class="headerlink" title="4. JVM参数类型"></a>4. JVM参数类型</h1><h2 id="4-1-标准参数选项"><a href="#4-1-标准参数选项" class="headerlink" title="4.1 标准参数选项"></a>4.1 标准参数选项</h2><p>特点：比较稳定，后续版本基本不会变化，以-开头，可以通过java -help查看所有标准选项</p>
+<p>补充：Hotspot JVM有 两种模式，分别是server和client,分别通过-server和-client模式设置<br>1）在32位Windows系统上，默认使用Client类型的JVM。要想使用Server模式，则机器配置至少有2个以上的CPU和2G以上的物理内存。client模式适用 于对内存要求较小的桌面应用程序，默认使用Serial串行垃圾收集器<br>2）64位机器上只支持server模式的JVM，适用于需要大内存的应用程序，默认使用并行垃圾收集器</p>
+<h2 id="4-2-X参数选项"><a href="#4-2-X参数选项" class="headerlink" title="4.2 -X参数选项"></a>4.2 -X参数选项</h2><p>特点：非标准化参数，功能比较稳定，但官方说明后续版本可能变更，以-X开头，可以通过java -X查看所有-X选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">java -X</span><br><span class="line">    -Xmixed           混合模式执行 (默认)</span><br><span class="line">    -Xint             仅解释模式执行</span><br><span class="line">    -Xbootclasspath:&lt;用 : 分隔的目录和 zip/jar 文件&gt;</span><br><span class="line">                      设置搜索路径以引导类和资源</span><br><span class="line">    -Xbootclasspath/a:&lt;用 : 分隔的目录和 zip/jar 文件&gt;</span><br><span class="line">                      附加在引导类路径末尾</span><br><span class="line">    -Xbootclasspath/p:&lt;用 : 分隔的目录和 zip/jar 文件&gt;</span><br><span class="line">                      置于引导类路径之前</span><br><span class="line">    -Xdiag            显示附加诊断消息</span><br><span class="line">    -Xnoclassgc       禁用类垃圾收集</span><br><span class="line">    -Xincgc           启用增量垃圾收集</span><br><span class="line">    -Xloggc:&lt;file&gt;    将 GC 状态记录在文件中 (带时间戳)</span><br><span class="line">    -Xbatch           禁用后台编译</span><br><span class="line">    -Xms&lt;size&gt;        设置初始 Java 堆大小</span><br><span class="line">    -Xmx&lt;size&gt;        设置最大 Java 堆大小</span><br><span class="line">    -Xss&lt;size&gt;        设置 Java 线程堆栈大小</span><br><span class="line">    -Xprof            输出 cpu 配置文件数据</span><br><span class="line">    -Xfuture          启用最严格的检查, 预期将来的默认值</span><br><span class="line">    -Xrs              减少 Java/VM 对操作系统信号的使用 (请参阅文档)</span><br><span class="line">    -Xcheck:jni       对 JNI 函数执行其他检查</span><br><span class="line">    -Xshare:off       不尝试使用共享类数据</span><br><span class="line">    -Xshare:auto      在可能的情况下使用共享类数据 (默认)</span><br><span class="line">    -Xshare:on        要求使用共享类数据, 否则将失败。</span><br><span class="line">    -XshowSettings    显示所有设置并继续</span><br><span class="line">    -XshowSettings:all</span><br><span class="line">                      显示所有设置并继续</span><br><span class="line">    -XshowSettings:vm 显示所有与 vm 相关的设置并继续</span><br><span class="line">    -XshowSettings:properties</span><br><span class="line">                      显示所有属性设置并继续</span><br><span class="line">    -XshowSettings:locale</span><br><span class="line">                      显示所有与区域设置相关的设置并继续</span><br><span class="line"></span><br><span class="line">-X 选项是非标准选项, 如有更改, 恕不另行通知。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-Xms<size>	设置初始Java堆大小，等价于-XX:InitialHeapSize<br>-Xmx<size>	设置最大Java堆大小，等价于-XX:MaxHeapSize<br>-Xss<size>	  设置Java线程堆栈大小，等价于-XX:ThreadStackSize</p>
+</blockquote>
+<h2 id="4-3-XX参数选项"><a href="#4-3-XX参数选项" class="headerlink" title="4.3 -XX参数选项"></a>4.3 -XX参数选项</h2><p>特点：非标准化参数，使用最多的参数类型，属于实验性，不稳定，以-XX开头，用于开发和调试JVM</p>
+<p>分类：Boolean类型、非Boolean类型(key-value类型)</p>
+<p>1）Boolean类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:&lt;+|-&gt;&lt;option&gt;	+表示开启option属性，-表示禁用option属性</span><br></pre></td></tr></table></figure>
+
+<p>2）非Boolean类型(key-value类型)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:&lt;option&gt;=&lt;number|string&gt;		值可为数字，例如：100m，或者字符串，例如：/xxx/xx.hprof</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>另外：</p>
+</blockquote>
+<p>-XX:+PrintFlagsFinal	输出所有参数名称和默认值，默认不包括Diagnostic和Experimental的参数，可配合-XX:+UnlockDiagnosticVMOptions和-XX:UnlockExperimentalVMOptions使用</p>
+<h2 id="4-4-JVM具体的参数设置"><a href="#4-4-JVM具体的参数设置" class="headerlink" title="4.4 JVM具体的参数设置"></a>4.4 JVM具体的参数设置</h2><h3 id="4-4-1-打印设置的XX选项及值"><a href="#4-4-1-打印设置的XX选项及值" class="headerlink" title="4.4.1 打印设置的XX选项及值"></a>4.4.1 打印设置的XX选项及值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintCommandLineFlags		可以让在程序运行前打印出用户手动设置或者JVM自动设置的XX选项</span><br><span class="line">-XX:+PrintFlagslnitial		表示打印出所有XX选项的默认值</span><br><span class="line">-XX:+PrintFlagsFinal		表示打印出XX选项在运行程序时生效的值</span><br><span class="line">-XX:+PrintVMOptions		打印JVM的参数</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-2-堆栈方法区内存大小设置"><a href="#4-4-2-堆栈方法区内存大小设置" class="headerlink" title="4.4.2 堆栈方法区内存大小设置"></a>4.4.2 堆栈方法区内存大小设置</h3><h4 id="1）栈"><a href="#1）栈" class="headerlink" title="1）栈"></a>1）栈</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128k	设置每个线程的栈大小为128k，等价于-XX:ThreadStackSize=128k</span><br></pre></td></tr></table></figure>
+
+<h4 id="2）堆"><a href="#2）堆" class="headerlink" title="2）堆"></a>2）堆</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-Xms3550m	等价于-XX:InitialHeapSize，设置JVM初始堆内存为3550M</span><br><span class="line">-Xmx3550m	等价于-XX:MaxHeapSize，设置JVM最大堆内存为3550M</span><br><span class="line">-Xmn2g		设置年轻代初始化大小和最大值均为2g，官方推荐配置为整个堆大小的3/8，如有必要建议分别设置初始值和最大值（NewSize和MaxNewSize）</span><br><span class="line">-XX:NewSize=1024m	设置年轻代初始值为1024M</span><br><span class="line">-XX:MaxNewSize=1024m	设置年轻代最大值为1024M</span><br><span class="line">-XX:SurvivorRatio=8		设置年轻代中Eden区与一个Survivor区的比值，默认为8</span><br><span class="line"></span><br><span class="line">-XX:+UseAdaptiveSizePolicy		自动选择各区大小比例，默认eden:s0:s1 = 6:1:1，默认开启，建议开启，如果想强行指定为8:1:1，则需要显式指定-XX:SurvivorRatio=8</span><br><span class="line"></span><br><span class="line">-XX:NewRatio=2		设置老年代与年轻代(包括1个Eden和2个Survivor区)的比值，默认是2</span><br><span class="line">-XX:PretenureSizeThreadshold=1024	设置让大于此阈值的对象直接分配在老年代，单位为字节，只对Serial、ParNew收集器有效</span><br><span class="line">-XX:MaxTenuringThreshold=15		新生代每次MinorGC后，还存活的对象年龄+1，当对象的年龄大于设置的这个值时就进入老年代，默认值为15</span><br><span class="line">-XX:+PrintTenuringDistribution	让JVM在每次MinorGC后打印出当前使用的Survivor中对象的年龄分布</span><br><span class="line">-XX:TargetSurvivorRatio			表示MinorGC结束后Survivor区域中占用空间的期望比例</span><br></pre></td></tr></table></figure>
+
+<h4 id="3）方法区"><a href="#3）方法区" class="headerlink" title="3）方法区"></a>3）方法区</h4><blockquote>
+<p>java8之前（永久代）：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">永久代：</span><br><span class="line">-XX:PermSize=256m	设置永久代初始值为256M</span><br><span class="line">-XX:MaxPermSize=256m	设置永久代最大值为256M</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>java8之后（包括java8，元空间）：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-XX:MetaspaceSize	初始空间大小</span><br><span class="line">-XX:MaxMetaspaceSize	最大空间，默认没有限制</span><br><span class="line">-XX:+UseCompressedOops		压缩对象指针</span><br><span class="line">-XX:+UseCompressedClassPointers		压缩类指针</span><br><span class="line">-XX:CompressedClassSpaceSize		设置Klass Metaspace的大小，默认1G</span><br></pre></td></tr></table></figure>
+
+<h4 id="4）直接内存"><a href="#4）直接内存" class="headerlink" title="4）直接内存"></a>4）直接内存</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:MaxDirectMemorySize		指定DirectMemory容量，若未指定，则默认与Java堆最大值一样</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-3-OutOfMemory相关选项"><a href="#4-4-3-OutOfMemory相关选项" class="headerlink" title="4.4.3 OutOfMemory相关选项"></a>4.4.3 OutOfMemory相关选项</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError		表示在内存出现OOM的时候，把Heap转存(Dump)到文件以便后续分析</span><br><span class="line">-XX:+HeapDumpBeforeFullGC		表示在出现FulIGC之前，生成Heap转储文件，每次FullGC后，在文件后加.n，代表第n+1次FullGC前的dump文件</span><br><span class="line">-XX:HeapDumpPath=&lt;path&gt;		指定heap转存文件的存储路径</span><br><span class="line">-XX:OnOutOfMemoryError		指定一个可行性程序或者脚本的路径，当发生OOM的时候，去执行这个脚本（例如重启脚本）</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-4-垃圾回收期相关选项"><a href="#4-4-4-垃圾回收期相关选项" class="headerlink" title="4.4.4 垃圾回收期相关选项"></a>4.4.4 垃圾回收期相关选项</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintCommandLineFlags		查看命令行相关参数(包含使用的垃圾收集器)</span><br></pre></td></tr></table></figure>
+
+<h4 id="1）Serial回收器"><a href="#1）Serial回收器" class="headerlink" title="1）Serial回收器"></a>1）Serial回收器</h4><p>Serial收集器作为HotSpot中Client模式下的默认新生代垃圾收集器。Serial old是运行在Client模式下默认的老年代的垃圾回收器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX: +UseSerialGC	指定年轻代和老年代都使用串行收集器。等价于新生代用Serial GC，且老年代用Serial old GC。可以获得最高的单线程收集效率。</span><br></pre></td></tr></table></figure>
+
+<h4 id="2）ParNew回收器"><a href="#2）ParNew回收器" class="headerlink" title="2）ParNew回收器"></a>2）ParNew回收器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParNewGC	手动指定使用ParNew收集器执行内存回收任务。它表示年轻代使用并行收集器，不影响老年代。</span><br><span class="line">-XX:ParallelGCThreads=N		限制线程数量，默认开启和CPU数据相同的线程数。</span><br></pre></td></tr></table></figure>
+
+<h4 id="3）Parallel回收器-java8默认垃圾回收器"><a href="#3）Parallel回收器-java8默认垃圾回收器" class="headerlink" title="3）Parallel回收器(java8默认垃圾回收器)"></a>3）Parallel回收器(java8默认垃圾回收器)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParalle1GC		手动指定年轻代使用Paralle1并行收集器执行内存回收任务。</span><br><span class="line">-XX:+UseParallel01dGC	手动指定老年代都是使用并行回收收集器。</span><br><span class="line">分别适用于新生代和老年代。默认jdk8是开启的。上面两个参数，默认开启一个，另一个也会被开启。(互相激活)</span><br><span class="line"></span><br><span class="line">-XX:ParallelGCThreads	设置年轻代并行收集器的线程数。一般地，最好与CPU数量相等，以避免过多的线程数影响垃圾收集性能。</span><br><span class="line">在默认情况下，当CPU数量小于8个，ParallelGCThreads的值等于CPU数量。当CPU数量大于8个，ParallelGCThreads的值等于3+[5*CPU_Count]/8]。</span><br><span class="line"></span><br><span class="line">-XX:MaxGCPauseMillis	设置垃圾收集器最大停顿时间(即STW的时间)。单位是毫秒。为了尽可能地把停顿时间控制在MaxGCPauseMills以内，收集器在工作时会调整Java堆大小或者其他一些参数。对于用户来讲，停顿时间越短体验越好。但是在服务器端，我们注重高并发，整体的吞吐量。所以服务器端适合Parallel, 进行控制。该参数使用需谨慎。</span><br><span class="line"></span><br><span class="line">-XX:GCTimeRatio		垃圾收集时间占总时间的比例(= 1/(N + 1))。用于衡量吞吐量的大小，取值范围(0,100)，默认值99，也就是垃圾回收时间不超过1%。与前一个-XX:MaxGCPauseMillis参数有一定矛盾性。暂停时间越长，Radio参数就容易超过设定的比例。</span><br><span class="line"></span><br><span class="line">-XX:+UseAdaptiveSizePolicy	设置Parallel Scavenge收集器具有自适应调节策略</span><br></pre></td></tr></table></figure>
+
+<h4 id="4）CMS回收器"><a href="#4）CMS回收器" class="headerlink" title="4）CMS回收器"></a>4）CMS回收器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC		手动指定使用CMS收集器执行内存回收任务。开启该参数后会自动将-XX:+UseParNewGC打开。即: ParNew(Young区用)+CMS(o1d区用)+Serial old的组合。</span><br><span class="line"></span><br><span class="line">-XX:CMSlnitiating0ccupanyFraction		设置堆内存使用率的阈值，一旦达到该阈值，便开始进行回收。</span><br><span class="line">●JDK5及以前版本的默认值为68，即当老年代的空间使用率达到68%时，会执行一次CMS回收。JDK6及以上版本默认值为92%</span><br><span class="line">●如果内存增长缓慢，则可以设置一个稍大的值， 大的阀值可以有效降低CMS的触发频率， 减少老年代回收的次数可以较为明显地改善应用程序性能。反之，如果应用程序内存使用率增长很快，则应该降低这个阈值，以避免频繁触发老年代串行收集器。因此通过该选项便可以有效降低Full GC的执行次数。</span><br><span class="line"></span><br><span class="line">-XX:+UseCMSCompactAtFullCollection		用于指定在执行完Fu1l GC后对内存空间进行压缩整理，以此避免内存碎片的产生。不过由于内存压缩整理过程无法并发执行，所带来的问题就是停顿时间变得更长了。</span><br><span class="line"></span><br><span class="line">-XX:CMSFullGCsBeforeCompaction		设置在执行多少次Fu1l GC后对内存空间进行压缩整理。</span><br><span class="line"></span><br><span class="line">-XX:ParallelCMSThreads		设置CMS的线程数量。</span><br><span class="line">●CMS默认启动的线程数是(ParallelGCThreads+3)/4， ParallelGCThreads 是年轻代并行收集器的线程数。当CPU资源比较紧张时，受到CMS收集器线程的影响，应用程序的性能在垃圾回收阶段可能会非常糟糕。</span><br><span class="line"></span><br><span class="line">-XX:ConcGCThreads: 设置并发垃圾收集的线程数，默认该值是基于ParallelGCThreads计算出来的;</span><br><span class="line">-XX:+UseCMSInitiating0ccupancyOnly		是否动态可调，用这个参数可以使CMS一直按CMSInitiatingOccupancyFraction设定的值启动</span><br><span class="line">-XX:+CMSScavengeBeforeRemark	强制hotspot虚拟机在cms remark阶段之前做一次minor gc,用于提高remark阶段的速度;</span><br><span class="line">-XX:+CMSClassUnloadingEnable	如果有的话，启用回收Perm区(JDK8之前)</span><br><span class="line">-XX:+CMSParallelInitialEnabled	用于开启CMS initial-mark阶段采用多线程的方式进行标记，用于提高标记速度，在Java8开始已经默认开启;</span><br><span class="line">-XX:+CMSParallelRemarkEnabled	用户开启CMS remark阶段采用多线程的方式进行重新标记默认开启;</span><br><span class="line">-XX:+ExplicitGCInvokesConcurrent、-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses	这两个参数用户指定hotspot虚拟在执行System.gc()时使用CMS周期;</span><br><span class="line">-XX:+CMSPrecleaningEnabled		指定CMS是否需要进行Pre cleaning这个阶段</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>特别说明：</p>
+</blockquote>
+<blockquote>
+<ol>
+<li><p>JDK9新特性：CMS 被标记为Deprecate了(JEP291)</p>
+<p>如果对JDK 9及以上版本的HotSpot虚拟机使用参数-XX:+UseConcMarkSweepGC来开启CMS收集器的话，用户会收到一个警告信息，提示CMS未来将会被废弃。</p>
+</li>
+<li><p>JDK14新特性：删除CMS垃圾回收器(JEP363)<br>移除了CMS垃圾收集器，如果在JDK14中使用-XX:+UseConcMarkSweepGC的话JVM不会报错，只是给出一个warning信息，但是不会exit。JVM会自动回退<br>以默认GC方式启动JVM</p>
+<p>OpenJDK 64-Bit Server VM warning: Ignoring option UseConcMarkSweepGC ;<br>support was removed in 14.0<br>and the VM will continue execution using the default collector.</p>
+</li>
+</ol>
+</blockquote>
+<h4 id="5）G1回收器"><a href="#5）G1回收器" class="headerlink" title="5）G1回收器"></a>5）G1回收器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseG1GC	手动指定使用G1收集器执行内存回收任务。</span><br><span class="line">-XX:G1HeapRegionSize	设置每个Region的大小。值是2的幂，范围是1MB到32MB之间，目标是根据最小的Java堆大小划分出约2048个区域。默认是堆内存的1/ 2000。</span><br><span class="line">-XX:MaxGCPauseMillis	设置期望达到的最大GC停顿时间指标(JVM会尽力实现，但不保证达到)。默认值是200ms</span><br><span class="line">-XX:ParallelGCThread	设置STW时GC线程数的值。最多设置为8</span><br><span class="line">-XX:ConcGCThreads	设置并发标记的线程数。将n设置为并行垃圾回收线程数(ParallelGCThreads)的1/4左右。</span><br><span class="line">-XX:InitiatingHeapOccupancyPercent	设置触发并发GC周期的Java堆占用率阈值。超过此值，就触发GC。默认值是45。</span><br><span class="line">-XX:G1NewSizePercent、-XX:G1MaxNewSizePercent	新生代占用整个堆内存的最小百分比(默认5%)、最大百分比(默认60%)</span><br><span class="line">-XX:G1ReservePercent=10		保留内存区域，防止to space (Survivor中的to区)溢出</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: G1收集器主要涉及到Mixed GC，Mixed GC 会回收young区和部分old区。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">G1关于Mixed GC调优常用参数:</span><br><span class="line">-XX:InitiatingHeap0ccupancyPercent	设置堆占用率的百分比(0到100)达到这个数值的时候触发global concurrent marking ( 全局并发标记)，默认为</span><br><span class="line">45%。值为0表示间断进行全局并发标记。</span><br><span class="line"></span><br><span class="line">-XX:G1MixedGCLiveThresholdPercent	设置o1d区的region被回收时候的对象占比，默认占用率为85%。只有01d区的region中存活的对象占用达到了这个百分比</span><br><span class="line">才会在Mixed GC中被回收。</span><br><span class="line"></span><br><span class="line">-XX:G1HeapWastePercent		在global concurrent marking (全局并发标记)结束之后，可以知道所有的区有多少空间要被回收，在每次young GC之后和再次发生Mixed GC之前，会检查垃圾占比是否达到此参数，只有达到了，下次才会发生Mixed GC。</span><br><span class="line"></span><br><span class="line">-XX:G1MixedGCCountTarget	一次global concurrent marking (全局并发标记)之后，最多执行Mixed GC的次散，默认是8。</span><br><span class="line"></span><br><span class="line">-XX:G10ldCSetRegionThresholdPercent		设置Mixed GC收集周期中要收集的old region数的上限。默认值是Java堆的10%</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>推荐使用G1垃圾回收器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">建议：</span><br><span class="line">优先调整堆的大小让JVM自适应完成。</span><br><span class="line">如果内存小于100M，使用串行收集器。</span><br><span class="line">如果是单核、单机程序，并且没有停顿时间的要求，串行收集器。</span><br><span class="line">如果是多CPU、需要高吞吐量、允许停顿时间超过1秒，选择并行或者JVM自己选择。</span><br><span class="line">如果是多CPU、追求低停顿时间，需快速响应(比如延迟不能超过1秒，如互联网应用)，使用并发收集器。官方推荐G1，性能高。现在互联网的项目，基本都是使用G1。</span><br><span class="line"></span><br><span class="line">特别说明:</span><br><span class="line">1.没有最好的收集器，更没有万能的收集;</span><br><span class="line">2.调优永远是针对特定场景、特定需求，不存在一劳永逸的收集器</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="4-4-5-GC日志相关选项"><a href="#4-4-5-GC日志相关选项" class="headerlink" title="4.4.5 GC日志相关选项"></a>4.4.5 GC日志相关选项</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-verbose:gc		输出gc日志信息，默认输出到标准输出</span><br><span class="line">-XX:+PrintGC	表示打开简化的GC日志，等同于-verbose:gc</span><br><span class="line">-XX:+PrintGCDetails		在发生垃圾回收时打印内存回收详细的日志，并在进程退出时输出当前内存各区域分配情况</span><br><span class="line">-XX:+PrintGCTimeStamps	输出GC发生时的时间戳，运行到GC之间的经过的时间（不能独立使用，需要结合前3个打印日志的任一个使用）</span><br><span class="line">-XX:+PrintGCDateStamps		输出GC发生时的时间戳(以日期的形式，如2013-05-04T21:53:59.234+0800，同理不能独立使用)</span><br><span class="line">-XX:+PrintHeapAtGC		每一次GC前和GC后，都打印堆信息</span><br><span class="line">-xloggc:&lt;file&gt;		把GC日志写入到一个文件中去，而不是打印到标准输出中</span><br><span class="line"></span><br><span class="line">-XX:+TraceClassLoading		监控类的加载</span><br><span class="line">-XX:+PrintGCApplicationStoppedTime		打印GC时线程的停顿时间</span><br><span class="line">-XX:+PrintGCApplicationConcurrentTime	垃圾收集之前打印出应用末中断的执行时间</span><br><span class="line">-XX:+PrintReferenceGC		记录回收了多少种不同引用类型的引用</span><br><span class="line">-XX:+PrintTenuringDistribution		让JVM在每次MinorGC后打印出当前使用的Survivor中对象的</span><br><span class="line">-XX:+UseGCLogFileRotation	启用GC日志文件的自动转储</span><br><span class="line">-XX:NumberOfGClogFiles=1		GC日志文件的循环数目</span><br><span class="line">-XX:GCLogFileSize=1M	控制GC日志文件的大小</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-6-其它参数"><a href="#4-4-6-其它参数" class="headerlink" title="4.4.6 其它参数"></a>4.4.6 其它参数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-XX:+DisableExplicitGC		禁止hotspot执行System.gc(),默认禁用</span><br><span class="line">-XX:ReservedCodeCacheSize=&lt;n&gt;[glmlk]、-XX:nitialCodeCacheSize=&lt;n&gt;[glm]|k]	指定代码缓存的大小</span><br><span class="line">-XX:+UseCodeCacheFlushing		使用该参数让jvm放弃一些 被编译的代码,避免代码缓存被占满时JVM切换到interpreted-only的情况</span><br><span class="line">-XX:+DoEscapeAnalysis		开启逃逸分析</span><br><span class="line">-XX:+UseBiasedLocking		开启偏向锁</span><br><span class="line">-XX:+UseLargePages			开启使用大页面</span><br><span class="line">-XX:+UseTLAB	使用TLAB，默认打开</span><br><span class="line">-XX:+PrintTLAB		打印TLAB的使用情况</span><br><span class="line">-XX:TLABSize	设置TLAB大小</span><br></pre></td></tr></table></figure>
+
+<h1 id="面试题："><a href="#面试题：" class="headerlink" title="面试题："></a>面试题：</h1><h2 id="1）哪些情况会触发Full-GC？"><a href="#1）哪些情况会触发Full-GC？" class="headerlink" title="1）哪些情况会触发Full GC？"></a>1）哪些情况会触发Full GC？</h2><blockquote>
+<ol>
+<li>老年代空间不足</li>
+<li>方法区空间不足</li>
+<li>显式调用System.gc()</li>
+<li>Minor GC进入老年代的数据的平均大小大于老年代的可用内存</li>
+<li>大对象直接进入老年代，而老年代的可用空间不足</li>
+</ol>
+</blockquote>
+<h1 id="附件响应时间对照表"><a href="#附件响应时间对照表" class="headerlink" title="附件响应时间对照表"></a>附件响应时间对照表</h1><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>响应时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>打开一个网站</td>
+<td>几秒</td>
+</tr>
+<tr>
+<td>查询数据库一条记录（有索引）</td>
+<td>十几毫秒</td>
+</tr>
+<tr>
+<td>机械磁盘一次寻址定位</td>
+<td>4毫秒</td>
+</tr>
+<tr>
+<td>从机械磁盘顺序读取1M数据</td>
+<td>2毫秒</td>
+</tr>
+<tr>
+<td>从SSD顺序读取1M数据</td>
+<td>0.3毫秒</td>
+</tr>
+<tr>
+<td>从远程分布式缓存Redis读取一个数据</td>
+<td>0.5毫秒</td>
+</tr>
+<tr>
+<td>从内存读取1M数据</td>
+<td>十几微秒</td>
+</tr>
+<tr>
+<td>Java程序本地方法调用</td>
+<td>几微秒</td>
+</tr>
+<tr>
+<td>网络传输2Kb数据</td>
+<td>1微秒</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/10/Hexo+NexT%E4%B8%BB%E9%A2%98+GitHub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="Hexo+NexT主题+GitHub搭建博客">
+                  <i class="fa fa-chevron-left"></i> Hexo+NexT主题+GitHub搭建博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/12/RabbitMQ%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" rel="next" title="RabbitMQ基础使用">
+                  RabbitMQ基础使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">115k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:01</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>
