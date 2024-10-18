@@ -1,0 +1,147 @@
+<mxfile host="Electron" modified="2024-04-24T03:30:44.089Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.2 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="xVuMdWlqwuphSjBDQrWO" version="22.0.2" type="device">
+  <diagram name="第 1 页" id="u39Z4xjGFr9r0L336iyH">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-67" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;strokeColor=#8C8C8C;" parent="1" vertex="1">
+          <mxGeometry x="240" y="41" width="580" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-7" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;strokeColor=#8C8C8C;" parent="1" vertex="1">
+          <mxGeometry x="40" y="41" width="160" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-17" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=none;fillColor=#fad7ac;" parent="1" vertex="1">
+          <mxGeometry x="60" y="76" width="120" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-18" value="实例数据(Instance Data)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="60" y="227" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-19" value="对齐填充(Padding)&lt;br&gt;按8个字节对齐" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="60" y="277" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-20" value="数组长度&lt;br&gt;(对象为数组时)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a00ff;strokeColor=none;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="75" y="177" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-21" value="类型指针&lt;br&gt;(Klass Word)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a00ff;strokeColor=none;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="75" y="144" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#8C8C8C;" parent="1" source="GlIOzvgg-w6W1rufK7wT-22" target="GlIOzvgg-w6W1rufK7wT-67" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="126" />
+              <mxPoint x="220" y="181" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-22" value="标记字段&lt;br&gt;(Mark Word)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a00ff;strokeColor=none;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="75" y="111" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-23" value="对象头(Header)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="75" y="76.5" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-24" value="对象结构（以64位为例）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="50" y="47" width="140" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-28" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="61" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-29" value="偏向锁位&lt;br&gt;(1 Bit)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e51400;fontColor=#ffffff;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="690" y="61" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-31" value="锁标志位&lt;br&gt;（2 Bit）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=default;" parent="1" vertex="1">
+          <mxGeometry x="730" y="61" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-33" value="无锁" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="101" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-34" value="偏向锁" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="141" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-35" value="轻量锁" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="181" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-36" value="重量锁" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="221" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-37" value="GC标记" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="261" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-38" value="锁状态" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=default;" parent="1" vertex="1">
+          <mxGeometry x="250" y="61" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-39" value="61 Bit" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=default;" parent="1" vertex="1">
+          <mxGeometry x="290" y="61" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-40" value="未使用&lt;br&gt;(25 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="101" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-41" value="HashCode&lt;br&gt;(31 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="370" y="101" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-42" value="分代年龄&lt;br&gt;(4 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="590" y="101" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-43" value="未使用&lt;br&gt;(1 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="490" y="101" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-44" value="当前线程指针&lt;br&gt;(54 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="141.5" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-45" value="Epoch&lt;br&gt;(2 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="410" y="141.5" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-46" value="分代年龄&lt;br&gt;(4 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="590" y="141.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-47" value="未使用&lt;br&gt;(1 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="490" y="141.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-48" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="690" y="101" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-49" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="690" y="141" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-50" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="730" y="101" width="40" height="40.5" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-51" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="730" y="141" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-55" value="指向线程栈中Lock Record的指针&lt;br&gt;(62 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="181" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-56" value="指向互斥量（重量级锁）的指针&lt;br&gt;(62 Bit)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="221" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-57" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="261" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-58" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="770" y="101" width="40" height="40.5" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-59" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="770" y="141" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-60" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="730" y="181" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-61" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="770" y="181" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-62" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="730" y="221" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-63" value="0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="770" y="221" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-64" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="730" y="261" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GlIOzvgg-w6W1rufK7wT-65" value="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="770" y="261" width="40" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
