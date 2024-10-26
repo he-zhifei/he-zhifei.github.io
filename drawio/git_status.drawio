@@ -1,0 +1,74 @@
+<mxfile host="Electron" modified="2024-01-19T23:45:23.778Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.2 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="V4OzC6A9cAbnSva2jd7K" version="22.0.2" type="device">
+  <diagram name="第 1 页" id="fvP6Orl3iFx8Z1gynjDo">
+    <mxGraphModel dx="1418" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-14" value="git restore &amp;lt;file&amp;gt;&lt;br&gt;新文件不能restore" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="75" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-39" target="Bbaa9mckMmNB4uQ_uiF8-45" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-39" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;暂存区&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;index&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;文件状态:&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;staged&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;fillColor=#008000;strokeColor=none;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="400" y="40" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-13" value="git add &amp;lt;file&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="290" y="34" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-20" value="git commit -m &quot;描述&quot;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="470" y="35" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-21" value="git restore --staged &amp;lt;file&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="255" y="75" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-37" target="Bbaa9mckMmNB4uQ_uiF8-39" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-37" target="Bbaa9mckMmNB4uQ_uiF8-43" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-37" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;工作区&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;working tree&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;文件状态:&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;Untracked或&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;not staged&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;fillColor=#FF0000;strokeColor=none;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="200" y="40" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-39" target="Bbaa9mckMmNB4uQ_uiF8-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-43" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;恢复修改前文件状态&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;fillColor=#eeeeee;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry y="40" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-45" target="Bbaa9mckMmNB4uQ_uiF8-39" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;dashed=1;fillColor=#e3c800;strokeColor=#FFA500;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-45" target="Bbaa9mckMmNB4uQ_uiF8-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;strokeColor=#FF0000;dashed=1;" parent="1" source="Bbaa9mckMmNB4uQ_uiF8-45" target="Bbaa9mckMmNB4uQ_uiF8-43" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="653" y="180" />
+              <mxPoint x="18" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-45" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;本地仓库&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;HEAD&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;fillColor=#cce5ff;strokeColor=none;" parent="1" vertex="1">
+          <mxGeometry x="600" y="40" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-48" value="git reset --soft HEAD~" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="467" y="95" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-50" value="git reset --mixed HEAD~" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="350" y="133" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bbaa9mckMmNB4uQ_uiF8-52" value="git reset --hard HEAD~" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="160" y="175" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="af3lrPHUz6ieLQWduasW-1" value="或：git reset HEAD [file]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="95" width="150" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

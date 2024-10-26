@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="Git+Gerrit+Jenkins持续集成环境搭建以及使用教程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git+Gerrit+Jenkins持续集成">
+<meta property="og:url" content="https://he-zhifei.github.io/2020/01/16/Git+Gerrit+Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="Git+Gerrit+Jenkins持续集成环境搭建以及使用教程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211635767.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211636884.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211636856.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211631903.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211637168.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211704463.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211711537.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211729145.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211738537.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211739857.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211743815.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211835326.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211748977.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211750643.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211750089.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211751354.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211752640.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211755862.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211756139.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211758377.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211758089.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211803559.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211804242.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211805089.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211806059.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211807629.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211807963.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211810129.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211811344.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211813546.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211837240.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211820332.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211853365.png">
+<meta property="og:image" content="https://he-zhifei.github.io/img/202204211857868.png">
+<meta property="article:published_time" content="2020-01-16T13:02:16.000Z">
+<meta property="article:modified_time" content="2024-10-26T17:32:31.710Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="Gerrit">
+<meta property="article:tag" content="Jenkins">
+<meta property="article:tag" content="持续集成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://he-zhifei.github.io/img/202204211635767.png">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/2020/01/16/Git+Gerrit+Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2020/01/16/Git+Gerrit+Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/","path":"2020/01/16/Git+Gerrit+Jenkins持续集成/","title":"Git+Gerrit+Jenkins持续集成"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git+Gerrit+Jenkins持续集成 | Zhifei's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-gerrit%E5%AE%89%E8%A3%85%EF%BC%88%E7%89%88%E6%9C%AC2-16-2%EF%BC%89"><span class="nav-text">1. gerrit安装（版本2.16.2）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-mysql%E9%85%8D%E7%BD%AE"><span class="nav-text">1.1 mysql配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E4%B8%BAgerrit%E5%88%9B%E5%BB%BAlinux%E7%94%A8%E6%88%B7"><span class="nav-text">1.2 为gerrit创建linux用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%88%9D%E5%A7%8B%E5%8C%96gerrit"><span class="nav-text">1.3 初始化gerrit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%AE%89%E8%A3%85delete-project%E6%8F%92%E4%BB%B6"><span class="nav-text">1.4 安装delete-project插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE"><span class="nav-text">1.5 nginx反向代理配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-httpd%E5%AE%89%E8%A3%85%E5%B9%B6%E5%90%AF%E5%8A%A8nginx"><span class="nav-text">1.6 httpd安装并启动nginx</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-jenkins%E5%AE%89%E8%A3%85%EF%BC%88%E7%89%88%E6%9C%AC2-150-2%EF%BC%89"><span class="nav-text">2. jenkins安装（版本2.150.2）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-jenkins-gerrit-git%E9%85%8D%E7%BD%AE"><span class="nav-text">3. jenkins+gerrit+git配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85jenkins%E6%8F%92%E4%BB%B6"><span class="nav-text">3.1 安装jenkins插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%85%A8%E5%B1%80%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 全局工具配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E4%B8%BAjenkins%E7%94%9F%E6%88%90ssh-key"><span class="nav-text">3.3 为jenkins生成ssh-key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Gerrit%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="nav-text">3.4 Gerrit权限配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E9%85%8D%E7%BD%AEJenkins"><span class="nav-text">3.5 配置Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-1-%E9%85%8D%E7%BD%AEGerrit-Trigger"><span class="nav-text">3.5.1 配置Gerrit Trigger</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-2-%E6%96%B0%E5%BB%BA%E4%BB%A5%E5%8F%8A%E9%85%8D%E7%BD%AE%E5%85%B7%E4%BD%93%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="nav-text">3.5.2 新建以及配置具体的项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-3-%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="nav-text">3.5.3 配置远程登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-4-%E9%85%8D%E7%BD%AEPublish-over-SSH"><span class="nav-text">3.5.4 配置Publish over SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-5-%E5%AE%8C%E5%96%84%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84Post-Steps"><span class="nav-text">3.5.5 完善配置项目配置中的Post Steps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-6-%E5%88%9B%E5%BB%BApublish-sh%E8%84%9A%E6%9C%AC"><span class="nav-text">3.5.6 创建publish.sh脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E5%88%9B%E5%BB%BAgerrit%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%B4%A6%E5%8F%B7"><span class="nav-text">3.6 创建gerrit的个人账号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%AA%E4%BA%BA%E8%B4%A6%E5%8F%B7"><span class="nav-text">3.7 初始化个人账号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-%E5%88%9D%E5%A7%8B%E5%8C%96gerrit%E9%A1%B9%E7%9B%AE"><span class="nav-text">3.8 初始化gerrit项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">4. 注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%88%87%E6%8D%A2jenkins%E7%94%A8%E6%88%B7%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">4.1 切换jenkins用户的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E4%BD%BF%E7%94%A8%E9%9D%9E%E5%AF%B9%E7%A7%B0%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95linux"><span class="nav-text">4.2 使用非对称秘钥登录linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BA%A4%E5%88%B0master%E5%88%86%E6%94%AF"><span class="nav-text">4.3 不能直接提交到master分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E7%AB%AF%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-text">4.4 端口使用情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8%E4%B8%8D%E9%80%9A%E8%BF%87%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">4.5 代码审核不通过的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-Gerrit%E9%82%AE%E7%AE%B1%E9%97%AE%E9%A2%98"><span class="nav-text">4.6 Gerrit邮箱问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B"><span class="nav-text">5. 使用教程</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2020/01/16/Git+Gerrit+Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile-pic.svg">
+      <meta itemprop="name" content="he-zhifei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhifei's Blog">
+      <meta itemprop="description" content="keep it up.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git+Gerrit+Jenkins持续集成 | Zhifei's Blog">
+      <meta itemprop="description" content="Git+Gerrit+Jenkins持续集成环境搭建以及使用教程。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git+Gerrit+Jenkins持续集成
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-16 21:02:16" itemprop="dateCreated datePublished" datetime="2020-01-16T21:02:16+08:00">2020-01-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-27 01:32:31" itemprop="dateModified" datetime="2024-10-27T01:32:31+08:00">2024-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" itemprop="url" rel="index"><span itemprop="name">持续集成</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Git+Gerrit+Jenkins持续集成环境搭建以及使用教程。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>简介：使用gerrit做code review，结合jenkins持续集成环境配置搭建，前提需要准备好git、jdk、mysql、nginx、maven环境</p>
+<h1 id="1-gerrit安装（版本2-16-2）"><a href="#1-gerrit安装（版本2-16-2）" class="headerlink" title="1. gerrit安装（版本2.16.2）"></a>1. gerrit安装（版本2.16.2）</h1><h2 id="1-1-mysql配置"><a href="#1-1-mysql配置" class="headerlink" title="1.1 mysql配置"></a>1.1 mysql配置</h2><p>登录mysql，为gerrit创建mysql用户以及数据库</p>
+<ul>
+<li>mysql创建gerrit用户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;gerrit&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;Dell@2050&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>mysql创建reviewdb数据库</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE reviewdb DEFAULT CHARACTER SET &#x27;utf8&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>把reviewdb所有权授予给gerrit用户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL ON reviewdb.* TO &#x27;gerrit&#x27;@&#x27;localhost&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>刷新配置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-为gerrit创建linux用户"><a href="#1-2-为gerrit创建linux用户" class="headerlink" title="1.2 为gerrit创建linux用户"></a>1.2 为gerrit创建linux用户</h2><ul>
+<li>创建gerrit用户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd gerrit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改用户路径权限</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 755 /home/gerrit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换到用户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su gerrit</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-初始化gerrit"><a href="#1-3-初始化gerrit" class="headerlink" title="1.3 初始化gerrit"></a>1.3 初始化gerrit</h2><ul>
+<li>把下载好的gerrit上传到服务器，并在该目录上执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar gerrit-2.16.2.war init -d /home/gerrit/gerrit_review</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/202204211635767.png" alt="image-20220421163516716"></p>
+<p><img src="/../img/202204211636884.png" alt="image-20220421163608825"></p>
+<p><img src="/../img/202204211636856.png" alt="image-20220421163643797"></p>
+<ul>
+<li>修改配置文件 <code>/home/gerrit/gerrit_review/etc/gerrit.config</code></li>
+</ul>
+<p><img src="/../img/202204211631903.png" alt="image-20220421163156843"></p>
+<ul>
+<li>修改配置文件 <code>/home/gerrit/gerrit_review/etc/secure.config</code></li>
+</ul>
+<p><img src="/../img/202204211637168.png" alt="image-20220421163758129"></p>
+<h2 id="1-4-安装delete-project插件"><a href="#1-4-安装delete-project插件" class="headerlink" title="1.4 安装delete-project插件"></a>1.4 安装delete-project插件</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://gerrit-ci.gerritforge.com/">下载delete-project</a> 对应gerrit版本的插件：</li>
+</ul>
+<p><img src="/../img/202204211704463.png" alt="image-20220421170425405"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 切换到插件目录</span><br><span class="line">cd /home/gerrit/gerrit_review/plugins/</span><br><span class="line"></span><br><span class="line"># 使用wget下载</span><br><span class="line">wget https://gerrit-ci.gerritforge.com/job/plugin-delete-project-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-genfiles/plugins/delete-project/delete-project.jar</span><br><span class="line"></span><br><span class="line"># 重启gerrit</span><br><span class="line">/home/gerrit/gerrit_review/bin/gerrit.sh restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-nginx反向代理配置"><a href="#1-5-nginx反向代理配置" class="headerlink" title="1.5 nginx反向代理配置"></a>1.5 nginx反向代理配置</h2><ul>
+<li>备份默认配置，供给以后使用，这个配置不生效</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.config</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>作为gerrit的配置使用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/gerrit.conf</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改 <code>/etc/nginx/conf.d/gerrit.conf</code></li>
+</ul>
+<p><img src="/../img/202204211711537.png" alt="image-20220421171159476"></p>
+<h2 id="1-6-httpd安装并启动nginx"><a href="#1-6-httpd安装并启动nginx" class="headerlink" title="1.6 httpd安装并启动nginx"></a>1.6 httpd安装并启动nginx</h2><ul>
+<li>使用yum安装</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y httpd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建用户，会覆盖原来的文件，不能用于添加用户，只能用于创建第一个，这里创建用户名为admin的用户。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /home/gerrit/gerrit.password admin</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加用户，这里添加名为jenkins的用户，用于与jenkins进行数据交互。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -m /home/gerrit/gerrit.password jenkins</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建密码备份文件，每次修改管理员用户名后都要备份一次，注意是修改管理员用户名，不是密码，修改管理员用户名看附录一。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat gerrit.password &gt; gerrit.password.bak</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>httpd相关用法（这里的&#x2F;home&#x2F;gerrit&#x2F;gerrit.password为保存用户名&#x2F;密码的文件）：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 创建用户，会覆盖原来的文件，不能用于添加用户，只能用于创建第一个，这里创建用户名为admin的用户。</span><br><span class="line">htpasswd -c /home/gerrit/gerrit.password admin</span><br><span class="line"></span><br><span class="line"># 添加用户，这里添加名为jenkins的用户。</span><br><span class="line">htpasswd -m /home/gerrit/gerrit.password jenkins</span><br><span class="line"></span><br><span class="line"># 更新密码</span><br><span class="line">htpasswd /home/gerrit/gerrit.password jenkins</span><br><span class="line"></span><br><span class="line"># 删除用户xxx</span><br><span class="line">htpasswd –D /home/gerrit/gerrit.password xxx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改gerrit管理员用户名（不能直接修改，只能用新的账号授权为管理员，再把旧的删掉）：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.	添加一个新的用户（当作新管理员的用户）</span><br><span class="line">2.	使用原管理员账户登陆gerrit</span><br><span class="line">3.	Groups-&gt;Administractors-&gt;Members-&gt;把新创建的用户添加到管理员组中</span><br><span class="line">4.	使用新添加的用户登陆gerrit-&gt;删掉旧的管理员用户</span><br><span class="line">5.	删掉/home/gerrit/gerrit.password中旧的管理员的用户</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-jenkins安装（版本2-150-2）"><a href="#2-jenkins安装（版本2-150-2）" class="headerlink" title="2. jenkins安装（版本2.150.2）"></a>2. jenkins安装（版本2.150.2）</h1><ul>
+<li>下载jenkins的镜像源</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>rpm导入镜像源</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果镜像源连接不同，则到官网下载对应版本的rpm包，使用rpm –ivh jenkins的rpm包进行安装</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y jenkins</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>修改端口（<code>/etc/sysconfig/jenkins</code>配置中），默认为8080，改为8250</p>
+</li>
+<li><p>启动方式</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 前台运行（不建议使用）</span><br><span class="line">java -jar /usr/lib/jenkins/jenkins.war --httpPort=8250</span><br><span class="line"></span><br><span class="line"># 后台运行（不建议使用）</span><br><span class="line">nohup java -jar /usr/lib/jenkins/jenkins.war --httpPort=8250 &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"># 后台运行日志（不建议使用）</span><br><span class="line">/etc/rc.d/init.d/nohup.out</span><br><span class="line"></span><br><span class="line"># 以系统服务运行（建议使用），先在/etc/init.d/jenkins指定java位置/usr/local/jdk1.8.0_201/bin/java，运行：</span><br><span class="line">systemctl start jenkins.service</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/202204211729145.png" alt="image-20220421172951071"></p>
+<ul>
+<li>配置自启动</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add /etc/init.d/jenkins</span><br><span class="line"></span><br><span class="line">chkconfig jenkins on</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>访问</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://ip:port/</span><br><span class="line"></span><br><span class="line"># 获取初始化密码，手动设置管理员账号：admin，密码：123（后续可以改）</span><br><span class="line">cat /var/lib/jenkins/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-jenkins-gerrit-git配置"><a href="#3-jenkins-gerrit-git配置" class="headerlink" title="3. jenkins+gerrit+git配置"></a>3. jenkins+gerrit+git配置</h1><h2 id="3-1-安装jenkins插件"><a href="#3-1-安装jenkins插件" class="headerlink" title="3.1 安装jenkins插件"></a>3.1 安装jenkins插件</h2><ul>
+<li>系统管理-&gt;插件管理-&gt;Available-&gt;Gerrit Trigger、Maven Integration plugin、Publish Over SSH、SSH</li>
+</ul>
+<h2 id="3-2-全局工具配置"><a href="#3-2-全局工具配置" class="headerlink" title="3.2 全局工具配置"></a>3.2 全局工具配置</h2><ul>
+<li>系统管理-&gt;全局工具配置</li>
+</ul>
+<p><img src="/../img/202204211738537.png" alt="image-20220421173809484"></p>
+<hr>
+<p><img src="/../img/202204211739857.png" alt="image-20220421173937811"></p>
+<h2 id="3-3-为jenkins生成ssh-key"><a href="#3-3-为jenkins生成ssh-key" class="headerlink" title="3.3 为jenkins生成ssh-key"></a>3.3 为jenkins生成ssh-key</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在jenkins服务器上生成ssh-key，并把id_rsa.pub内容粘贴到gerrit的jenkins用户中。</span><br><span class="line"></span><br><span class="line">cd /var/lib/jenkins/</span><br><span class="line">mkdir .ssh &amp;&amp; cd .ssh/ &amp;&amp; touch id_rsa</span><br><span class="line"># 把密钥保存到/var/lib/Jenkins/.ssh/id_rsa中，提示覆盖</span><br><span class="line">ssh-keygen –t rsa</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/202204211743815.png" alt="image-20220421174352757"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown jenkins:jenkins id_rsa*</span><br><span class="line">cd ..</span><br><span class="line">chown jenkins:jenkins .ssh/</span><br></pre></td></tr></table></figure>
+
+<p>把id_rsa.pub(<code>/var/lib/jenkins/.ssh/id_rsa.pub</code>)内容粘贴到gerrit的jenkins用户中：</p>
+<p><img src="/../img/202204211835326.png" alt="image-20220421183524261"></p>
+<h2 id="3-4-Gerrit权限配置"><a href="#3-4-Gerrit权限配置" class="headerlink" title="3.4 Gerrit权限配置"></a>3.4 Gerrit权限配置</h2><ul>
+<li>BROWSE-&gt;Groups-&gt;Non-Interactive Users-&gt;Members-&gt;添加jenkins用户</li>
+</ul>
+<p><img src="/../img/202204211748977.png" alt="image-20220421174854932"></p>
+<ul>
+<li>配置具体项目的权限，这里以hello-world为例子：BROWSE-&gt;Repositories-&gt;CREATE NEW-&gt;创建hello-world项目</li>
+</ul>
+<p><img src="/../img/202204211750643.png" alt="image-20220421175003590"></p>
+<p><img src="/../img/202204211750089.png" alt="image-20220421175030018"></p>
+<ul>
+<li><p>在2.7+版本需要配置，这里用的是2.16.2.因此也要配置：</p>
+<p>BROWSE-&gt;Groups-&gt;CREATE NEW-&gt;创建Event Streaming Users，把jenkins用户添加进去</p>
+</li>
+</ul>
+<p><img src="/../img/202204211751354.png" alt="image-20220421175123310"></p>
+<p>​	BROWSE-&gt;Repositories-&gt;All-Projects-&gt;Access-&gt;Edit-&gt;在Global Capabilities的Stream Events添加Event Streaming Users</p>
+<p><img src="/../img/202204211752640.png" alt="image-20220421175255592"></p>
+<h2 id="3-5-配置Jenkins"><a href="#3-5-配置Jenkins" class="headerlink" title="3.5 配置Jenkins"></a>3.5 配置Jenkins</h2><h3 id="3-5-1-配置Gerrit-Trigger"><a href="#3-5-1-配置Gerrit-Trigger" class="headerlink" title="3.5.1 配置Gerrit Trigger"></a>3.5.1 配置Gerrit Trigger</h3><ul>
+<li>系统管理-&gt;Gerrit Trigger-&gt;Add New Server-&gt;给gerrit服务器起名，勾选Gerrit Server with Default Configurations-&gt;点击ok-&gt;再进行gerrit服务器具体配置-&gt;点击底部的Save</li>
+</ul>
+<p><img src="/../img/202204211755862.png" alt="image-20220421175508821"></p>
+<p><img src="/../img/202204211756139.png" alt="image-20220421175617085"></p>
+<h3 id="3-5-2-新建以及配置具体的项目"><a href="#3-5-2-新建以及配置具体的项目" class="headerlink" title="3.5.2 新建以及配置具体的项目"></a>3.5.2 新建以及配置具体的项目</h3><ul>
+<li>这里以hello-world为例：NEW任务-&gt;输入项目名称hello-world，选择maven项目-&gt;OK-&gt;进行详细配置</li>
+</ul>
+<p><img src="/../img/202204211758377.png" alt="image-20220421175815323"></p>
+<p><img src="/../img/202204211758089.png" alt="image-20220421175842038"></p>
+<p><img src="/../img/202204211803559.png" alt="image-20220421180304513"></p>
+<p><img src="/../img/202204211804242.png" alt="image-20220421180435194"></p>
+<p><img src="/../img/202204211805089.png" alt="image-20220421180542042"></p>
+<p><img src="/../img/202204211806059.png" alt="image-20220421180633014"></p>
+<p><img src="/../img/202204211807629.png" alt="image-20220421180707572"></p>
+<p><img src="/../img/202204211807963.png" alt="image-20220421180736918"></p>
+<p>​	点击底部保存退出</p>
+<h3 id="3-5-3-配置远程登录"><a href="#3-5-3-配置远程登录" class="headerlink" title="3.5.3 配置远程登录"></a>3.5.3 配置远程登录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 首先要确保authorized_keys是否存在，否则需要自己创建</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub &gt;&gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-4-配置Publish-over-SSH"><a href="#3-5-4-配置Publish-over-SSH" class="headerlink" title="3.5.4 配置Publish over SSH"></a>3.5.4 配置Publish over SSH</h3><p>系统管理 -&gt; 系统设置 -&gt; Publish over SSH</p>
+<p><img src="/../img/202204211810129.png" alt="image-20220421181030082"></p>
+<h3 id="3-5-5-完善配置项目配置中的Post-Steps"><a href="#3-5-5-完善配置项目配置中的Post-Steps" class="headerlink" title="3.5.5 完善配置项目配置中的Post Steps"></a>3.5.5 完善配置项目配置中的Post Steps</h3><p><img src="/../img/202204211811344.png" alt="image-20220421181133280"></p>
+<h3 id="3-5-6-创建publish-sh脚本"><a href="#3-5-6-创建publish-sh脚本" class="headerlink" title="3.5.6 创建publish.sh脚本"></a>3.5.6 创建publish.sh脚本</h3><ul>
+<li>创建<code>/projects/springboot/hello-world</code>目录，并在该目录下创建publish.sh</li>
+</ul>
+<p><img src="/../img/202204211813546.png" alt="image-20220421181305490"></p>
+<h2 id="3-6-创建gerrit的个人账号"><a href="#3-6-创建gerrit的个人账号" class="headerlink" title="3.6 创建gerrit的个人账号"></a>3.6 创建gerrit的个人账号</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -m /home/gerrit/gerrit.password xxx</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-7-初始化个人账号"><a href="#3-7-初始化个人账号" class="headerlink" title="3.7 初始化个人账号"></a>3.7 初始化个人账号</h2><ul>
+<li>个人电脑安装git，用以下命令使用git bash创建密钥</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen –t rsa –C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用上面创建的个人账号登陆gerrit，把刚刚生成的公钥粘贴到ssh处，并初始化邮箱，到邮箱中点击认证的链接</li>
+</ul>
+<p><img src="/../img/202204211837240.png" alt="image-20220421183755181"></p>
+<h2 id="3-8-初始化gerrit项目"><a href="#3-8-初始化gerrit项目" class="headerlink" title="3.8 初始化gerrit项目"></a>3.8 初始化gerrit项目</h2><ul>
+<li>复制仓库地址，使用git bash克隆项目，编写初始化的代码后，在git push前执行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config remote.origin.push refs/heads/*:refs/for/*</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/202204211820332.png" alt="image-20220421182028275"></p>
+<p>​	执行git push完成项目初始化</p>
+<h1 id="4-注意事项"><a href="#4-注意事项" class="headerlink" title="4. 注意事项"></a>4. 注意事项</h1><h2 id="4-1-切换jenkins用户的问题"><a href="#4-1-切换jenkins用户的问题" class="headerlink" title="4.1 切换jenkins用户的问题"></a>4.1 切换jenkins用户的问题</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd jenkins</span><br><span class="line">su jenkins</span><br><span class="line">sudo vim /etc/passwd		//把jenkins用户的/bin/false改为/bin/bash</span><br><span class="line">/*一下在jenkins用户操作*/</span><br><span class="line">vim ~/.bash_profile </span><br><span class="line">export PS1=&#x27;[\u@\h \W]\$&#x27;	//添加后保存退出</span><br><span class="line">source ~/.bash_profile		//重新加载配置文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-使用非对称秘钥登录linux"><a href="#4-2-使用非对称秘钥登录linux" class="headerlink" title="4.2 使用非对称秘钥登录linux"></a>4.2 使用非对称秘钥登录linux</h2><p>在个人主机生成秘钥对，把公钥交给linux管理员，放在该用户的<code>~/.ssh/authorized_keys</code>中，再通过私钥进行登录即可。原因<code>/etc/ssh/sshd_config</code>中配置了校验文件</p>
+<h2 id="4-3-不能直接提交到master分支"><a href="#4-3-不能直接提交到master分支" class="headerlink" title="4.3 不能直接提交到master分支"></a>4.3 不能直接提交到master分支</h2><p>需要在git push前运行如下命令，提交到<code>refs/for/master</code>分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config remote.origin.push refs/heads/*:refs/for/*</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-4-端口使用情况"><a href="#4-4-端口使用情况" class="headerlink" title="4.4 端口使用情况"></a>4.4 端口使用情况</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">465/tcp		//发邮件端口</span><br><span class="line">80/tcp		//项目端口</span><br><span class="line">8173/tcp		//gerrit端口</span><br><span class="line">8170/tcp		//gerrit代理端口</span><br><span class="line">29418/tcp	//使用使用ssh进行git clone端口</span><br><span class="line">8250/tcp		//jenkins端口</span><br><span class="line">3306/tcp		//mysql数据库端口</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-5-代码审核不通过的处理"><a href="#4-5-代码审核不通过的处理" class="headerlink" title="4.5 代码审核不通过的处理"></a>4.5 代码审核不通过的处理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">上一次代码提交到gerrit后，经过jenkins审核不通过，本地处理错误后，运行以下命令：</span><br><span class="line">git add xxx				//添加到本地暂存区</span><br><span class="line">git commit --amend		//运行后保存退出</span><br><span class="line">git push origin HEAD:refs/for/master	//push到远程仓库</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-6-Gerrit邮箱问题"><a href="#4-6-Gerrit邮箱问题" class="headerlink" title="4.6 Gerrit邮箱问题"></a>4.6 Gerrit邮箱问题</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">使用命令绑定邮箱，通过ssh连接gerrit的服务器：</span><br><span class="line">1.在管理员电脑上生成ssh-key对，并登录gerrit，把公钥粘贴到ssh-key处</span><br><span class="line">2.登录gerrit服务器，切换至gerrit用户，再把公钥粘贴到~/.ssh/authorized_keys中，并把.ssh权限改为755，authorized_keys权限为644</span><br><span class="line">3.在管理员电脑上生成~/.ssh/config，里面的内容为：</span><br><span class="line">Host gerrit				#待会使用ssh连接的主机名</span><br><span class="line">HostName 192.168.147.130		#ip地址</span><br><span class="line">User admin				#以什么用户连接，这里的是gerrit的管理员用户</span><br><span class="line">Port 29418				#端口号，gerrit使用ssh连接时默认29418</span><br><span class="line">IdentityFile ~/.ssh/id_rsa		#刚才生成的私钥</span><br><span class="line">4.具体命令</span><br><span class="line">ssh gerrit gerrit --help		//查看用法</span><br><span class="line">ssh gerrit gerrit set-account --add-email HeZhifei@163.com HeZhifei	//第一个gerrit为上一步的主机名，第二个gerrit为命令，这里为HeZhifei用户添加email</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-使用教程"><a href="#5-使用教程" class="headerlink" title="5. 使用教程"></a>5. 使用教程</h1><ul>
+<li><p>访问地址 <code>http://IP:8170</code></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://git-scm.com/download/win">安装git</a></p>
+</li>
+<li><p>通过<code>ssh-keygen -t rsa -C &quot;邮箱&quot;</code>生成公私钥，并把公钥复制到</p>
+</li>
+</ul>
+<p><img src="/../img/202204211853365.png" alt="image-20220421185336306"></p>
+<ul>
+<li>克隆代码到本地，BROWSE-&gt;点击对应的项目-&gt;点击Clone with commit-msg hook下面克隆的链接，别选其他链接进行克隆</li>
+</ul>
+<p><img src="/../img/202204211857868.png" alt="image-20220421185715817"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意：</span><br><span class="line">	gerrit不允许直接提交到refs/heads/*分支，需要提交到refs/for/*分支进行代码审核后在管理员合并到refs/heads/*对应的分支，例如：要推送到远程的feature-1.0.0分支，需要git push origin HEAD:refs/for/feature-1.0.0，而不能直接git push origin HEAD:refs/heads/feature-1.0.0</span><br><span class="line">项目规划：先初步分两个分支master和develop，master分支不可以直接提交代码，在开发中先把代码上传到develop分支，待开发第一阶段完成后，一并合并到master分支。理论上在git的代码托管平台里面，可以通过git push origin develop来进行提交代码到develop分支，但是在gerrit的代码审核里面，不允许往refs/heads/*上面提交代码，需要提交到refs/for/*对应的分支上，代码审核通过后，方可由管理员进行合并到对应的分支，例如：想要往develop提交代码，需要使用git push origin HEAD:refs/for/develop，代码审核通过后再合并到refs/heads/*对应的分支，这里对应的分支是refs/heads/develop，也就是通常的develop分支。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>修改个人账户密码</p>
+<p>登录服务器，输入<code>htpasswd /home/gerrit/gerrit.password xxx</code>，这里的xxx是个人gerrit账号名，也就是自己的姓名，再输入两次密码即可成功修改</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/Gerrit/" rel="tag"># Gerrit</a>
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="tag"># 持续集成</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/09/17/Jpa%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E9%85%8D%E7%BD%AE/" rel="prev" title="Jpa多数据源配置">
+                  <i class="fa fa-chevron-left"></i> Jpa多数据源配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/01/MySQL%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E4%B8%8E%E4%BC%98%E5%8C%96/" rel="next" title="MySQL基本使用与优化">
+                  MySQL基本使用与优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">133k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>

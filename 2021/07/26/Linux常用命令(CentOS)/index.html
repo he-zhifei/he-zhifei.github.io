@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="1. 基础命令提示：用法中的[]表示可选参数，&lt;&gt;表示必选参数。 1.1 shutdown123456789101112# 立刻关机shutdown -h now 或 poweroff# 5分钟后关机shutdown -h 5# 重启shutdown -r now 或 reboot# 5分钟后重启shutdown -r 5# 取消shutdown计划shutdown -c  1.2 –">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令(CentOS)">
+<meta property="og:url" content="https://he-zhifei.github.io/2021/07/26/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4(CentOS)/index.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="1. 基础命令提示：用法中的[]表示可选参数，&lt;&gt;表示必选参数。 1.1 shutdown123456789101112# 立刻关机shutdown -h now 或 poweroff# 5分钟后关机shutdown -h 5# 重启shutdown -r now 或 reboot# 5分钟后重启shutdown -r 5# 取消shutdown计划shutdown -c  1.2 –">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-26T04:24:37.000Z">
+<meta property="article:modified_time" content="2024-10-19T12:08:22.175Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="CentOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/2021/07/26/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4(CentOS)/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2021/07/26/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4(CentOS)/","path":"2021/07/26/Linux常用命令(CentOS)/","title":"Linux常用命令(CentOS)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux常用命令(CentOS) | Zhifei's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-text">1. 基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-shutdown"><span class="nav-text">1.1 shutdown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E2%80%93help%E5%8F%82%E6%95%B0"><span class="nav-text">1.2 –help参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-man"><span class="nav-text">1.3 man</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4"><span class="nav-text">2. 目录命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-cd"><span class="nav-text">2.1 cd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-ls"><span class="nav-text">2.2 ls</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-mkdir"><span class="nav-text">2.3 mkdir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-rm"><span class="nav-text">2.4 rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-mv"><span class="nav-text">2.5 mv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-cp"><span class="nav-text">2.6 cp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-find"><span class="nav-text">2.7 find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-pwd"><span class="nav-text">2.8 pwd</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4"><span class="nav-text">3. 文件命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-touch"><span class="nav-text">3.1 touch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-vi-vim"><span class="nav-text">3.2 vi(vim)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-cat"><span class="nav-text">3.3 cat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-less"><span class="nav-text">3.4 less</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-more"><span class="nav-text">3.5 more</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-head"><span class="nav-text">3.6 head</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-tail"><span class="nav-text">3.7 tail</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%9D%83%E9%99%90%E5%91%BD%E4%BB%A4"><span class="nav-text">4. 权限命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-chown"><span class="nav-text">4.1 chown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-chgrp"><span class="nav-text">4.2 chgrp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-chmod"><span class="nav-text">4.3 chmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-groupadd"><span class="nav-text">4.4 groupadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-useradd"><span class="nav-text">4.5 useradd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-passwd"><span class="nav-text">4.6 passwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-su"><span class="nav-text">4.7 su</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-8-sudo"><span class="nav-text">4.8 sudo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%86%85%E5%AD%98%E7%A3%81%E7%9B%98"><span class="nav-text">5. 内存磁盘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-free"><span class="nav-text">5.1 free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-top"><span class="nav-text">5.2 top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-df"><span class="nav-text">5.3 df</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-du"><span class="nav-text">5.4 du</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%85%B6%E5%AE%83"><span class="nav-text">6. 其它</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-grep"><span class="nav-text">6.1 grep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-awk"><span class="nav-text">6.2 awk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-sed"><span class="nav-text">6.3 sed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-tar"><span class="nav-text">6.4 tar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5"><span class="nav-text">6.5 |</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-6-whereis"><span class="nav-text">6.6 whereis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-7-which"><span class="nav-text">6.7 which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-8-uname"><span class="nav-text">6.8 uname</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-9-who-whoami"><span class="nav-text">6.9 who &amp; whoami</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-10-yum"><span class="nav-text">6.10 yum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-11-rpm"><span class="nav-text">6.11 rpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-12-date"><span class="nav-text">6.12 date</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-13-wget"><span class="nav-text">6.13 wget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-14-ssh"><span class="nav-text">6.14 ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-15-scp"><span class="nav-text">6.15 scp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-16-rsync"><span class="nav-text">6.16 rsync</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-17-clear"><span class="nav-text">6.17 clear</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-18-ifconfig-ip-addr"><span class="nav-text">6.18 ifconfig &amp; ip addr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-19-ps"><span class="nav-text">6.19 ps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-20-kill-pkill"><span class="nav-text">6.20 kill &amp; pkill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-21-service"><span class="nav-text">6.21 service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-22-systemctl"><span class="nav-text">6.22 systemctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-23-firewalld-centos7"><span class="nav-text">6.23 firewalld(centos7)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-24-iptables-centos6"><span class="nav-text">6.24 iptables(centos6)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-25-netstat"><span class="nav-text">6.25 netstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-26-ping"><span class="nav-text">6.26 ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-27-telnet"><span class="nav-text">6.27 telnet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-text">网络问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BAcentos%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP"><span class="nav-text">虚拟机centos配置静态IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95centos%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">远程登录centos慢的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#centos6-yum%E7%9A%84%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-text">centos6 yum的网络问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Openssl%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6"><span class="nav-text">Openssl生成证书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Shell"><span class="nav-text">8. Shell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-text">8.1 基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89%E5%8F%98%E9%87%8F"><span class="nav-text">1）变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%89bash%E8%BF%9B%E7%A8%8B"><span class="nav-text">2）bash进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%89%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7id"><span class="nav-text">3）获取用户id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%EF%BC%89%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="nav-text">4）命令的位置参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%EF%BC%89%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E4%B8%8E%E6%95%B0%E7%BB%84"><span class="nav-text">5）算术运算与数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%EF%BC%89%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E3%80%81%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E8%BE%93%E5%87%BA"><span class="nav-text">6）标准输入、标准输出、标准错误输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E4%B8%8E%E5%BE%AA%E7%8E%AF"><span class="nav-text">8.2 条件判断与循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89if"><span class="nav-text">1）if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%89for%E5%92%8Cwhile"><span class="nav-text">2）for和while</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-%E5%87%BD%E6%95%B0"><span class="nav-text">8.3 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89git-batch-sh"><span class="nav-text">1）git-batch.sh</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2021/07/26/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4(CentOS)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile-pic.svg">
+      <meta itemprop="name" content="he-zhifei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhifei's Blog">
+      <meta itemprop="description" content="keep it up.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux常用命令(CentOS) | Zhifei's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常用命令(CentOS)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-26 12:24:37" itemprop="dateCreated datePublished" datetime="2021-07-26T12:24:37+08:00">2021-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-19 20:08:22" itemprop="dateModified" datetime="2024-10-19T20:08:22+08:00">2024-10-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/CentOS/" itemprop="url" rel="index"><span itemprop="name">CentOS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>31 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-基础命令"><a href="#1-基础命令" class="headerlink" title="1. 基础命令"></a>1. 基础命令</h1><p>提示：用法中的[]表示可选参数，&lt;&gt;表示必选参数。</p>
+<h2 id="1-1-shutdown"><a href="#1-1-shutdown" class="headerlink" title="1.1 shutdown"></a>1.1 shutdown</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">立刻关机</span></span><br><span class="line">shutdown -h now 或 poweroff</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">5分钟后关机</span></span><br><span class="line">shutdown -h 5</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启</span></span><br><span class="line">shutdown -r now 或 reboot</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">5分钟后重启</span></span><br><span class="line">shutdown -r 5</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">取消shutdown计划</span></span><br><span class="line">shutdown -c</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-–help参数"><a href="#1-2-–help参数" class="headerlink" title="1.2 –help参数"></a>1.2 –help参数</h2><p>用法：&lt;命令&gt; –help	查看命令的相关用法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看<span class="built_in">ls</span>的相关用法</span></span><br><span class="line">ls --help</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-man"><a href="#1-3-man" class="headerlink" title="1.3 man"></a>1.3 man</h2><p>用法：man &lt;命令&gt; 	查看命令的用户手册，q-退出，空格-下一页，b-上一页</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看<span class="built_in">ls</span>命令的用户手册</span></span><br><span class="line">man ls</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-目录命令"><a href="#2-目录命令" class="headerlink" title="2. 目录命令"></a>2. 目录命令</h1><h2 id="2-1-cd"><a href="#2-1-cd" class="headerlink" title="2.1 cd"></a>2.1 cd</h2><p>用法：cd [目录]		切换到指定目录，可以是相对路径，也可以是绝对路径。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到/aaa目录</span></span><br><span class="line">cd /aaa</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到当前用户根目录</span></span><br><span class="line">cd ~</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到上次访问的目录</span></span><br><span class="line">cd -</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到上一层目录</span></span><br><span class="line">cd ..</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-ls"><a href="#2-2-ls" class="headerlink" title="2.2 ls"></a>2.2 ls</h2><p>用法：ls [参数]… [目录或文件]…		查看目录或文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-a, --all				列出所有</span><br><span class="line">-A, --almost-all		列出除.和..外的所有</span><br><span class="line">	--author			与-l同时使用时列出每个条目的作者</span><br><span class="line">-h, --human-readable	与-l一起，以易于阅读的格式输出文件大小(例如 1K 234M 2G)</span><br><span class="line">-l						使用较长格式列出信息</span><br><span class="line">-r, --reverse			逆序排列</span><br><span class="line">-R, --recursive			递归显示子目录</span><br><span class="line">-S						按文件大小排序</span><br><span class="line">    --sort=WORD			以指定方式排序，WORD可选值: none (-U), size (-S), time (-t), version (-v), extension (-X)</span><br><span class="line">-t						按修改时间排序，最新的优先</span><br><span class="line"></span><br><span class="line">ls -la 相当于 ll -a</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-mkdir"><a href="#2-3-mkdir" class="headerlink" title="2.3 mkdir"></a>2.3 mkdir</h2><p>用法：mkdir [选项]… 目录…		创建目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-p, --parents	先创建父级文件夹（假如不存在）</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-rm"><a href="#2-4-rm" class="headerlink" title="2.4 rm"></a>2.4 rm</h2><p>用法：rm [选项]… 文件…		删除文件或文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-f				强制删除（不弹出是否确认删除）</span><br><span class="line">-r				递归删除目录</span><br><span class="line">-d, --dir		移除空目录</span><br><span class="line">-v, --verbose	显示详细的进行步骤</span><br><span class="line"></span><br><span class="line">rm -rf /aaa/bbb		强制递归删除/aaa/bbb目录</span><br><span class="line">rm -rf /aaa/*		强制递归删除/aaa/下的任何目录或文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-mv"><a href="#2-5-mv" class="headerlink" title="2.5 mv"></a>2.5 mv</h2><p>用法：mv [选项]… [-T] 源文件 目标文件		（移动并）重命名<br>　或：mv [选项]… 源文件… 目录					源文件移动到指定目录下<br>　或：mv [选项]… -t 目录 源文件…				源文件移动到指定目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-b						类似--backup 但不接受参数</span><br><span class="line">-f, --force				覆盖前不询问</span><br><span class="line">-i, --interactive		覆盖前询问</span><br><span class="line">-n, --no-clobber		不覆盖已存在文件</span><br><span class="line">如果您指定了-i、-f、-n 中的多个，仅最后一个生效。</span><br><span class="line">-S, --suffix=SUFFIX		替换常用的备份文件后缀</span><br><span class="line">-v, --verbose			显示详细的进行步骤</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-cp"><a href="#2-6-cp" class="headerlink" title="2.6 cp"></a>2.6 cp</h2><p>用法：cp [选项]… [-T] 源文件 目标文件		文件复制<br>　或：cp [选项]… 源文件… 目录					<br>　或：cp [选项]… -t 目录 源文件…</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-b						类似--backup 但不接受参数</span><br><span class="line">-f, --force				覆盖前不询问</span><br><span class="line">-i, --interactive		覆盖前询问</span><br><span class="line">-n, --no-clobber		不要覆盖已存在的文件(使前面的 -i 选项失效)</span><br><span class="line">-R, -r, --recursive		递归复制目录及其子目录内的所有内容</span><br><span class="line">-S, --suffix=SUFFIX		自行指定备份文件的后缀</span><br><span class="line">-u, --update			只在源文件比目标文件新，或目标文件不存在时才进行复制</span><br><span class="line">-v, --verbose			显示详细的进行步骤</span><br><span class="line"></span><br><span class="line">通常：rf参数连用</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-7-find"><a href="#2-7-find" class="headerlink" title="2.7 find"></a>2.7 find</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在/xxx及其子目录下查找.txt结尾的文件或目录</span></span><br><span class="line">find /xxx -name &quot;*.txt&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在/xxx及其子目录下查找名称为aaa的目录，-<span class="built_in">type</span>参数：d-目录；f-文件</span></span><br><span class="line">find /xxx -name &quot;aaa&quot; -type d</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-8-pwd"><a href="#2-8-pwd" class="headerlink" title="2.8 pwd"></a>2.8 pwd</h2><p>用法：pwd		查看当前工作目录</p>
+<h1 id="3-文件命令"><a href="#3-文件命令" class="headerlink" title="3. 文件命令"></a>3. 文件命令</h1><h2 id="3-1-touch"><a href="#3-1-touch" class="headerlink" title="3.1 touch"></a>3.1 touch</h2><p>用法：touch [选项]… 文件…		创建文件（若已存在，则只更新文件的修改时间）</p>
+<h2 id="3-2-vi-vim"><a href="#3-2-vi-vim" class="headerlink" title="3.2 vi(vim)"></a>3.2 vi(vim)</h2><p>用法：vi &lt;文件&gt;		编辑文件（若不存在，则在保存退出后创建），有3种模式：命令模式（默认）、插入模式、末行模式。</p>
+<p>若命令缺失，先安装：yum -y install vim</p>
+<p>在命令模式下：</p>
+<ul>
+<li>ctrl + f 下一页，ctrl + b 上一页；</li>
+<li>0 光标移动到行首字符，$ 光标移动到行尾字符；</li>
+<li>G 光标移动到最后一行，gg 光标移动到首行；</li>
+<li>dd 删除光标所在行；</li>
+<li>yy 复制光标所在行，p 在光标所在行的下一行粘贴，P 在光标所在行的上一行粘贴；</li>
+<li>u 撤销修改，vi只能撤销上一次，vim可无限次撤销；</li>
+</ul>
+<p>在命令模式下，输入以下的任一个字符进入插入模式：</p>
+<ul>
+<li>i 从光标位置插入；</li>
+<li>I 从光标所在行的第一个非空白字符插入；</li>
+<li>o 从光标所在行的下一行插入；</li>
+<li>O 从光标所在行的上一行插入；</li>
+<li>a 从光标位置下一个字符插入；</li>
+<li>A 从光标所在行的行尾插入；</li>
+</ul>
+<p>在命令模式下，输入以下的任一个字符进入末行模式：</p>
+<ul>
+<li>&#x2F; 从光标位置往下查找字符，&#x2F;abc 向下查找abc（n 下一个，N 上一个）；</li>
+<li>? 从光标位置往上查找字符，&#x2F;abc 向下查找abc（n 下一个，N 上一个）；</li>
+<li>: 可以替换字符，:1,$s&#x2F;abc&#x2F;ABC&#x2F;gc 表示从第一行到最后一行查找并替换，把abc替换成ABC，并且每次替换前需要确认（如果没加参数c则不需要确认），$代表末行，可以指定具体行；:wq 表示保存并退出；:q! 表示不保存退出；</li>
+</ul>
+<p>注：按 ESC 可从插入模式或末行模式退回到命令模式。</p>
+<h2 id="3-3-cat"><a href="#3-3-cat" class="headerlink" title="3.3 cat"></a>3.3 cat</h2><p>用法：cat [选项]… [文件]…		查看文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-n, --number		对输出的所有行编号</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-less"><a href="#3-4-less" class="headerlink" title="3.4 less"></a>3.4 less</h2><p>用法：less [选项] [文件]…		查看文件，回车-下一行，空格-下一页，b-上一页，q-退出，&#x2F;往后检索，?往前检索，G最后一页，gg首页。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-m		展示查看文件的百分比</span><br><span class="line">-M		展示查看文件的百分比以及当前页行号范围</span><br><span class="line">-N      展示每一行的行号</span><br><span class="line"></span><br><span class="line">通常：-mN 或 -MN 连用。</span><br><span class="line">注：less不必读整个文件，加载速度比more更快，且查看到最后一页不会自动退出，退出后不会在shell上显示查看的内容。</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-more"><a href="#3-5-more" class="headerlink" title="3.5 more"></a>3.5 more</h2><p>用法：more [选项] 文件… 		查看文件，回车-下一行，空格-下一页，b-上一页，q-退出，到达最后一页会自动退出。</p>
+<h2 id="3-6-head"><a href="#3-6-head" class="headerlink" title="3.6 head"></a>3.6 head</h2><p>用法：head [选项]… [文件]…		从头查看文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-c, --bytes=[-]K		打印每个文件的前K个字节;加上-，打印除后K个字节外的内容</span><br><span class="line">-n, --lines=[-]K		打印每个文件的前K行（默认10行）;加上-，打印除后K行外的内容</span><br><span class="line">-q, --quiet, --silent	不输出包含文件名的文件头</span><br><span class="line">-v, --verbose			输出包含文件名的文件头</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-7-tail"><a href="#3-7-tail" class="headerlink" title="3.7 tail"></a>3.7 tail</h2><p>用法：tail [选项]… [文件]…		从尾查看文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-c, --bytes=K			输出最后K个字节;或使用-c +K输出每个文件从第k个开始的字节</span><br><span class="line">-f, --follow[=&#123;name|descriptor&#125;]		随着文件内容增加跟踪输出</span><br><span class="line">-n, --lines=K			输出后K行（默认10行）</span><br><span class="line">-q, --quiet, --silent	不输出包含文件名的文件头</span><br><span class="line">-s, --sleep-interval=N	结合-f，指定多少秒输出一次（默认1s）</span><br><span class="line">-v, --verbose			输出包含文件名的文件头</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-权限命令"><a href="#4-权限命令" class="headerlink" title="4. 权限命令"></a>4. 权限命令</h1><p>权限说明：通过 ls -l 可查看文件或目录的权限。比如 drwxr-xr-x 第1位为d说明是目录（-为文件），后续每3位为一组，每组各位分别代表（r可读；w可写；x可执行，省缺”-“代表无该权限），第一组是所有者的权限，第二组是属组（所有者所属的组），第三组是其它用户的权限。每组权限分别用二进制表示，这个权限为755。只有所有者和root才能修改其文件的权限。</p>
+<h2 id="4-1-chown"><a href="#4-1-chown" class="headerlink" title="4.1 chown"></a>4.1 chown</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用法：chown [选项]... [所有者][:[组]] 文件...		修改文件（文件夹）的所有者或属组，-R递归修改权限</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">chown root /xxx         将/xxx的属主更改为root。</span><br><span class="line">chown root:staff /xxx   和上面类似，但同时也将其属组更改为staff。</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-chgrp"><a href="#4-2-chgrp" class="headerlink" title="4.2 chgrp"></a>4.2 chgrp</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用法：chgrp [选项]... 用户组 文件...		改变文件属组，等效于chown [选项]... :用户组 文件...，-R递归修改权限。</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">chgrp -R staff /xxx		递归修改/xxx目录的属组为staff</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-chmod"><a href="#4-3-chmod" class="headerlink" title="4.3 chmod"></a>4.3 chmod</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改权限</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例，u表示所有者，g表示属组，o表示其它用户，a表示全部，+表示增加,-表示撤销，=表示与谁一样。-R递归修改权限：</span></span><br><span class="line">chmod u+w aaa		增加所有者对aaa的写入权限</span><br><span class="line">chmod u=rwx aaa		修改所有者对aaa的权限为rwx</span><br><span class="line">chmod o=u aaa		修改其它用户对aaa的权限为与所有者的一样</span><br><span class="line">chmod g-wx aaa		撤销属组对aaa的写入、执行权限</span><br><span class="line">chmod 744 aaa		修改aaa的权限为744，权限为：-rwxr--r--</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-4-groupadd"><a href="#4-4-groupadd" class="headerlink" title="4.4 groupadd"></a>4.4 groupadd</h2><p>用法：groupadd [选项] 组		创建用户组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-f, --force		如果组已经存在则成功退出，并且如果 GID 已经存在则取消 -g</span><br><span class="line">-g, --gid GID	为新组使用 GID</span><br><span class="line">-r, --system	创建一个系统账户</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">groupadd group1		添加用户组group1</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-5-useradd"><a href="#4-5-useradd" class="headerlink" title="4.5 useradd"></a>4.5 useradd</h2><p>用法：useradd [选项] 用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">useradd -G group1 lucy		创建lucy用户，并添加到group1组</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-6-passwd"><a href="#4-6-passwd" class="headerlink" title="4.6 passwd"></a>4.6 passwd</h2><p>用法: passwd [选项…] &lt;帐号名称&gt;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数，不加参数首次设置密码：</span></span><br><span class="line">-k, --keep-tokens       保持身份验证令牌不过期</span><br><span class="line">-d, --delete            删除帐号的密码(只有根用户才能进行此操作)</span><br><span class="line">-l, --lock              锁定帐户的密码(仅限 root 用户)</span><br><span class="line">-u, --unlock            解锁账户的密码(仅限 root 用户)</span><br><span class="line">-e, --expire            终止帐户的密码(仅限 root 用户)</span><br><span class="line">-f, --force             强制执行操作</span><br><span class="line">-S, --status            报告帐号的密码状态(只有根用户才能进行此操作)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">passwd lucy		初始化lucy的密码</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-7-su"><a href="#4-7-su" class="headerlink" title="4.7 su"></a>4.7 su</h2><p>用法：su &lt;用户&gt;	切换到指定用户</p>
+<h2 id="4-8-sudo"><a href="#4-8-sudo" class="headerlink" title="4.8 sudo"></a>4.8 sudo</h2><p>用法：sudo &lt;命令&gt;	以管理员身份执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">以管理员身份执行<span class="built_in">ls</span>命令</span></span><br><span class="line">sudo ls</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-内存磁盘"><a href="#5-内存磁盘" class="headerlink" title="5. 内存磁盘"></a>5. 内存磁盘</h1><h2 id="5-1-free"><a href="#5-1-free" class="headerlink" title="5.1 free"></a>5.1 free</h2><p>用法：free [选项]		显示内存使用情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-b, --bytes			单位：子节</span><br><span class="line">-k, --kilo          单位：KB</span><br><span class="line">-m, --mega          单位：MB</span><br><span class="line">-g, --giga          单位：GB</span><br><span class="line">    --tera          单位：TB</span><br><span class="line">    --peta          单位：PB</span><br><span class="line">-h, --human         单位根据大小而定，方便观察</span><br><span class="line">    --si            use powers of 1000 not 1024</span><br><span class="line">-t, --total         show total for RAM + swap</span><br><span class="line">-s N, --seconds N   每N秒输出一次</span><br><span class="line">-c N, --count N     重复输出N次，然后退出</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">free -h -s 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-top"><a href="#5-2-top" class="headerlink" title="5.2 top"></a>5.2 top</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看占用资源较多的进程，<span class="built_in">shift</span> + m按照内存大小排序。</span></span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-df"><a href="#5-3-df" class="headerlink" title="5.3 df"></a>5.3 df</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">文件系统磁盘使用情况，-h单位根据大小而定，方便观察。</span></span><br><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-du"><a href="#5-4-du" class="headerlink" title="5.4 du"></a>5.4 du</h2><p>用法：du [选项]… [文件]…		递归统计目录或文件大小</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">递归统计当前目录的文件大小，-h单位根据大小而定，方便观察，-s不细分文件夹。</span></span><br><span class="line">du -h</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-其它"><a href="#6-其它" class="headerlink" title="6. 其它"></a>6. 其它</h1><h2 id="6-1-grep"><a href="#6-1-grep" class="headerlink" title="6.1 grep"></a>6.1 grep</h2><ul>
+<li>在每个FILE或是标准输入中查找PATTERN（egrep:支持正则表达式）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">grep [选项]... PATTERN [FILE]...</span><br><span class="line"></span><br><span class="line">正则表达式选择与解释:</span><br><span class="line">  -E, --extended-regexp     PATTERN 是一个可扩展的正则表达式(缩写为 ERE)</span><br><span class="line">  -F, --fixed-strings       PATTERN 是一组由断行符分隔的定长字符串。</span><br><span class="line">  -G, --basic-regexp        PATTERN 是一个基本正则表达式(缩写为 BRE)</span><br><span class="line">  -P, --perl-regexp         PATTERN 是一个 Perl 正则表达式</span><br><span class="line">  -e, --regexp=PATTERN      用 PATTERN 来进行匹配操作</span><br><span class="line">  -f, --file=FILE           从 FILE 中取得 PATTERN</span><br><span class="line">  -i, --ignore-case         忽略大小写</span><br><span class="line">  -w, --word-regexp         强制 PATTERN 仅完全匹配字词</span><br><span class="line">  -x, --line-regexp         强制 PATTERN 仅完全匹配一行</span><br><span class="line">  -z, --null-data           一个 0 字节的数据行，但不是空行</span><br><span class="line"></span><br><span class="line">Miscellaneous:</span><br><span class="line">  -s, --no-messages         suppress error messages</span><br><span class="line">  -v, --invert-match        select non-matching lines</span><br><span class="line">  -V, --version             display version information and exit</span><br><span class="line">      --help                display this help text and exit</span><br><span class="line"></span><br><span class="line">输出控制:</span><br><span class="line">  -m, --max-count=NUM       NUM 次匹配后停止</span><br><span class="line">  -b, --byte-offset         输出的同时打印字节偏移</span><br><span class="line">  -n, --line-number         输出的同时打印行号</span><br><span class="line">      --line-buffered       每行输出清空</span><br><span class="line">  -H, --with-filename       为每一匹配项打印文件名</span><br><span class="line">  -h, --no-filename         输出时不显示文件名前缀</span><br><span class="line">      --label=LABEL         将LABEL 作为标准输入文件名前缀</span><br><span class="line">  -o, --only-matching       show only the part of a line matching PATTERN</span><br><span class="line">  -q, --quiet, --silent     suppress all normal output</span><br><span class="line">      --binary-files=TYPE   assume that binary files are TYPE;</span><br><span class="line">                            TYPE is &#x27;binary&#x27;, &#x27;text&#x27;, or &#x27;without-match&#x27;</span><br><span class="line">  -a, --text                equivalent to --binary-files=text</span><br><span class="line">  -I                        equivalent to --binary-files=without-match</span><br><span class="line">  -d, --directories=ACTION  how to handle directories;</span><br><span class="line">                            ACTION is &#x27;read&#x27;, &#x27;recurse&#x27;, or &#x27;skip&#x27;</span><br><span class="line">  -D, --devices=ACTION      how to handle devices, FIFOs and sockets;</span><br><span class="line">                            ACTION is &#x27;read&#x27; or &#x27;skip&#x27;</span><br><span class="line">  -r, --recursive           like --directories=recurse</span><br><span class="line">  -R, --dereference-recursive</span><br><span class="line">                            likewise, but follow all symlinks</span><br><span class="line">      --include=FILE_PATTERN</span><br><span class="line">                            search only files that match FILE_PATTERN</span><br><span class="line">      --exclude=FILE_PATTERN</span><br><span class="line">                            skip files and directories matching FILE_PATTERN</span><br><span class="line">      --exclude-from=FILE   skip files matching any file pattern from FILE</span><br><span class="line">      --exclude-dir=PATTERN directories that match PATTERN will be skipped.</span><br><span class="line">  -L, --files-without-match print only names of FILEs containing no match</span><br><span class="line">  -l, --files-with-matches  print only names of FILEs containing matches</span><br><span class="line">  -c, --count               print only a count of matching lines per FILE</span><br><span class="line">  -T, --initial-tab         make tabs line up (if needed)</span><br><span class="line">  -Z, --null                print 0 byte after FILE name</span><br><span class="line"></span><br><span class="line">文件控制:</span><br><span class="line">  -B, --before-context=NUM  打印以文本起始的NUM 行</span><br><span class="line">  -A, --after-context=NUM   打印以文本结尾的NUM 行</span><br><span class="line">  -C, --context=NUM         打印输出文本NUM 行</span><br><span class="line">  -NUM                      same as --context=NUM</span><br><span class="line">      --group-separator=SEP use SEP as a group separator</span><br><span class="line">      --no-group-separator  use empty string as a group separator</span><br><span class="line">      --color[=WHEN],</span><br><span class="line">      --colour[=WHEN]       use markers to highlight the matching strings;</span><br><span class="line">                            WHEN is &#x27;always&#x27;, &#x27;never&#x27;, or &#x27;auto&#x27;</span><br><span class="line">  -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)</span><br><span class="line">  -u, --unix-byte-offsets   report offsets as if CRs were not there</span><br><span class="line">                            (MSDOS/Windows)</span><br><span class="line"></span><br><span class="line">‘egrep’即‘grep -E’。‘fgrep’即‘grep -F’。</span><br><span class="line">直接使用‘egrep’或是‘fgrep’均已不可行了。</span><br><span class="line">若FILE 为 -，将读取标准输入。不带FILE，读取当前目录，除非命令行中指定了-r 选项。</span><br><span class="line">如果少于两个FILE 参数，就要默认使用-h 参数。</span><br><span class="line">如果有任意行被匹配，那退出状态为 0，否则为 1；</span><br><span class="line">如果有错误产生，且未指定 -q 参数，那退出状态为 2。</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-awk"><a href="#6-2-awk" class="headerlink" title="6.2 awk"></a>6.2 awk</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Usage: awk [POSIX or GNU style options] -f progfile [--] file ...</span><br><span class="line">Usage: awk [POSIX or GNU style options] [--] &#x27;program&#x27; file ...</span><br><span class="line">POSIX options:          GNU long options: (standard)</span><br><span class="line">        -f progfile             --file=progfile</span><br><span class="line">        -F fs                   --field-separator=fs</span><br><span class="line">        -v var=val              --assign=var=val</span><br><span class="line">Short options:          GNU long options: (extensions)</span><br><span class="line">        -b                      --characters-as-bytes</span><br><span class="line">        -c                      --traditional</span><br><span class="line">        -C                      --copyright</span><br><span class="line">        -d[file]                --dump-variables[=file]</span><br><span class="line">        -e &#x27;program-text&#x27;       --source=&#x27;program-text&#x27;</span><br><span class="line">        -E file                 --exec=file</span><br><span class="line">        -g                      --gen-pot</span><br><span class="line">        -h                      --help</span><br><span class="line">        -L [fatal]              --lint[=fatal]</span><br><span class="line">        -n                      --non-decimal-data</span><br><span class="line">        -N                      --use-lc-numeric</span><br><span class="line">        -O                      --optimize</span><br><span class="line">        -p[file]                --profile[=file]</span><br><span class="line">        -P                      --posix</span><br><span class="line">        -r                      --re-interval</span><br><span class="line">        -S                      --sandbox</span><br><span class="line">        -t                      --lint-old</span><br><span class="line">        -V                      --version</span><br><span class="line"></span><br><span class="line">To report bugs, see node `Bugs&#x27; in `gawk.info&#x27;, which is</span><br><span class="line">section `Reporting Problems and Bugs&#x27; in the printed version.</span><br><span class="line"></span><br><span class="line">gawk is a pattern scanning and processing language.</span><br><span class="line">By default it reads standard input and writes standard output.</span><br><span class="line"></span><br><span class="line">Examples:</span><br><span class="line">        gawk &#x27;&#123; sum += $1 &#125;; END &#123; print sum &#125;&#x27; file</span><br><span class="line">        gawk -F: &#x27;&#123; print $1 &#125;&#x27; /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-sed"><a href="#6-3-sed" class="headerlink" title="6.3 sed"></a>6.3 sed</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">用法: sed [选项]... &#123;脚本(如果没有其他脚本)&#125; [输入文件]...</span><br><span class="line"></span><br><span class="line">  -n, --quiet, --silent</span><br><span class="line">                 取消自动打印模式空间</span><br><span class="line">  -e 脚本, --expression=脚本</span><br><span class="line">                 添加“脚本”到程序的运行列表</span><br><span class="line">  -f 脚本文件, --file=脚本文件</span><br><span class="line">                 添加“脚本文件”到程序的运行列表</span><br><span class="line">  --follow-symlinks</span><br><span class="line">                 直接修改文件时跟随软链接</span><br><span class="line">  -i[SUFFIX], --in-place[=SUFFIX]</span><br><span class="line">                 edit files in place (makes backup if SUFFIX supplied)</span><br><span class="line">  -c, --copy</span><br><span class="line">                 use copy instead of rename when shuffling files in -i mode</span><br><span class="line">  -b, --binary</span><br><span class="line">                 does nothing; for compatibility with WIN32/CYGWIN/MSDOS/EMX (</span><br><span class="line">                 open files in binary mode (CR+LFs are not treated specially))</span><br><span class="line">  -l N, --line-length=N</span><br><span class="line">                 指定“l”命令的换行期望长度</span><br><span class="line">  --posix</span><br><span class="line">                 关闭所有 GNU 扩展</span><br><span class="line">  -r, --regexp-extended</span><br><span class="line">                 在脚本中使用扩展正则表达式</span><br><span class="line">  -s, --separate</span><br><span class="line">                 将输入文件视为各个独立的文件而不是一个长的连续输入</span><br><span class="line">  -u, --unbuffered</span><br><span class="line">                 从输入文件读取最少的数据，更频繁的刷新输出</span><br><span class="line">  -z, --null-data</span><br><span class="line">                 separate lines by NUL characters</span><br><span class="line">  --help</span><br><span class="line">                 display this help and exit</span><br><span class="line">  --version</span><br><span class="line">                 output version information and exit</span><br><span class="line"></span><br><span class="line">如果没有 -e, --expression, -f 或 --file 选项，那么第一个非选项参数被视为</span><br><span class="line">sed脚本。其他非选项参数被视为输入文件，如果没有输入文件，那么程序将从标准</span><br><span class="line">输入读取数据。</span><br><span class="line">GNU sed home page: &lt;http://www.gnu.org/software/sed/&gt;.</span><br><span class="line">General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;.</span><br><span class="line">E-mail bug reports to: &lt;bug-sed@gnu.org&gt;.</span><br><span class="line">Be sure to include the word ``sed&#x27;&#x27; somewhere in the ``Subject:&#x27;&#x27; field.</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-4-tar"><a href="#6-4-tar" class="headerlink" title="6.4 tar"></a>6.4 tar</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">参数说明：z(使用gzip)，c(create)，v(verbose)，f(file)，x(extract)。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">压缩，把aaa/目录压缩成aaa.tar.gz。</span></span><br><span class="line">tar -zcvf aaa.tar.gz aaa/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">压缩多个文件</span></span><br><span class="line">tar -zcvf package.tar.gz 1.txt 2.txt 3.png</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压，把当前目录下的aaa.tar.gz解压到目录bbb中，加-C指定路径。</span></span><br><span class="line">tar -zxvf aaa.tar.gz -C bbb</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-5"><a href="#6-5" class="headerlink" title="6.5 |"></a>6.5 |</h2><p>用法：命令1 | 命令2			管道命令，用|把两个命令连起来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">find . -type f | xargs grep &quot;aa&quot;	检索当前目录及子目录下，所有包含&quot;aa&quot;的文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-6-whereis"><a href="#6-6-whereis" class="headerlink" title="6.6 whereis"></a>6.6 whereis</h2><p>用法：whereis [选项] 文件		查找命令、手册、源码的位置，例如：whereis ls</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-b         只搜索二进制文件</span><br><span class="line">-B &lt;目录&gt;  定义二进制文件查找路径</span><br><span class="line">-m         只搜索 man 手册</span><br><span class="line">-M &lt;目录&gt;  定义 man 手册查找路径</span><br><span class="line">-s         只搜索源代码</span><br><span class="line">-S &lt;目录&gt;  定义源代码查找路径</span><br><span class="line">-f         终止 &lt;目录&gt; 参数列表</span><br><span class="line">-u         搜索不常见记录</span><br><span class="line">-l         输出有效查找路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-7-which"><a href="#6-7-which" class="headerlink" title="6.7 which"></a>6.7 which</h2><p>用法：which &lt;命令&gt;		输出命令的全路径</p>
+<h2 id="6-8-uname"><a href="#6-8-uname" class="headerlink" title="6.8 uname"></a>6.8 uname</h2><p>用法：uname [选项]…		查看系统版本信息，默认-s参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-a, --all					以如下次序输出所有信息。其中若-p和-i的探测结果不可知则被省略</span><br><span class="line">-s, --kernel-name			输出内核名称</span><br><span class="line">-n, --nodename				输出网络节点上的主机名</span><br><span class="line">-r, --kernel-release		输出内核发行号</span><br><span class="line">-v, --kernel-version		输出内核版本</span><br><span class="line">-m, --machine				输出主机的硬件架构名称</span><br><span class="line">-p, --processor				输出处理器类型或&quot;unknown&quot;</span><br><span class="line">-i, --hardware-platform		输出硬件平台或&quot;unknown&quot;</span><br><span class="line">-o, --operating-system		输出操作系统名称</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-9-who-whoami"><a href="#6-9-who-whoami" class="headerlink" title="6.9 who &amp; whoami"></a>6.9 who &amp; whoami</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">who		查看当前登录用户名、登录时间</span><br><span class="line">whoami	查看当前登录用户名</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-10-yum"><a href="#6-10-yum" class="headerlink" title="6.10 yum"></a>6.10 yum</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装、更新、卸载，参数-y(--assumeyes)表示回答全部问题为是，--assumeno表示回答全部问题为否。</span></span><br><span class="line">yum -y install/update/remove net-tools</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-11-rpm"><a href="#6-11-rpm" class="headerlink" title="6.11 rpm"></a>6.11 rpm</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">rpm -ivh rabbitmq-server-3.8.3-1.el7.noarch.rpm		使用rpm包安装</span><br><span class="line">rpm -Uvh rabbitmq-server-3.8.3-1.el7.noarch.rpm		使用rpm更新</span><br><span class="line">rpm -ev rabbitmq-server                             卸载</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-12-date"><a href="#6-12-date" class="headerlink" title="6.12 date"></a>6.12 date</h2><p>用法：date [选项]… [+格式]</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出：年-月-日 时:分:秒</span></span><br><span class="line">date &quot;+%Y-%m-%d %H:%M:%S&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置系统时间</span></span><br><span class="line">date -s &quot;06/28/2019 21:30:12&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-13-wget"><a href="#6-13-wget" class="headerlink" title="6.13 wget"></a>6.13 wget</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载文件，并指定文件名（-O参数），若命令缺失，先安装：yum -y install wget</span></span><br><span class="line">wget [-O file] &lt;URL&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-14-ssh"><a href="#6-14-ssh" class="headerlink" title="6.14 ssh"></a>6.14 ssh</h2><p>用法: ssh user@remote [-p port]			远程登录，不指定端口默认22</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在~/.ssh/下生成rsa密钥对，把公钥粘贴到远程用户的~/.ssh/authorized_keys文件中，即可实现免密登录</span></span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-15-scp"><a href="#6-15-scp" class="headerlink" title="6.15 scp"></a>6.15 scp</h2><p>用法：scp [选项] [[user@]host1:]file1 [[user@]host2:]file2			安全复制，源和目标都可以是远程主机上的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数：</span></span><br><span class="line">-C		传输过程中压缩。</span><br><span class="line">-p		保留原文件的修改时间，访问时间和访问权限。</span><br><span class="line">-P port 指定数据传输的端口号。</span><br><span class="line">-q		不显示传输进度条。</span><br><span class="line">-r		递归复制整个目录。</span><br><span class="line">-v		详细方式显示输出。</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-16-rsync"><a href="#6-16-rsync" class="headerlink" title="6.16 rsync"></a>6.16 rsync</h2><p>用法：rsync [选项] [[user@]host1:]file1 [[user@]host2:]file2		远程同步，保持原来文件的权限、时间、软硬链接等附加信息，源和目标不能都是远程的。</p>
+<p>若命令缺失，先安装：yum -y install rsync</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常用参数（-avzP）：</span></span><br><span class="line">-a, --archive               archive mode; equals -rlptgoD (no -H,-A,-X)</span><br><span class="line">-h, --human-readable        output numbers in a human-readable format</span><br><span class="line">-P                          same as --partial --progress（显示同步过程、传输进度等信息）</span><br><span class="line">-r, --recursive             recurse into directories</span><br><span class="line">-v, --verbose               increase verbosity</span><br><span class="line">-z, --compress              compress file data during the transfer</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-17-clear"><a href="#6-17-clear" class="headerlink" title="6.17 clear"></a>6.17 clear</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清屏</span></span><br><span class="line">clear</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清屏，可往上翻看记录</span></span><br><span class="line">ctrl + l</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-18-ifconfig-ip-addr"><a href="#6-18-ifconfig-ip-addr" class="headerlink" title="6.18 ifconfig &amp; ip addr"></a>6.18 ifconfig &amp; ip addr</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看ip，若命令缺失，先安装：yum -y install net-tools</span></span><br><span class="line">ifconfig</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或</span></span><br><span class="line">ip addr</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-19-ps"><a href="#6-19-ps" class="headerlink" title="6.19 ps"></a>6.19 ps</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看tomcat进程</span></span><br><span class="line">ps -ef|grep tomcat</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或</span></span><br><span class="line">ps aux|grep tomcat</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-20-kill-pkill"><a href="#6-20-kill-pkill" class="headerlink" title="6.20 kill &amp; pkill"></a>6.20 kill &amp; pkill</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过进程<span class="built_in">id</span>强制杀死进程</span></span><br><span class="line">kill -9 pid</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过进程名称杀死进程，可通过*模糊匹配</span></span><br><span class="line">pkill -f 进程名称</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-21-service"><a href="#6-21-service" class="headerlink" title="6.21 service"></a>6.21 service</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">服务状态、启动服务、停止服务、重启服务</span></span><br><span class="line">service &lt;service_name&gt; status/start/stop/restart</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：</span></span><br><span class="line">service network status</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-22-systemctl"><a href="#6-22-systemctl" class="headerlink" title="6.22 systemctl"></a>6.22 systemctl</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">服务：开启/停止/重启/查看状态/开启自启动/关闭自启动/是否自启动</span></span><br><span class="line">systemctl start/stop/restart/status/enable/disable/is-enabled &lt;service_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看已启动的服务列表</span></span><br><span class="line">systemctl list-unit-files|grep enabled</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看启动失败的服务列表</span></span><br><span class="line">systemctl –failed</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-23-firewalld-centos7"><a href="#6-23-firewalld-centos7" class="headerlink" title="6.23 firewalld(centos7)"></a>6.23 firewalld(centos7)</h2><ul>
+<li>服务相关</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启/停止/重启/查看状态/开启自启动/关闭自启动/是否自启动</span></span><br><span class="line">systemctl start/stop/restart/status/enable/disable/is-enabled firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>firewall-cmd命令，端口可为tcp或udp</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加端口，--permanent永久生效，没有此参数重启后失效</span></span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重新载入</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有打开的端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除端口</span></span><br><span class="line">firewall-cmd --zone=public --remove-port=80/tcp --permanent</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">############################### 添加、重新加载并查看端口 ################################</span></span></span><br><span class="line">firewall-cmd --zone=public --add-port=6666/tcp --permanent &amp;&amp; firewall-cmd --reload &amp;&amp; firewall-cmd --zone=public --list-ports</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">############################### 添加、重新加载并查看端口 ################################</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-24-iptables-centos6"><a href="#6-24-iptables-centos6" class="headerlink" title="6.24 iptables(centos6)"></a>6.24 iptables(centos6)</h2><ul>
+<li>-A（append）和-I（insert）区别，-A是追加在规则后方，-I是在最前面插入，如果使用追加的方式，可能导致追加的端口在REJECT的后方，导致端口没有开放成功。因此添加拒绝策略最好用-A参数，添加开放规则最好用-I。</li>
+<li>如果想要防火墙重启后还生效，需要执行 <code>/etc/init.d/iptables save</code> 进行保存防火墙策略</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">关闭iptables服务的开机自启动</span></span><br><span class="line">chkconfig iptables off</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启iptables服务的开机自启动</span></span><br><span class="line">chkconfig iptables on</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">允许访问80端口</span></span><br><span class="line">iptables -I INPUT -p tcp --dport 80 -j ACCEPT</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接删除80端口</span></span><br><span class="line">iptables -D INPUT -p tcp --dport 80 -j ACCEPT     </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看规则</span></span><br><span class="line">iptables -nvL  </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看规则行号</span></span><br><span class="line">iptables -nvL --line-number   </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">按行号删除，删除第二行规则</span></span><br><span class="line">iptables -D INPUT 2     </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">来自172.16.0.0/16网段的都允许访问本机172.16.100.1的22端口的服务</span></span><br><span class="line">iptables -t filter -I INPUT -s 172.16.0.0/16 -d 172.16.100.1 -p tcp --dport 22 -j ACCEPT     </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启iptables</span></span><br><span class="line">service iptables restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-25-netstat"><a href="#6-25-netstat" class="headerlink" title="6.25 netstat"></a>6.25 netstat</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查端口是否被占用</span></span><br><span class="line">netstat -apn|grep 80</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-26-ping"><a href="#6-26-ping" class="headerlink" title="6.26 ping"></a>6.26 ping</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查网络是否连通，ctrl+c终止测试</span></span><br><span class="line">ping IP</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-27-telnet"><a href="#6-27-telnet" class="headerlink" title="6.27 telnet"></a>6.27 telnet</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查是否能连通指定IP的指定端口，若命令缺失，先安装：yum -y install telnet</span></span><br><span class="line">telnet IP PORT</span><br></pre></td></tr></table></figure>
+
+<h1 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h1><h2 id="虚拟机centos配置静态IP"><a href="#虚拟机centos配置静态IP" class="headerlink" title="虚拟机centos配置静态IP"></a>虚拟机centos配置静态IP</h2><ul>
+<li>编辑&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens33（不一定是ens33网卡，也有可能是eth0或其它）</li>
+</ul>
+<p>说明：这里使用NAT模式，在VMware的NAT模式，设置子网IP为192.168.22.0、网关为192.168.22.2，这个网段1号IP默认留给VMnet8，255为广播号，因此静态IP不能为该网段的0、1、2、255。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 配置静态IP，把dhcp改为static，添加IPADDR（IP地址）、GATEWAY（网关地址）、NETMASK（子网掩码）、DNS1（DNS服务器）、DNS2（DNS服务器）</span><br><span class="line">BOOTPROTO=&quot;static&quot;</span><br><span class="line">IPADDR=&quot;192.168.22.10&quot;</span><br><span class="line">GATEWAY=&quot;192.168.22.2&quot;</span><br><span class="line">NETMASK=&quot;255.255.255.0&quot;</span><br><span class="line">DNS1=&quot;114.114.114.114&quot;</span><br><span class="line">DNS2=&quot;114.114.115.115&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启网络服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程登录centos慢的问题"><a href="#远程登录centos慢的问题" class="headerlink" title="远程登录centos慢的问题"></a>远程登录centos慢的问题</h2><ul>
+<li>编辑&#x2F;etc&#x2F;ssh&#x2F;sshd_config</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">把</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">UseDNS <span class="built_in">yes</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改为</span></span><br><span class="line">UseDNS no</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+<h2 id="centos6-yum的网络问题"><a href="#centos6-yum的网络问题" class="headerlink" title="centos6 yum的网络问题"></a>centos6 yum的网络问题</h2><blockquote>
+<p>问题：YumRepo Error: All mirror URLs are not using ftp, http[s] or file.</p>
+</blockquote>
+<ul>
+<li>编辑&#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo</li>
+<li>注释掉每个模块中的mirrorlist、gpgkey，同时在对应的模块下，添加清华节点的baseurl、gpgkey，可参考如下配置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"># CentOS-Base.repo</span><br><span class="line">#</span><br><span class="line"># The mirror system uses the connecting IP address of the client and the</span><br><span class="line"># update status of each mirror to pick mirrors that are updated to and</span><br><span class="line"># geographically close to the client.  You should use this for CentOS updates</span><br><span class="line"># unless you are manually picking other mirrors.</span><br><span class="line">#</span><br><span class="line"># If the mirrorlist= does not work for you, as a fall back you can try the</span><br><span class="line"># remarked out baseurl= line instead.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</span><br><span class="line">gpgkey=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/RPM-GPG-KEY-CentOS-6</span><br><span class="line"></span><br><span class="line">#released updates</span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/updates/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</span><br><span class="line">gpgkey=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/RPM-GPG-KEY-CentOS-6</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/extras/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</span><br><span class="line">gpgkey=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/RPM-GPG-KEY-CentOS-6</span><br><span class="line"></span><br><span class="line">#additional packages that extend functionality of existing packages</span><br><span class="line">[centosplus]</span><br><span class="line">name=CentOS-$releasever - Plus</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/centosplus/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=0</span><br><span class="line">#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</span><br><span class="line">gpgkey=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/RPM-GPG-KEY-CentOS-6</span><br><span class="line"></span><br><span class="line">#contrib - packages by Centos Users</span><br><span class="line">[contrib]</span><br><span class="line">name=CentOS-$releasever - Contrib</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=contrib&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/contrib/$basearch/</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/contrib/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=0</span><br><span class="line">#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</span><br><span class="line">gpgkey=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/6.8/os/x86_64/RPM-GPG-KEY-CentOS-6</span><br></pre></td></tr></table></figure>
+
+<h2 id="Openssl生成证书"><a href="#Openssl生成证书" class="headerlink" title="Openssl生成证书"></a>Openssl生成证书</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">说明：key-私钥；csr-证书签名请求；crt-证书；这里均采用PEM证书，而不是DER证书，与后缀名无关。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成CA证书私钥(key)</span></span><br><span class="line">openssl genrsa -out ca.key 4096</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成CA自签署证书(crt)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">openssl req -new -x509 -days 3650 -key ca.key -out ca.crt</span></span><br><span class="line">openssl req -new -x509 -days 3650 -subj &quot;/C=CN/ST=GD/L=GZ/O=org/OU=orgUnit/CN=harbor.loc&quot; -key ca.key -out ca.crt</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#############################################################################</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成服务器证书私钥(key)</span></span><br><span class="line">openssl genrsa -out server.key 4096</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成服务器证书签名请求(csr)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">openssl req -new -key server.key -out server.csr</span></span><br><span class="line">openssl req -new -subj &quot;/C=CN/ST=GD/L=GZ/O=org/OU=orgUnit/CN=harbor.loc&quot; -key server.key -out server.csr</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成服务器证书(crt)</span></span><br><span class="line">openssl x509 -req -days 3650 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-Shell"><a href="#8-Shell" class="headerlink" title="8. Shell"></a>8. Shell</h1><h2 id="8-1-基础命令"><a href="#8-1-基础命令" class="headerlink" title="8.1 基础命令"></a>8.1 基础命令</h2><h3 id="1）变量"><a href="#1）变量" class="headerlink" title="1）变量"></a>1）变量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">变量类型：</span><br><span class="line">- 局部变量：仅在当前进程使用，如：name=&quot;Tom&quot;；</span><br><span class="line">- 全局变量（环境变量）：可在当前进程及其子孙进程使用，在子孙中修改的值不会影响父进程的值，如：export name=&quot;Tom&quot;；</span><br><span class="line">- 常量：仅可读，不能改、删，在进程退出时销毁，如：readonly name=&quot;Tom&quot;；</span><br><span class="line">unset name	删除变量name，用完可删除，养成好习惯</span><br><span class="line">set			查看所有变量</span><br><span class="line">export		查看所有环境变量，等效于declare -x</span><br><span class="line">readonly	查看所有常量，等效于declare -r</span><br><span class="line"></span><br><span class="line">====================================== 特殊符号 ======================================</span><br><span class="line">&#x27;&#x27;和&quot;&quot;	- 两者都是用来处理变量值包含空格的问题。不同的是，单引号会把所有字符当普通字符进行输出，而双引号会处理参数替换$和命令替换``。</span><br><span class="line">$&#123;&#125;	- 参数替换，其后不紧跟着其它字符时可省略&#123;&#125;，echo $name输出变量name的值，不加$则直接把name当字符串进行输出。参数-e为开启转义。</span><br><span class="line">``	- 命令替换，echo `wc -l`输出的是命令wc -l的执行结果。</span><br><span class="line">$()	- 命令替换，与符号``类似，$()支持嵌套，但其仅在Bash Shell中有效，而``可在多种Shell中使用。</span><br><span class="line">()	- 用来开启一个子shell，执行完后返回父shell，常用于一次性的命令，与bash开启子进程不同的是，()可以在括号里获取外面局部变量的值，进程号和外面的也一样。</span><br><span class="line">&#123;&#125;	- 在当前shell执行，影响当前的环境，最后一个命令需要加分号。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2）bash进程"><a href="#2）bash进程" class="headerlink" title="2）bash进程"></a>2）bash进程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">bash -n xxx.sh		检测语法错误，命令错误检测不了</span><br><span class="line">bash -x xxx.sh		跟踪命令的执行</span><br><span class="line">bash		开启新的进程</span><br><span class="line">exit [n]	退出命令并返回状态码n</span><br><span class="line">命令c &amp;&gt; /dev/null	不显示输出结果，从而使用echo $?判断执行成功或失败</span><br><span class="line">echo $?		查看前一条命令执行的状态码，0：成功，1-255：失败</span><br><span class="line">echo $$		$$查看当前进程的进程编号</span><br><span class="line">echo $PPID	$PPID父进程的进程编号</span><br><span class="line">sleep n		当前进程睡眠n秒</span><br><span class="line">read		标准输入，等待用户输入，-p输入提示文字，-n输入字符长度限制，-t输入限时，-s隐藏输入内容</span><br><span class="line">pstree -p	查看进程的父子关系，yum list|grep pstree为空的原因，由于pstree在psmisc中，需要先安装yum install -y psmisc</span><br><span class="line">scp t/ test@192.168.22.12:/home/test/	远程复制，把t/目录复制到192.168.22.12的test用户的/home/test/目录下</span><br><span class="line">ls | wc -l	查看当前目录下的文件、目录总数量</span><br></pre></td></tr></table></figure>
+
+<h3 id="3）获取用户id"><a href="#3）获取用户id" class="headerlink" title="3）获取用户id"></a>3）获取用户id</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd | head -10 | tail -1 | cut -d&#x27;:&#x27; -f3	获取第10位用户的id，cut的参数：-d分隔符，-f分割后的第几段</span><br><span class="line">cat /etc/passwd | sed -n &quot;10p&quot; | cut -d&#x27;:&#x27; -f3			效果同上</span><br><span class="line"></span><br><span class="line">cat /etc/passwd | grep &quot;Tom&quot; | cut -d&#x27;:&#x27; -f3			获取用户Tom的id</span><br><span class="line">cat /etc/passwd | grep &quot;Tom&quot; | awk -F&#x27;:&#x27; &#x27;&#123;print $3&#125;&#x27;	效果同上</span><br></pre></td></tr></table></figure>
+
+<h3 id="4）命令的位置参数"><a href="#4）命令的位置参数" class="headerlink" title="4）命令的位置参数"></a>4）命令的位置参数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo $N		获取命令的第N个参数，N大于9时需要加上&#123;&#125;，例如：echo $&#123;10&#125;，而echo $10表示第1个参数与字符串0进行拼接</span><br><span class="line">echo $0		命令的第0个参数是命令（或命令软链接）的名称，可以通过echo `basename $0`仅获取命令名称（不包含路径）</span><br><span class="line">echo $*		获取所有参数（合并成一个字符串），$#获取参数个数</span><br><span class="line">echo $@		获取所有参数（每个参数为一个独立字符串），与$*类似，只有加双引号才有区别</span><br><span class="line">set --		清空所有位置参数</span><br><span class="line">shift		将参数往左移动1位，可以加数字，如shift 2，参数向左移动2位</span><br></pre></td></tr></table></figure>
+
+<h3 id="5）算术运算与数组"><a href="#5）算术运算与数组" class="headerlink" title="5）算术运算与数组"></a>5）算术运算与数组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let			做加减乘除运算等，例如：let k=i+j</span><br><span class="line">$[]			做加减乘除运算等，例如：k=$[i+j]</span><br><span class="line">$(())		与$[]类似，例如：k=$((i+j))</span><br><span class="line"></span><br><span class="line">arr=(a b c)			数组定义</span><br><span class="line">echo $&#123;arr[i]&#125;		输出数组某个元素</span><br><span class="line">echo $&#123;arr[*]&#125;		输出数组所有元素，等效于$&#123;arr[@]&#125;</span><br><span class="line">echo $&#123;#arr[*]&#125;		输出数组长度，等效于$&#123;#arr[@]&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6）标准输入、标准输出、标准错误输出"><a href="#6）标准输入、标准输出、标准错误输出" class="headerlink" title="6）标准输入、标准输出、标准错误输出"></a>6）标准输入、标准输出、标准错误输出</h3><p>标准输入（stdin），文件描述符为0；标准输出（stdout），文件描述符为1；标准错误输出（stderr），文件描述符为2。文件<code>/dev/null</code>可以看作Linux中的“无底洞“，通常把不需要的输出重定向到该文件进行丢弃。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">标准输入重定向，其中文件描述符0可省略</span></span><br><span class="line">command 0&lt; file</span><br><span class="line">command &lt; file</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">标准输出重定向，其中文件描述符1可省略</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">覆盖</span></span><br><span class="line">command 1&gt; file</span><br><span class="line">command &gt; file</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">追加</span></span><br><span class="line">command 1&gt;&gt; file</span><br><span class="line">command &gt;&gt; file</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">标准错误输出重定向，文件描述符2不能省略</span></span><br><span class="line">command 2&gt; file			# 覆盖</span><br><span class="line">command 2&gt;&gt; file		# 追加</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">把标准输出重定向到文件，并把标准错误输出重定向到与标准输出一样，即标准输出和标准错误输出都重定向到文件</span></span><br><span class="line">command &gt; file 2&gt;&amp;1		# 覆盖</span><br><span class="line">command &gt;&gt; file 2&gt;&amp;1	# 追加</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">把标准输入重定向到file1，标准输出重定向到file2，相当于file1作为<span class="built_in">command</span>的入参，file2作为<span class="built_in">command</span>结果的保存文件</span></span><br><span class="line">command &lt; file1 &gt; file2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">注：</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.文件描述符（0、1、2）与重定向符之间不能有空格；</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.文件描述符（0、1、2）在重定向符右侧时，需要加&amp;，比如2&gt;&amp;1表示标准错误输出重定向到与标准输出的一样；</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">示例：往文件中写入多行内容</span></span><br><span class="line">cat &lt;&lt;&#x27;EOF&#x27;&gt; a.txt</span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-2-条件判断与循环"><a href="#8-2-条件判断与循环" class="headerlink" title="8.2 条件判断与循环"></a>8.2 条件判断与循环</h2><p>注：作用域由对齐方式确定。</p>
+<h3 id="1）if"><a href="#1）if" class="headerlink" title="1）if"></a>1）if</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="keyword">if</span>模板，<span class="keyword">elif</span>和<span class="keyword">else</span>部分内容可省略。</span></span><br><span class="line">if condition1; then</span><br><span class="line">	command1</span><br><span class="line">elif condition2; then</span><br><span class="line">	command2</span><br><span class="line">else</span><br><span class="line">	command3</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">若要写在一行，则需要在每个执行的命令后加分号</span></span><br><span class="line">if [ &quot;$n1&quot; -gt &quot;$n2&quot; ]; then echo &quot;&gt;&quot;; echo &quot;&gt;&gt;&quot;; elif [ &quot;$n1&quot; -lt &quot;$n2&quot; ]; then echo &quot;&lt;&quot;; echo &quot;&lt;&lt;&quot;; else echo &quot;=&quot;; echo &quot;==&quot;;  fi</span><br></pre></td></tr></table></figure>
+
+<p>条件中的数字比较和字符串比较区别：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">数字比较：-eq（等于）、-ne（不等于）、-gt（大于）、-ge（大于等于）、-lt（小于）、-le（小于等于）</span><br><span class="line">- 可在[]、[[]]中使用，比较数字大小；</span><br><span class="line"></span><br><span class="line">字符串比较：=、==、!=、&gt;、&gt;=、&lt;、&lt;=，=与==比较字符串时等效</span><br><span class="line">- 在[]中使用时，比较字符串大小，&gt;和&lt;需要转义为\&gt;和\&lt;；</span><br><span class="line">- 在[[]]中使用时，也是比较字符串大小，但不需要转义，且支持||、&amp;&amp;、正则匹配，其中||和&amp;&amp;与其它语言一样有短路机制；</span><br><span class="line">- 在(())中使用时，只做数字比较，且不能使用运算符=；</span><br><span class="line"></span><br><span class="line">注：条件中的每一部分，前后必须留空格，比如：[ &quot;$a&quot; == &quot;$b&quot; ]、[[ $a == $b ]]、(( $a &gt;= $b ))，使用[]时，变量最好用双引号包裹住。</span><br></pre></td></tr></table></figure>
+
+<p>常用的if参数（需要取反，则在if和[之间加上!，且!两侧需要留有空格）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 字符串参数</span><br><span class="line">-z		[ -z &quot;$a&quot; ]，字符串长度为0，则为真；</span><br><span class="line">-n		[ -n &quot;$a&quot; ]，字符串长度不为0，则为真；</span><br><span class="line"></span><br><span class="line"># 文件参数</span><br><span class="line">-e		[ -e file ]，若文件或目录存在，则为真；</span><br><span class="line">-r		[ -r file ]，若文件或目录存在且可读，则为真；</span><br><span class="line">-w		[ -w file ]，若文件或目录存在且可写，则为真；</span><br><span class="line">-x		[ -x file ]，若文件或目录存在且可执行，则为真；</span><br><span class="line">-s		[ -s file ]，若文件或目录存在且至少包含1个字符（注意空目录也是包含字符的），则为真；</span><br><span class="line">-d		[ -d file ]，若存在且是目录，则为真；</span><br><span class="line">-f		[ -f file ]，若存在且是普通文件，则为真；</span><br><span class="line">-c		[ -c file ]，若存在且是字符特殊文件，则为真；</span><br><span class="line">-b		[ -b file ]，若存在且是块特殊文件，则为真；</span><br></pre></td></tr></table></figure>
+
+<h3 id="2）for和while"><a href="#2）for和while" class="headerlink" title="2）for和while"></a>2）for和while</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="keyword">for</span>模板</span></span><br><span class="line">for i in a b c</span><br><span class="line">do</span><br><span class="line">	command</span><br><span class="line">done</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="keyword">while</span>模板</span></span><br><span class="line">while condition</span><br><span class="line">do</span><br><span class="line">	command</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-3-函数"><a href="#8-3-函数" class="headerlink" title="8.3 函数"></a>8.3 函数</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通常只需要用<span class="built_in">echo</span>返回结果的方式，通过<span class="built_in">exit</span>退出函数即可</span></span><br><span class="line">test() &#123;</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">返回方式1（<span class="built_in">echo</span>）</span></span><br><span class="line">	echo &#x27;函数名$0:&#x27;$0</span><br><span class="line">	echo &quot;---&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">返回方式2（<span class="built_in">return</span>），范围0~255的整数</span></span><br><span class="line">	return $(($1 + $2 + $3))</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取函数所有<span class="built_in">echo</span>的结果，结果是以空格隔开</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">res=`<span class="built_in">test</span> 1 4 7`</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取函数<span class="built_in">return</span>的结果，若两者混用，那么结果是所有<span class="built_in">echo</span>结果加<span class="built_in">return</span>结果，用空格隔开</span></span><br><span class="line">res=`test 1 4 7; echo $?`</span><br><span class="line"></span><br><span class="line">echo $res</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="1）git-batch-sh"><a href="#1）git-batch-sh" class="headerlink" title="1）git-batch.sh"></a>1）git-batch.sh</h3><p>批量拉取当前目录下所有工程的最新代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">read -p &quot;Choose 1(status, default) or 2(pull): &quot; opt</span><br><span class="line">if [ &quot;$opt&quot; == &quot;2&quot; ]; then</span><br><span class="line">    opt=&quot;pull&quot;</span><br><span class="line">else</span><br><span class="line">    opt=&quot;status&quot;</span><br><span class="line">fi</span><br><span class="line">for dir in `ls`; do</span><br><span class="line">    if [ -d &quot;$dir&quot; ]; then</span><br><span class="line">        if [ -d &quot;$dir/.git&quot; ]; then</span><br><span class="line">            # -e解释转义字符，\033[背景颜色,字体颜色m字符串xxx\033[0m，表示对字符串xxx使用对应的背景颜色和字体颜色</span><br><span class="line">            echo -e &quot;\033[32m=============================================\033[0m&quot; &amp;&amp; cd &quot;$dir&quot; &amp;&amp; echo -e &quot;\033[35m$dir\033[0m&quot; &amp;&amp; git $opt &amp;&amp; cd ..</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo 按任意键退出</span><br><span class="line">read -n 1</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" rel="prev" title="Redis基础使用">
+                  <i class="fa fa-chevron-left"></i> Redis基础使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/10/Hexo+NexT%E4%B8%BB%E9%A2%98+GitHub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="next" title="Hexo+NexT主题+GitHub搭建博客">
+                  Hexo+NexT主题+GitHub搭建博客 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">133k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>

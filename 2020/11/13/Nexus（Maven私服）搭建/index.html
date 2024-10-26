@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="版本：3.15.2。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nexus（Maven私服）搭建">
+<meta property="og:url" content="https://he-zhifei.github.io/2020/11/13/Nexus%EF%BC%88Maven%E7%A7%81%E6%9C%8D%EF%BC%89%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="版本：3.15.2。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-13T05:07:13.000Z">
+<meta property="article:modified_time" content="2024-05-30T11:27:05.635Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="Nexus">
+<meta property="article:tag" content="Maven私服">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/2020/11/13/Nexus%EF%BC%88Maven%E7%A7%81%E6%9C%8D%EF%BC%89%E6%90%AD%E5%BB%BA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2020/11/13/Nexus%EF%BC%88Maven%E7%A7%81%E6%9C%8D%EF%BC%89%E6%90%AD%E5%BB%BA/","path":"2020/11/13/Nexus（Maven私服）搭建/","title":"Nexus（Maven私服）搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Nexus（Maven私服）搭建 | Zhifei's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%90%AD%E5%BB%BA"><span class="nav-text">1. 搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%87%AA%E5%90%AF%E5%8A%A8"><span class="nav-text">2. 自启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE"><span class="nav-text">3. 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-maven%E4%B8%AD%E7%9A%84settings-xml%E9%85%8D%E7%BD%AE"><span class="nav-text">3.1. maven中的settings.xml配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-%E9%85%8D%E7%BD%AEservers%E5%B1%9E%E6%80%A7"><span class="nav-text">3.1.1 配置servers属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-%E9%85%8D%E7%BD%AEmirrors%E5%B1%9E%E6%80%A7"><span class="nav-text">3.1.2. 配置mirrors属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-%E9%85%8D%E7%BD%AEprofiles%E5%B1%9E%E6%80%A7"><span class="nav-text">3.1.3. 配置profiles属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-4-%E9%85%8D%E7%BD%AEsettings%E5%B1%9E%E6%80%A7"><span class="nav-text">3.1.4. 配置settings属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%B7%A5%E7%A8%8B%E5%8F%91%E5%B8%83%E5%88%B0nexus%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2. 工程发布到nexus配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8"><span class="nav-text">4. 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E4%BB%93%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="nav-text">4.1. 仓库类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E8%A7%92%E8%89%B2%E5%88%9B%E5%BB%BA"><span class="nav-text">4.2. 角色创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-developer%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA"><span class="nav-text">4.3. developer用户创建</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2020/11/13/Nexus%EF%BC%88Maven%E7%A7%81%E6%9C%8D%EF%BC%89%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile-pic.svg">
+      <meta itemprop="name" content="he-zhifei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhifei's Blog">
+      <meta itemprop="description" content="keep it up.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Nexus（Maven私服）搭建 | Zhifei's Blog">
+      <meta itemprop="description" content="版本：3.15.2。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nexus（Maven私服）搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-13 13:07:13" itemprop="dateCreated datePublished" datetime="2020-11-13T13:07:13+08:00">2020-11-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-30 19:27:05" itemprop="dateModified" datetime="2024-05-30T19:27:05+08:00">2024-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Nexus/" itemprop="url" rel="index"><span itemprop="name">Nexus</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>829</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">版本：3.15.2。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-搭建"><a href="#1-搭建" class="headerlink" title="1. 搭建"></a>1. 搭建</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">wget https://sonatype-download.global.ssl.fastly.net/repository/repositoryManager/3/nexus-3.15.2-01-unix.tar.gz</span><br><span class="line">tar -zxvf nexus-3.15.2-01-unix.tar.gz</span><br><span class="line">mv -f nexus-3.15.2-01 /opt</span><br><span class="line">/opt/nexus-3.15.2-01/bin/nexus start</span><br></pre></td></tr></table></figure>
+
+<p>访问：curl <a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081</a></p>
+<p>如要修改端口，修改&#x2F;opt&#x2F;nexus-3.15.2-01&#x2F;etc&#x2F;nexus-default.properties，再重启</p>
+<h1 id="2-自启动"><a href="#2-自启动" class="headerlink" title="2. 自启动"></a>2. 自启动</h1><ul>
+<li>创建软连接</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/nexus-3.15.2-01/bin/nexus /usr/local/bin/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>vim &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;nexus.service，在里面添加如下内容</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nexus service</span><br><span class="line">After=network.target</span><br><span class="line"> </span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line">ExecStart=/opt/nexus-3.15.2-01/bin/nexus start</span><br><span class="line">ExecStop=/opt/nexus-3.15.2-01/bin/nexus stop</span><br><span class="line">User=root</span><br><span class="line">Restart=on-abort</span><br><span class="line"> </span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl enable nexus.service</span><br><span class="line">sudo systemctl start nexus.service</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h1><h2 id="3-1-maven中的settings-xml配置"><a href="#3-1-maven中的settings-xml配置" class="headerlink" title="3.1. maven中的settings.xml配置"></a>3.1. maven中的settings.xml配置</h2><p>一般情况配置第3.1.2即可</p>
+<h3 id="3-1-1-配置servers属性"><a href="#3-1-1-配置servers属性" class="headerlink" title="3.1.1 配置servers属性"></a>3.1.1 配置servers属性</h3><p>假如开发的项目需要作为一个模块供给另外一个项目使用，可以通过此方式配置镜像的密码发布到nexus时需要使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;servers&gt;</span><br><span class="line">	&lt;server&gt;</span><br><span class="line">        &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">        &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">        &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">	&lt;/server&gt;</span><br><span class="line">&lt;/servers&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-2-配置mirrors属性"><a href="#3-1-2-配置mirrors属性" class="headerlink" title="3.1.2. 配置mirrors属性"></a>3.1.2. 配置mirrors属性</h3><p>这里的意思是，拦截所有仓库，并使用这里配置的url上面的仓库进行下载依赖，当这里的url无法下载依赖时，不会使用中央仓库进行依赖的下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirrors&gt;</span><br><span class="line">	&lt;mirror&gt;</span><br><span class="line">		&lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">		&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">		&lt;url&gt;http://192.168.235.130:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">	&lt;/mirror&gt;</span><br><span class="line">&lt;/mirrors&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-3-配置profiles属性"><a href="#3-1-3-配置profiles属性" class="headerlink" title="3.1.3. 配置profiles属性"></a>3.1.3. 配置profiles属性</h3><p>这里对依赖的仓库以及插件的仓库进行配置，与pom中的配置类似，只不过这里是全局配置，pom里面针对的是某一个项目，联合配置3.1.4使用，如果仓库或者插件仓库的id为central（与中央仓库id一致），则会覆盖中央仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;profiles&gt;</span><br><span class="line">	&lt;profile&gt;</span><br><span class="line">		&lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">		&lt;repositories&gt;</span><br><span class="line">			&lt;repository&gt;</span><br><span class="line">				&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">				&lt;url&gt;http://192.168.235.130:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">				&lt;releases&gt;</span><br><span class="line">					&lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">				&lt;/releases&gt;</span><br><span class="line">				&lt;snapshots&gt;</span><br><span class="line">					&lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">				&lt;/snapshots&gt;</span><br><span class="line">			&lt;/repository&gt;</span><br><span class="line">		&lt;/repositories&gt;</span><br><span class="line">		&lt;pluginRepositories&gt;</span><br><span class="line">			&lt;pluginRepository&gt;</span><br><span class="line">				&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">				&lt;url&gt;http://192.168.235.130:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">				&lt;releases&gt;</span><br><span class="line">					&lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">				&lt;/releases&gt;</span><br><span class="line">				&lt;snapshots&gt;</span><br><span class="line">					&lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">				&lt;/snapshots&gt;</span><br><span class="line">			&lt;/pluginRepository&gt;</span><br><span class="line">		&lt;/pluginRepositories&gt;</span><br><span class="line">	&lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-4-配置settings属性"><a href="#3-1-4-配置settings属性" class="headerlink" title="3.1.4. 配置settings属性"></a>3.1.4. 配置settings属性</h3><p>联合配置3.1.3使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">	&lt;activeProfiles&gt;</span><br><span class="line">		&lt;activeProfile&gt;nexus&lt;/activeProfile&gt;        &lt;!--这个id和profile的id一致--&gt;</span><br><span class="line">	&lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-工程发布到nexus配置"><a href="#3-2-工程发布到nexus配置" class="headerlink" title="3.2. 工程发布到nexus配置"></a>3.2. 工程发布到nexus配置</h2><p>配置需要发布（不用发布则不用配置）到nexus的工程的pom.xml，或者可以直接登陆nexus，在界面进行发布</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">	&lt;repository&gt;</span><br><span class="line">		&lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">		&lt;name&gt;Releases&lt;/name&gt;</span><br><span class="line">		&lt;url&gt;http://192.168.235.130:8081/repository/maven-releases/&lt;/url&gt;</span><br><span class="line">	&lt;/repository&gt;</span><br><span class="line">	&lt;snapshotRepository&gt;</span><br><span class="line">		&lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">		&lt;name&gt;Snapshot&lt;/name&gt;</span><br><span class="line">		&lt;url&gt;http://192.168.235.130:8081/repository/maven-snapshots/&lt;/url&gt;</span><br><span class="line">	&lt;/snapshotRepository&gt;</span><br><span class="line">&lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用命令发布（可能存在问题）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn deploy:deploy-file -DgroupId=com.handle -DartifactId=handle-client -Dversion=1.0.0 -Dpackaging=jar -Dfile=C:\Users\He\Desktop\handle-client-9.1.0.jar -Durl=http://192.168.235.130:8081/repository/maven-releases/</span><br><span class="line">-DrepositoryId=maven-releases</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-使用"><a href="#4-使用" class="headerlink" title="4. 使用"></a>4. 使用</h1><h2 id="4-1-仓库类型"><a href="#4-1-仓库类型" class="headerlink" title="4.1. 仓库类型"></a>4.1. 仓库类型</h2><p>proxy: 代理其他仓库，例如：代理阿里的镜像仓库</p>
+<p>hosted: 宿主仓库，用于发布第三方jar，例如使用maven-releases来发布第三方jar</p>
+<p>group: 仓库组，包含其他仓库，例如nexus使用maven-public来包含其他仓库（maven-central&#x2F;maven-releases&#x2F;maven-snapshots&#x2F;自定义仓库），对外通常使用此仓库来下载依赖</p>
+<h2 id="4-2-角色创建"><a href="#4-2-角色创建" class="headerlink" title="4.2. 角色创建"></a>4.2. 角色创建</h2><p>创建developer角色，其权限包括：</p>
+<p>nx-component-upload</p>
+<p>nx-repository-view-maven2-maven-releases-add</p>
+<p>nx-repository-view-maven2-maven-releases-browse</p>
+<p>nx-repository-view-maven2-maven-releases-edit</p>
+<p>nx-repository-view-maven2-maven-releases-read</p>
+<p>nx-repository-view-maven2-maven-snapshots-add</p>
+<p>nx-repository-view-maven2-maven-snapshots-browse</p>
+<p>nx-repository-view-maven2-maven-snapshots-edit</p>
+<p>nx-repository-view-maven2-maven-snapshots-read</p>
+<p>继承nx-anonymous角色的权限</p>
+<h2 id="4-3-developer用户创建"><a href="#4-3-developer用户创建" class="headerlink" title="4.3. developer用户创建"></a>4.3. developer用户创建</h2><p>创建developer角色的用户developer，新建的用户: developer:developer，管理员账户（初始密码）: admin:admin123</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nexus/" rel="tag"># Nexus</a>
+              <a href="/tags/Maven%E7%A7%81%E6%9C%8D/" rel="tag"># Maven私服</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/16/ELK%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" rel="prev" title="ELK基础使用">
+                  <i class="fa fa-chevron-left"></i> ELK基础使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" rel="next" title="Redis基础使用">
+                  Redis基础使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">133k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>

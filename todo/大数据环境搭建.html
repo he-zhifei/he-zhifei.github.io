@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="大数据相关环境搭建，Hadoop&#x2F;ZooKeeper&#x2F;HBase等。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="大数据环境搭建">
+<meta property="og:url" content="https://he-zhifei.github.io/todo/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="大数据相关环境搭建，Hadoop&#x2F;ZooKeeper&#x2F;HBase等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-12T04:08:10.000Z">
+<meta property="article:modified_time" content="2024-05-30T11:27:05.745Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="ZooKeeper">
+<meta property="article:tag" content="HBase">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/todo/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/todo/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html","path":"todo/大数据环境搭建.html","title":"大数据环境搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大数据环境搭建 | Zhifei's Blog
+</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-JDK%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">1. JDK环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop"><span class="nav-text">2. Hadoop</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">2.1 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E6%9C%AC%E5%9C%B0%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E8%B0%83%E8%AF%95%EF%BC%89"><span class="nav-text">2.1.1 本地模式（主要用于调试）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E4%BC%AA%E5%88%86%E5%B8%83%E6%A8%A1%E5%BC%8F"><span class="nav-text">2.1.2 伪分布模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-1-%E5%90%AF%E5%8A%A8HDFS%E5%B9%B6%E4%B8%94%E8%BF%90%E8%A1%8CMapReduce%E7%A8%8B%E5%BA%8F"><span class="nav-text">2.1.2.1 启动HDFS并且运行MapReduce程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-2-%E5%90%AF%E5%8A%A8YARN%E5%B9%B6%E4%B8%94%E8%BF%90%E8%A1%8CMapReduce%E7%A8%8B%E5%BA%8F"><span class="nav-text">2.1.2.2 启动YARN并且运行MapReduce程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">2.1.3 完全分布式配置（重点）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-1-%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-text">2.1.3.1 配置虚拟机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-2-%E7%BB%84%E4%BB%B6%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86"><span class="nav-text">2.1.3.2 组件分配管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-3-%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5"><span class="nav-text">2.1.3.3 配置同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-4-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%B0%83%E6%95%B4"><span class="nav-text">2.1.3.4 配置文件调整</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-5-%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-text">2.1.3.5 格式化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-6-%E6%89%8B%E5%8A%A8%E5%90%AF%E5%8A%A8"><span class="nav-text">2.1.3.6 手动启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-7-%E7%BE%A4%E8%B5%B7%E8%84%9A%E6%9C%AC%E5%90%AF%E5%8A%A8%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">2.1.3.7 群起脚本启动（重点）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E"><span class="nav-text">2.2 详细说明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-ZooKeeper"><span class="nav-text">3. ZooKeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">3.1 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-hosts%E9%85%8D%E7%BD%AE"><span class="nav-text">3.1.1 hosts配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="nav-text">3.1.2 免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-%E4%B8%8B%E8%BD%BD%E5%B9%B6%E8%A7%A3%E5%8E%8B"><span class="nav-text">3.1.3 下载并解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-4-%E9%85%8D%E7%BD%AE"><span class="nav-text">3.1.4 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-5-%E7%9B%B8%E5%85%B3%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-text">3.1.5 相关脚本命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E"><span class="nav-text">3.2 详细说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-%E7%89%B9%E7%82%B9%EF%BC%88%E9%9D%A2%E8%AF%95%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">3.2.1 特点（面试重点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">3.2.2 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E8%A7%A3%E8%AF%BB"><span class="nav-text">3.2.3 配置参数解读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-%E9%80%89%E5%8F%96%E6%9C%BA%E5%88%B6%EF%BC%88%E9%9D%A2%E8%AF%95%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">3.2.4 选取机制（面试重点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-5-%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B"><span class="nav-text">3.2.5 节点类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-6-%E7%9B%91%E5%90%AC%E5%8E%9F%E7%90%86%EF%BC%88%E9%9D%A2%E8%AF%95%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">3.2.6 监听原理（面试重点）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-text">3.3 相关命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-HBase"><span class="nav-text">4. HBase</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">4.1 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E"><span class="nav-text">4.2 详细说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-%E7%89%A9%E7%90%86%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">4.2.1 物理存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">4.2.2 数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-1-Namespace"><span class="nav-text">4.2.2.1 Namespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-2-Region"><span class="nav-text">4.2.2.2 Region</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-3-Row"><span class="nav-text">4.2.2.3 Row</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-4-Column"><span class="nav-text">4.2.2.4 Column</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-5-Timestamp"><span class="nav-text">4.2.2.5 Timestamp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-6-Cell"><span class="nav-text">4.2.2.6 Cell</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">大数据环境搭建
+</h1>
+
+<div class="post-meta-container">
+    <div class="post-description">大数据相关环境搭建，Hadoop/ZooKeeper/HBase等。</div>
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <h1 id="1-JDK环境搭建"><a href="#1-JDK环境搭建" class="headerlink" title="1. JDK环境搭建"></a>1. JDK环境搭建</h1><ul>
+<li><p>版本：jdk-8u201-linux-x64.tar.gz</p>
+</li>
+<li><p>tar -zxvf jdk-8u201-linux-x64.tar.gz -C &#x2F;usr&#x2F;local		解压到&#x2F;usr&#x2F;local下</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile		配置JAVA环境变量</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_201</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile		重新加载配置文件</span><br><span class="line">java -version		查看安装是否成功</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-Hadoop"><a href="#2-Hadoop" class="headerlink" title="2. Hadoop"></a>2. Hadoop</h1><h2 id="2-1-环境搭建"><a href="#2-1-环境搭建" class="headerlink" title="2.1 环境搭建"></a>2.1 环境搭建</h2><ul>
+<li>版本：hadoop-2.9.2, centos7, jdk-8u201</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/module			创建/opt/module目录，存放hadoop</span><br><span class="line">tar -zxvf hadoop-2.9.2.tar.gz -C /opt/module			解压到/opt/module下</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile		配置HADOOP环境变量</span><br><span class="line">export HADOOP_HOME=/opt/module/hadoop-2.9.2</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile		重新加载配置文件</span><br><span class="line">vim etc/hadoop/hadoop-env.sh		配置其下的JAVA_HOME环境变量</span><br><span class="line">hadoop version 查看安装是否成功</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-1-本地模式（主要用于调试）"><a href="#2-1-1-本地模式（主要用于调试）" class="headerlink" title="2.1.1 本地模式（主要用于调试）"></a>2.1.1 本地模式（主要用于调试）</h3><p>1）官方grep案例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">命令均在HADOOP_HOME目录下执行：</span><br><span class="line">mkdir input</span><br><span class="line">cp etc/hadoop/*.xml input</span><br><span class="line">bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &#x27;dfs[a-z.]+&#x27;</span><br><span class="line">cat output/*</span><br></pre></td></tr></table></figure>
+
+<p>2）wordcount案例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令均在HADOOP_HOME目录下执行：</span><br><span class="line">mkdir wcinput</span><br><span class="line">echo &quot;Hello World&quot; &gt;&gt; wcinput/file.txt</span><br><span class="line">echo &quot;Hello My World&quot; &gt;&gt; wcinput/file2.txt</span><br><span class="line">bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount wcinput/ wcoutput</span><br><span class="line">cat wcoutput/*</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-2-伪分布模式"><a href="#2-1-2-伪分布模式" class="headerlink" title="2.1.2 伪分布模式"></a>2.1.2 伪分布模式</h3><h4 id="2-1-2-1-启动HDFS并且运行MapReduce程序"><a href="#2-1-2-1-启动HDFS并且运行MapReduce程序" class="headerlink" title="2.1.2.1 启动HDFS并且运行MapReduce程序"></a>2.1.2.1 启动HDFS并且运行MapReduce程序</h4><p>1）vim etc&#x2F;hadoop&#x2F;core-site.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!--指定HDFS中NameNode的地址--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">		&lt;value&gt;hdfs://hadoop01:9000&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--指定Hadoop运行时产生文件的存储目录--&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">		&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</span><br><span class="line">		&lt;value&gt;/opt/module/hadoop-2.9.2/data/tmp&lt;/value&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2）vim etc&#x2F;hadoop&#x2F;hdfs-site.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3）配置映射关系以及主机名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts		添加配置项192.168.235.130     hadoop01</span><br><span class="line">vim /etc/sysconfig/network		添加配置项HOSTNAME=hadoop01</span><br><span class="line">配置客户端机器（windows）的hosts文件，添加配置项192.168.137.130 hadoop01</span><br></pre></td></tr></table></figure>
+
+<p>4）开启防火墙50070和50075端口（50075端口用于文件下载）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=50070/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=50075/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br></pre></td></tr></table></figure>
+
+<p>5）格式化数据目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format       //格式化数据目录，只能格式化一次，如果格式化多次，导致datanode启动不起来，得删掉数据目录，并且旧数据找不回</span><br></pre></td></tr></table></figure>
+
+<p>6）启动HDFS</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">sbin/start-dfs.sh</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">hadoop-daemon.sh start namenode和hadoop-daemon.sh start datanode</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">启动成功后，通过：[http://hadoop01:50070](http://hadoop01:50070/) 访问</span><br></pre></td></tr></table></figure>
+
+<p>7）停止HDFS</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/stop-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-2-2-启动YARN并且运行MapReduce程序"><a href="#2-1-2-2-启动YARN并且运行MapReduce程序" class="headerlink" title="2.1.2.2 启动YARN并且运行MapReduce程序"></a>2.1.2.2 启动YARN并且运行MapReduce程序</h4><p>1）配置JAVA_HOME</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim etc/hadoop/yarn-env.sh</span><br><span class="line">vim etc/hadoop/mapred-env.sh</span><br></pre></td></tr></table></figure>
+
+<p>2）vim etc&#x2F;hadoop&#x2F;yarn-site.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;hadoop01&lt;/value&gt;  &lt;!--填写自定义的主机名/ip--&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;0.0.0.0:8032&lt;/value&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">         &lt;property&gt;</span><br><span class="line">               &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;0.0.0.0:8030&lt;/value&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">         &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;0.0.0.0:8031&lt;/value&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">         &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;0.0.0.0:8033&lt;/value&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">         &lt;property&gt;</span><br><span class="line">                &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;0.0.0.0:8088&lt;/value&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3）配置mapred-site.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml</span><br></pre></td></tr></table></figure>
+
+<p>vim etc&#x2F;hadoop&#x2F;mapred-site.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;!--配置资源调度器--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>4）启动YARN</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">sbin/start-yarn.sh</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">yarn-daemon.sh start resourcemanager</span><br><span class="line">yarn-daemon.sh start nodemanager</span><br></pre></td></tr></table></figure>
+
+<p>同理，在开放8088端口后，可通过客户端<a href="http://hadoop01:8088访问">http://hadoop01:8088访问</a></p>
+<p>5）使用hdfs和yarn进行wordcount</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put &lt;本地文件&gt; &lt;上传到hdfs系统的位置&gt;		把本地文件上传到hdfs, hadoop df -为hadoop文件系统操作前缀</span><br><span class="line">hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount /wcinput /wcoutput		//这里的输入输出目录均为hdfs系统的目录，不是本地文件系统目录</span><br></pre></td></tr></table></figure>
+
+<p>6）停止YARN</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/stop-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-3-完全分布式配置（重点）"><a href="#2-1-3-完全分布式配置（重点）" class="headerlink" title="2.1.3 完全分布式配置（重点）"></a>2.1.3 完全分布式配置（重点）</h3><h4 id="2-1-3-1-配置虚拟机"><a href="#2-1-3-1-配置虚拟机" class="headerlink" title="2.1.3.1 配置虚拟机"></a>2.1.3.1 配置虚拟机</h4><p>1）分别在三台虚拟机上配置hosts，并设定其静态ip为192.168.235.131、192.168.235.132、192.168.235.133</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts		配置如下内容</span><br><span class="line"></span><br><span class="line">192.168.235.131     hadoop131</span><br><span class="line">192.168.235.132     hadoop132</span><br><span class="line">192.168.235.133     hadoop133</span><br></pre></td></tr></table></figure>
+
+<p>2）分别配置network文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network			分别配置为hadoop131、hadoop132、hadoop133，这里以131配置为例</span><br><span class="line">HOSTNAME=hadoop131</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-2-组件分配管理"><a href="#2-1-3-2-组件分配管理" class="headerlink" title="2.1.3.2 组件分配管理"></a>2.1.3.2 组件分配管理</h4><p>NameNode、ResourceManager、SecondaryNameNode分别占用一台虚拟机</p>
+<p>DataNode和NodeManager组合分别占用三台虚拟机（每台虚拟机一个DataNode和一个NodeManager，共3个DadaNode和3个NodeManager）。</p>
+<p>&#x3D;&#x3D;由于这里资源有限，这里只使用3台虚拟机&#x3D;&#x3D;，所以把DataNode和NodeManager分别穿插到3个虚拟机中，这里131搭建NameNode、132搭建ResourceManager、133搭建SecondaryNameNode</p>
+<h4 id="2-1-3-3-配置同步"><a href="#2-1-3-3-配置同步" class="headerlink" title="2.1.3.3 配置同步"></a>2.1.3.3 配置同步</h4><p>按照伪分布式先配置好一台虚拟机，然后使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -av xxx:/yyy aaa:/bbb		归档复制，这里xxx和aaa是服务器ip，/yyy和/bbb是该服务器下的文件，hadoop复制到每个服务器下</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-4-配置文件调整"><a href="#2-1-3-4-配置文件调整" class="headerlink" title="2.1.3.4 配置文件调整"></a>2.1.3.4 配置文件调整</h4><p>分别需要配置core-site.xml、hdfs-site.xml、mapred-site.xml、yarn-site.xml、hadoop-env.sh、mapred-env.sh、yarn-env.sh</p>
+<p>1）hadoop-env.sh、mapred-env.sh、yarn-env.sh配置JAVA_HOME环境变量</p>
+<p>2）core-site.xml配置，修改HDFS的NameNode地址为hadoop131</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;!--指定HDFS中NameNode的地址--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://hadoop131:9000&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--指定Hadoop运行时产生文件的存储目录--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/opt/module/hadoop-2.9.2/data/tmp&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3）hdfs-site.xml配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;!--指定HDFS副本的数量--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;3&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--指定Hadoop辅助名称节点主机配置--&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.secondary.http-address&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hadoop133:50090&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>4）mapred-site.xml配置不用改，延用伪分布模式的配置</p>
+<p>5）yarn-site.xml配置，修改配置项yarn.resourcemanager.hostname为hadoop132</p>
+<p>6）把修改的配置使用rsync同步到每一台虚拟机上</p>
+<h4 id="2-1-3-5-格式化"><a href="#2-1-3-5-格式化" class="headerlink" title="2.1.3.5 格式化"></a>2.1.3.5 格式化</h4><p>在配置了NameNode的虚拟机（这里是hadoop131）下进行格式化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-6-手动启动"><a href="#2-1-3-6-手动启动" class="headerlink" title="2.1.3.6 手动启动"></a>2.1.3.6 手动启动</h4><p>如果datanode启动不起来，则删掉data，重新格式化，&#x3D;&#x3D;手动启动不常用&#x3D;&#x3D;</p>
+<ul>
+<li>hadoop131运行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start namenode</span><br><span class="line">hadoop-daemon.sh start datanode</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>hadoop132运行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start datanode</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>hadoop133运行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start datanode</span><br><span class="line">hadoop-daemon.sh start secondarynamenode</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-7-群起脚本启动（重点）"><a href="#2-1-3-7-群起脚本启动（重点）" class="headerlink" title="2.1.3.7 群起脚本启动（重点）"></a>2.1.3.7 群起脚本启动（重点）</h4><p>1）配置免密登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa   在每台服务器执行，然后一直回车，生成非对称密钥</span><br><span class="line">ssh-copy-id xxx     这里的xxx为服务器ip地址，把生成的私钥复制到xxx服务器下的~/.ssh/authorized_keys中，这样就实现了生成密钥对的服务器免密登录xxx服务器，在生成密钥对的服务器执行ssh xxx查看是否成功。同理，重复以上步骤，使得hadoop131/hadoop132/hadoop133任意两者都可以免密登录</span><br></pre></td></tr></table></figure>
+
+<p>2）配置从服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim etc/hadoop/slaves		把原本的localhost删掉，添加如下</span><br><span class="line"></span><br><span class="line">hadoop131</span><br><span class="line">hadoop132</span><br><span class="line">hadoop133</span><br></pre></td></tr></table></figure>
+
+<p>3）删掉使用其它启动模式生成的data和logs（每个服务器的都删掉），并同步配置文件到每一个服务器</p>
+<p>4）关闭防火墙</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service   这个只是暂时性关闭，重启失效，并没有关闭自启动</span><br><span class="line"></span><br><span class="line">或：在每个服务器开放50070、50075、8088端口（有问题…...）</span><br></pre></td></tr></table></figure>
+
+<p>5）格式化namenode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在namenode节点的服务器下执行（这里是hadoop131）：</span><br><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+
+<p>（6）启停</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">启动hdfs：</span><br><span class="line">在namenode节点执行start-dfs.sh</span><br><span class="line"></span><br><span class="line">启动yarn：</span><br><span class="line">在resourcemanager节点执行start-yarn.sh</span><br><span class="line"></span><br><span class="line">停止hdfs：</span><br><span class="line">在namenode节点执行stop-dfs.sh</span><br><span class="line"></span><br><span class="line">停止yarn：</span><br><span class="line">在resourcemanager节点执行stop-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-详细说明"><a href="#2-2-详细说明" class="headerlink" title="2.2 详细说明"></a>2.2 详细说明</h2><h1 id="3-ZooKeeper"><a href="#3-ZooKeeper" class="headerlink" title="3. ZooKeeper"></a>3. ZooKeeper</h1><h2 id="3-1-环境搭建"><a href="#3-1-环境搭建" class="headerlink" title="3.1 环境搭建"></a>3.1 环境搭建</h2><ul>
+<li><p>版本：zookeeper.3.4.14</p>
+</li>
+<li><p>依赖：java环境、rsync命令（yum -y install rsync）</p>
+</li>
+</ul>
+<h3 id="3-1-1-hosts配置"><a href="#3-1-1-hosts配置" class="headerlink" title="3.1.1 hosts配置"></a>3.1.1 hosts配置</h3><p>这里使用三台机器，分别在每台机器的&#x2F;etc&#x2F;hosts中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.199.128        zookeeper1</span><br><span class="line">192.168.199.129        zookeeper2</span><br><span class="line">192.168.199.130        zookeeper3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-2-免密登录"><a href="#3-1-2-免密登录" class="headerlink" title="3.1.2 免密登录"></a>3.1.2 免密登录</h3><ul>
+<li>这一步骤可以省略，但是复制时就要输入密码了，不方便后续维护，因而配置免密登录，在各个节点分别执行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa  //一直回车即可</span><br><span class="line">ssh-copy-id zookeeper1</span><br><span class="line">ssh-copy-id zookeeper2</span><br><span class="line">ssh-copy-id zookeeper3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试免密登录是否配置成功，在各个节点分别执行：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh zookeeper1</span><br><span class="line">ssh zookeeper2</span><br><span class="line">ssh zookeeper3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-3-下载并解压"><a href="#3-1-3-下载并解压" class="headerlink" title="3.1.3 下载并解压"></a>3.1.3 下载并解压</h3><p>到官网下载并上传到linux（zookeeper1），这里放在了根目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf ~/zookeeper-3.4.14.tar.gz -C /usr/local/</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-4-配置"><a href="#3-1-4-配置" class="headerlink" title="3.1.4 配置"></a>3.1.4 配置</h3><p>1）配置备份</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/zookeeper-3.4.14/conf/zoo_sample.cfg /usr/local/zookeeper-3.4.14/conf/zoo.cfg		备份，作为配置使用</span><br></pre></td></tr></table></figure>
+
+<p>2）文件配置</p>
+<ul>
+<li>vim &#x2F;usr&#x2F;local&#x2F;zookeeper-3.4.14&#x2F;conf&#x2F;zoo.cfg</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/usr/local/zookeeper-3.4.14/data		存放数据的目录</span><br><span class="line"></span><br><span class="line">#集群配置，这里的1、2、3需要在dataDir目录下创建myid，不同机器的值，分别指定为1、2、3，</span><br><span class="line">#2888为当前服务器与leader服务器交换信息的端口</span><br><span class="line">#3888为选举时，各个服务器之间的通信端口</span><br><span class="line">server.1=zookeeper1:2888:3888</span><br><span class="line">server.2=zookeeper2:2888:3888</span><br><span class="line">server.3=zookeeper3:2888:3888</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>myid文件创建</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/zookeeper-3.4.14/data		data目录创建</span><br><span class="line">vi /usr/local/zookeeper-3.4.14/data/myid		创建myid，指定为1</span><br></pre></td></tr></table></figure>
+
+<p>3）把zk根目录配置到PATH</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile		在最下面添加</span><br><span class="line"></span><br><span class="line">export ZK_HOME=/usr/local/zookeeper-3.4.14</span><br><span class="line">export PATH=$PATH:$ZK_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>4）将上面修改好的配置，同步到zookeeper2、zookeeper3，并修改myid分别为2, 3，对应3.1.4的第2点中的server.[myid]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rsync -av /usr/local/zookeeper-3.4.14 zookeeper2:/usr/local/</span><br><span class="line">rsync -av /usr/local/zookeeper-3.4.14 zookeeper3:/usr/local/</span><br><span class="line">rsync -av /etc/profile zookeeper2:/etc/</span><br><span class="line">rsync -av /etc/profile zookeeper3:/etc/</span><br></pre></td></tr></table></figure>
+
+<p>5）在每台机器分别重新加载&#x2F;etc&#x2F;profile使其生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>6）每台机器均开启2181&#x2F;tcp 2888&#x2F;tcp 3888&#x2F;tcp这些端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=2181/tcp -permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=2888/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=3888/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br><span class="line">firewall-cmd --zone=public --list-ports      //查看开启的端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-5-相关脚本命令"><a href="#3-1-5-相关脚本命令" class="headerlink" title="3.1.5 相关脚本命令"></a>3.1.5 相关脚本命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh [params]		开启、关闭、查看状态，params可选值：start/stop/status</span><br><span class="line">zkCli.sh		连上zk服务端</span><br><span class="line"></span><br><span class="line">启动集群的话，分别在每台机器上启动zk服务端既可，可以通过查看状态来查看每台机器对应的角色：一个leader，其余为follower</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-详细说明"><a href="#3-2-详细说明" class="headerlink" title="3.2 详细说明"></a>3.2 详细说明</h2><h3 id="3-2-1-特点（面试重点）"><a href="#3-2-1-特点（面试重点）" class="headerlink" title="3.2.1 特点（面试重点）"></a>3.2.1 特点（面试重点）</h3><p>1）一个领导者(Leader) ，多个跟随者(Follower) 组成的集群。</p>
+<p>2）集群中只有半数以上节点存活，Zookeeper集群才能正常服务，一个集群至少要有3个节点。</p>
+<p>3）全局数据一致：每个Server保存一- 份相同的数据副本，Client无论连接 到哪个Server，数据都是一致的。</p>
+<p>4）更新请求顺序进行，来自同一个Client的更新请求按其发送顺序依次执行。</p>
+<p>5）数据更新原子性，一次数据更新要么成功，要么失败。</p>
+<p>6）实时性，在一定时间范围内，Client能读到最新数据。</p>
+<h3 id="3-2-2-数据结构"><a href="#3-2-2-数据结构" class="headerlink" title="3.2.2 数据结构"></a>3.2.2 数据结构</h3><p>ZooKeeper数据模型的结构与Unix文件系统很类似,整体上可以看作是一棵树,每个节点称做一个ZNode。每一个ZNode默认能够存储1MB的数据,每个ZNode都可以通过其路径唯一标识。</p>
+<h3 id="3-2-3-配置参数解读"><a href="#3-2-3-配置参数解读" class="headerlink" title="3.2.3 配置参数解读"></a>3.2.3 配置参数解读</h3><p>1）tickTime&#x3D;2000</p>
+<p>通信心跳数，Zookeeper服务器与客户端心跳时间，单位毫秒。Zookeeper使用的基本时间，服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个tickTime时间就会发送一个心跳，时间单位为毫秒。它用于心跳机制，并且设置最小的session超时时间为两倍心跳时间。(session的最小超<br>时时间是2*tickTime)</p>
+<p>2）initLimit &#x3D;10</p>
+<p>LF初始通信时限，集群中的Follower跟随者服务器与Leader领导者服务器之间初始连接时能容忍的最多心跳数( tickTime的数量)，用它来限定集群中的Zookeeper服务器连接到Leader的时限。</p>
+<p>3）syncLimit&#x3D;5</p>
+<p>LF同步通信时限，集群中Leader与Follower之间的最大响应时间单位，假如响应超过syncLimit*tickTime，Leader认为Follwer已宕机， 从服务器列表中删除Follwer。</p>
+<p>4）dataDir</p>
+<p>数据文件目录+数据持久化路径。主要用于保存Zookeeper中的数据。</p>
+<p>5）clientPort &#x3D;2181</p>
+<p>客户端连接端口，监听客户端连接的端口。</p>
+<h3 id="3-2-4-选取机制（面试重点）"><a href="#3-2-4-选取机制（面试重点）" class="headerlink" title="3.2.4 选取机制（面试重点）"></a>3.2.4 选取机制（面试重点）</h3><p>三个核心选举原则：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i.Zookeeper集群中只有超过半数以上的服务器启动，集群才能正常工作；</span><br><span class="line">ii.在集群正常工作之前，myid小的服务器给myid大的服务器投票，直到集群正常工作，选出Leader；</span><br><span class="line">iii.选出Leader之后，之前的服务器状态由Looking改变为Following，以后的服务器都是Follower。</span><br></pre></td></tr></table></figure>
+
+<p>下面以一个简单的例子来说明整个选举的过程：</p>
+<p>假设有五台服务器组成的Zookeeper集群，它们的id从1-5，同时它们都是最新启动的，也就是没有历史数据，在存放数据量这一点上，都是一样的。假设这些服务器从id1-5，依序启动，因为一共5台服务器，只有超过半数以上，即最少启动3台服务器，集群才能正常工作。</p>
+<p>（1）服务器1启动，发起一次选举。</p>
+<pre><code>服务器1投自己一票。此时服务器1票数一票，不够半数以上（3票），选举无法完成；
+服务器1状态保持为LOOKING；
+</code></pre>
+<p>（2）服务器2启动，再发起一次选举。</p>
+<pre><code>服务器1和2分别投自己一票，此时服务器1发现服务器2的id比自己大，更改选票投给服务器2；
+此时服务器1票数0票，服务器2票数2票，不够半数以上（3票），选举无法完成；
+服务器1，2状态保持LOOKING；
+</code></pre>
+<p>（3）服务器3启动，发起一次选举。</p>
+<pre><code>与上面过程一样，服务器1和2先投自己一票，然后因为服务器3id最大，两者更改选票投给为服务器3；
+此次投票结果：服务器1为0票，服务器2为0票，服务器3为3票。此时服务器3的票数已经超过半数（3票），服务器3当选Leader。
+服务器1，2更改状态为FOLLOWING，服务器3更改状态为LEADING；
+</code></pre>
+<p>（4）服务器4启动，发起一次选举。</p>
+<pre><code>此时服务器1，2，3已经不是LOOKING状态，不会更改选票信息。交换选票信息结果：服务器3为3票，服务器4为1票。
+此时服务器4服从多数，更改选票信息为服务器3；
+服务器4并更改状态为FOLLOWING；
+</code></pre>
+<p>（5）服务器5启动，同4一样投票给3，此时服务器3一共5票，服务器5为0票；</p>
+<pre><code>服务器5并更改状态为FOLLOWING；
+</code></pre>
+<p>选取结果：最终Leader是服务器3，状态为LEADING；其余服务器是Follower，状态为FOLLOWING</p>
+<h3 id="3-2-5-节点类型"><a href="#3-2-5-节点类型" class="headerlink" title="3.2.5 节点类型"></a>3.2.5 节点类型</h3><p>持久(Persistent) :客户端和服务器端断开连接后，创建的节点不删除。</p>
+<p>短暂(Ephemeral) :客户端和服务器端断开连接后，创建的节点自己删除。</p>
+<p>1）持久化目录节点</p>
+<p>客户端与Zookeeper断开连接后，该节点依旧存在</p>
+<p>2）持久化顺序编号目录节点</p>
+<p>客户端与Zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号</p>
+<p>说明：创建znode时 设置顺序标识，znode 名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。</p>
+<p>注意：在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。</p>
+<p>3）临时目录节点</p>
+<p>客户端与Zookeeper断开连接后，该节点被删除。</p>
+<p>4）临时顺序编号目录节点</p>
+<p>客户端与Zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号。</p>
+<h3 id="3-2-6-监听原理（面试重点）"><a href="#3-2-6-监听原理（面试重点）" class="headerlink" title="3.2.6 监听原理（面试重点）"></a>3.2.6 监听原理（面试重点）</h3><ol>
+<li>首先要有一个main线程</li>
+<li>在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网络连接通信( connet) , -个负责监听( listener )。</li>
+<li>通过connect线程将注册的监听事件发送给Zookeeper。</li>
+<li>在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中。</li>
+<li>Zookeeper监听到有数据或路径变化,就会将这个消息发送给listener线程。</li>
+<li>listener线程内部调用了process方法。</li>
+</ol>
+<h2 id="3-3-相关命令"><a href="#3-3-相关命令" class="headerlink" title="3.3 相关命令"></a>3.3 相关命令</h2><p>连上zk服务器后，随便输入一个zk不能识别的指令，则可看到以下用法：</p>
+<p>可选参数watch：监控的作用，只监控一次</p>
+<pre><code>ls path [watch]		查看节点下有哪些节点
+ls2 path [watch]	查看节点下有哪些节点（比ls数据详细）
+create [-s] [-e] path data acl		创建节点，默认是持久的持久(persistent)
+    -e(ephemeral，临时，断开连接节点被自动删除)，
+    -s(sequential，带序列号，节点名称自动添加递增的编号)
+get path [watch]	查看节点数据
+set path data [version]		设置节点数据，不能用于创建
+delete path [version]	删除节点
+rmr path	递归删除节点
+history 	查看操作历史
+quit 	退出连接
+
+delquota [-n|-b] path	
+setAcl path acl
+setquota -n|-b val path
+redo cmdno
+printwatches on|off
+sync path
+listquota path
+addauth scheme auth
+getAcl path
+close 
+connect host:port
+</code></pre>
+<blockquote>
+<ul>
+<li>stat path [watch] 指令</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>结果</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cZxid &#x3D; 0x100000005</td>
+<td>节点创建的事务zxid。每次修改ZooKeeper状态都会收到一个zxid形式的时间戳，也就是ZooKeeper事务ID。事务ID是ZooKeeper中所有修改总的次序。每个修改都有唯一的zxid，如果zxid1小于zxid2，那么zxid1在zxid2之前发生。</td>
+</tr>
+<tr>
+<td>ctime &#x3D; Sun Apr 25 10:40:15 CST 2021</td>
+<td>znode被创建的毫秒数(从1970年开始)</td>
+</tr>
+<tr>
+<td>mZxid &#x3D; 0x10000000c</td>
+<td>znode最后修改的zxid</td>
+</tr>
+<tr>
+<td>mtime &#x3D; Sun Apr 25 10:57:54 CST 2021</td>
+<td>znode最后修改的毫秒数(从1970年开始)</td>
+</tr>
+<tr>
+<td>pZxid &#x3D; 0x10000000e</td>
+<td>znode最后更新的子节点zxid</td>
+</tr>
+<tr>
+<td>cversion &#x3D; 4</td>
+<td>znode子节点变化号，每变化一次就自增1</td>
+</tr>
+<tr>
+<td>dataVersion &#x3D; 3</td>
+<td>znode数据变化号，数据每变化一次就自增1（每次更新读取最新的值，可用于实现类似数据库乐观锁功能）</td>
+</tr>
+<tr>
+<td>aclVersion &#x3D; 0</td>
+<td>znode访问控制列表的变化号</td>
+</tr>
+<tr>
+<td>ephemeralOwner &#x3D; 0x0</td>
+<td>如果是临时节点，这个是znode拥有者的session id。如果&#x3D;&#x3D;不是临时节点则是0&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td>dataLength &#x3D; 2</td>
+<td>znode的数据长度</td>
+</tr>
+<tr>
+<td>numChildren &#x3D; 2</td>
+<td>znode子节点数量</td>
+</tr>
+</tbody></table>
+<h1 id="4-HBase"><a href="#4-HBase" class="headerlink" title="4. HBase"></a>4. HBase</h1><h2 id="4-1-环境搭建"><a href="#4-1-环境搭建" class="headerlink" title="4.1 环境搭建"></a>4.1 环境搭建</h2><ul>
+<li><p>版本：</p>
+</li>
+<li><p>依赖：hadoop-2.9.2, zookeeper.3.4.14, centos7, jdk-8u201, rsync命令（yum -y install rsync）</p>
+</li>
+</ul>
+<h2 id="4-2-详细说明"><a href="#4-2-详细说明" class="headerlink" title="4.2 详细说明"></a>4.2 详细说明</h2><h3 id="4-2-1-物理存储结构"><a href="#4-2-1-物理存储结构" class="headerlink" title="4.2.1 物理存储结构"></a>4.2.1 物理存储结构</h3><table>
+<thead>
+<tr>
+<th>Row Key</th>
+<th>Column Family</th>
+<th>Column Qualifier</th>
+<th>Timestamp</th>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rowKey1</td>
+<td>personal_info</td>
+<td>name</td>
+<td>t1</td>
+<td>Put</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>rowKey11</td>
+<td>personal_info</td>
+<td>age</td>
+<td>t2</td>
+<td>Put</td>
+<td>20</td>
+</tr>
+<tr>
+<td>rowKey2</td>
+<td>school_info</td>
+<td>name</td>
+<td>t3</td>
+<td>Put</td>
+<td>清华大学</td>
+</tr>
+</tbody></table>
+<p>注意：rowKey是有序的（字典序，也即按位比较）,且应用服务器与HBase的服务器时间要相同，否则数据可能不一致。</p>
+<h3 id="4-2-2-数据模型"><a href="#4-2-2-数据模型" class="headerlink" title="4.2.2 数据模型"></a>4.2.2 数据模型</h3><h4 id="4-2-2-1-Namespace"><a href="#4-2-2-1-Namespace" class="headerlink" title="4.2.2.1 Namespace"></a>4.2.2.1 Namespace</h4><p>命名空间，类似于关系型数据库的database概念，每个命名空间下有多个表。Hbase有两个自带的命名空间，分别是hbase和default,hbase中存放的是HBase内置的表,default表是用户默认使用的命名空间。</p>
+<h4 id="4-2-2-2-Region"><a href="#4-2-2-2-Region" class="headerlink" title="4.2.2.2 Region"></a>4.2.2.2 Region</h4><p>类似于关系型数据库的表概念。不同的是，HBase 定义表时只需要声明列族即可，不需要声明具体的列。这意味着，往HBase写入数据时，字段可以动态、按需指定。因此，和关系型数据库相比，HBase能够轻松应对字段变更的场景。</p>
+<h4 id="4-2-2-3-Row"><a href="#4-2-2-3-Row" class="headerlink" title="4.2.2.3 Row"></a>4.2.2.3 Row</h4><p>HBase表中的每行数据都由一个RowKey和多个Column (列)组成，数据是按照RowKey的字典顺序存储的，并且查询数据时只能根据RowKey进行检索,所以RowKey的设计十分重要。</p>
+<h4 id="4-2-2-4-Column"><a href="#4-2-2-4-Column" class="headerlink" title="4.2.2.4 Column"></a>4.2.2.4 Column</h4><p>HBase中的每个列都由Column Family (列族)和Column Qualifier (列限定符)进行限定，例如info:name, info:age. 建表时，只需指明列族，而列限定符无需预先定义。</p>
+<h4 id="4-2-2-5-Timestamp"><a href="#4-2-2-5-Timestamp" class="headerlink" title="4.2.2.5 Timestamp"></a>4.2.2.5 Timestamp</h4><p>用于标识数据的不同版本(version) ，每条数据写入时，如果不指定时间戳，系统会自动为其加上该字段，其值为写入HBase的时间。更新数据或者删除数据时，只有时间戳和Type与旧值不一样，其它列（1.1中的列）一样。</p>
+<h4 id="4-2-2-6-Cell"><a href="#4-2-2-6-Cell" class="headerlink" title="4.2.2.6 Cell"></a>4.2.2.6 Cell</h4><p>由{rowKey, column Family: column Qualifier, time Stamp}唯一确定的单元。 cell 中的数据是没有类型的，全部是字节码形式存储。</p>
+
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">133k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.svg">
+  <link rel="mask-icon" href="/images/icon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-material.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
+
+    <meta name="description" content="Redis安装、常用命令、常用数据类型、持久化策略、主从、哨兵、集群模式搭建。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis基础使用">
+<meta property="og:url" content="https://he-zhifei.github.io/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Zhifei&#39;s Blog">
+<meta property="og:description" content="Redis安装、常用命令、常用数据类型、持久化策略、主从、哨兵、集群模式搭建。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-17T07:05:22.000Z">
+<meta property="article:modified_time" content="2024-10-16T00:20:28.111Z">
+<meta property="article:author" content="he-zhifei">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://he-zhifei.github.io/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/","path":"2021/06/17/Redis基础使用/","title":"Redis基础使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis基础使用 | Zhifei's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+  <script type="text/javascript" src="/js/my_js/click_love.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <!-- 粘贴到这里 -->
+  <!--
+  <a target="_blank" rel="noopener" href="https://github.com/he-zhifei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  -->
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zhifei's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85"><span class="nav-text">1. 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%80%9A%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">2. 通用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BA%94%E5%A4%A7%E7%B1%BB%E5%9E%8B-%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BA%94%E7%A7%8D"><span class="nav-text">3. 五大类型(常用的五种)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-String"><span class="nav-text">3.1 String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Hash"><span class="nav-text">3.2 Hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-List"><span class="nav-text">3.3 List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Set"><span class="nav-text">3.4 Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-zset"><span class="nav-text">3.5 zset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5"><span class="nav-text">4. 持久化策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-text">5. 主从复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%88sentinel%EF%BC%89"><span class="nav-text">6. 哨兵模式（sentinel）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E9%9B%86%E7%BE%A4%EF%BC%88%E8%87%B3%E5%B0%91%E8%A6%81%E6%9C%893%E4%B8%AA%E4%B8%BB%E8%8A%82%E7%82%B9%EF%BC%89"><span class="nav-text">7. 集群（至少要有3个主节点）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E9%99%84%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%88sentinel-%E9%9B%86%E7%BE%A4%EF%BC%89"><span class="nav-text">8. 附件配置文件（sentinel&#x2F;集群）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="he-zhifei"
+      src="/images/profile-pic.svg">
+  <p class="site-author-name" itemprop="name">he-zhifei</p>
+  <div class="site-description" itemprop="description">keep it up.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/he-zhifei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;he-zhifei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:he-zhifei@foxmail.com" title="E-Mail → mailto:he-zhifei@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://example.com/" title="https:&#x2F;&#x2F;example.com" rel="noopener" target="_blank">友情链接</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/he-zhifei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2021/06/17/Redis%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile-pic.svg">
+      <meta itemprop="name" content="he-zhifei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhifei's Blog">
+      <meta itemprop="description" content="keep it up.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis基础使用 | Zhifei's Blog">
+      <meta itemprop="description" content="Redis安装、常用命令、常用数据类型、持久化策略、主从、哨兵、集群模式搭建。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis基础使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-17 15:05:22" itemprop="dateCreated datePublished" datetime="2021-06-17T15:05:22+08:00">2021-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-16 08:20:28" itemprop="dateModified" datetime="2024-10-16T08:20:28+08:00">2024-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Redis安装、常用命令、常用数据类型、持久化策略、主从、哨兵、集群模式搭建。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.0.tar.gz</span><br><span class="line">tar -zxvf redis-5.0.0.tar.gz</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">//如果提示缺失cc，执行：</span><br><span class="line">yum -y install gcc gcc-c++ libstdc++-devel</span><br><span class="line">yum -y install centos-release-scl</span><br><span class="line">yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils</span><br><span class="line">scl enable devtoolset-9 bash</span><br><span class="line"></span><br><span class="line">make PREFIX=/usr/local/redis install</span><br><span class="line">cp redis.conf /usr/local/redis/        //把解压包下的redis.conf复制到/usr/local/redis/下</span><br><span class="line"></span><br><span class="line">把redis的bin配置到profile下是的可以在任何目录下直接输入redis相关命令 （非必须）</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-通用命令"><a href="#2-通用命令" class="headerlink" title="2. 通用命令"></a>2. 通用命令</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">key为String，value有五种类型：String,Hash,List,Set,ZSet(有序的Set)，端口默认：6379</span><br><span class="line"></span><br><span class="line">flushdb		清空当前数据库</span><br><span class="line">flushall	清空所有数据库</span><br><span class="line">keys pattern		查询redis里与其匹配的所有key，pattern中*代表任意个任意字符，?代表一个任意字符</span><br><span class="line">del key		删除key</span><br><span class="line">exists key		判断key是否存在</span><br><span class="line">rename key1 key2		把key1改名为key2</span><br><span class="line">type key	获取值的类型</span><br><span class="line">expire key seconds		设置过期时间为seconds秒</span><br><span class="line">ttl key		查看过期时间，若为-1，则长期保存，若为-2，则已过期被redis删除</span><br><span class="line">dbsize		返回数据库key的数目</span><br><span class="line">info		查看redis的信息</span><br><span class="line">quit		退出，相当于ctrl+c</span><br><span class="line">ping		查看是否跟服务器连通</span><br><span class="line">select 0	切换到0号数据库，可以0-15</span><br><span class="line">move key [0-15]		key的移植，把当前数据库的key移植到其它数据库</span><br><span class="line"></span><br><span class="line">消息订阅：</span><br><span class="line">subscribe channel		订阅频道channel</span><br><span class="line">psubscribe channel*		订阅以channel开头的频道</span><br><span class="line">publish channel content 往频道channel发布content消息</span><br><span class="line"></span><br><span class="line">事务（其实是批量化操作）：</span><br><span class="line">multi		开启事务，begin transaction</span><br><span class="line">exec		执行，commit</span><br><span class="line">discard		回滚，rollback</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li><p>前端启动不能集群，修改redis.conf里面的daemonize为yes进行后端启动才能支持集群，后端启动：.&#x2F;bin&#x2F;redis-server .&#x2F;redis.conf，关闭：.&#x2F;bin&#x2F;redis-cli shutdown</p>
+</li>
+<li><p>使用redis进行远程连接时，需要注释：bind 127.0.0.1以及把保护模式protected-mode设为no</p>
+</li>
+</ol>
+<h1 id="3-五大类型-常用的五种"><a href="#3-五大类型-常用的五种" class="headerlink" title="3. 五大类型(常用的五种)"></a>3. 五大类型(常用的五种)</h1><h2 id="3-1-String"><a href="#3-1-String" class="headerlink" title="3.1 String"></a>3.1 String</h2><ul>
+<li>主要用途：存储字符串（json字符串）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">set key value		设置、修改值</span><br><span class="line">get key		获取值</span><br><span class="line">del key		删除值，返回删除的键值对的个数</span><br><span class="line">getset key value	先获取值，再设置新的值</span><br><span class="line">append key value	若key不存在，则给key设定一个value，如果存在则在原来value上追加value</span><br><span class="line"></span><br><span class="line">当字符串为数值时：</span><br><span class="line">incr num1	相当于++num1</span><br><span class="line">decr num1	相当于 --num1</span><br><span class="line">incrby num1 10		返回num1+10</span><br><span class="line">decrby num1 10		返回num1-10</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-Hash"><a href="#3-2-Hash" class="headerlink" title="3.2 Hash"></a>3.2 Hash</h2><ul>
+<li>主要用途：方便存JavaBean</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hset key field value	设置key的field值为value</span><br><span class="line">hget key field		获取key的field的值</span><br><span class="line">hdel key field		删除key的field</span><br><span class="line">hgetall key			获取key所有field以及它的值，格式为f1换行v1，f2换行v2</span><br><span class="line">hmset key field1 value1 field2 value2		设置key的多个field对应的值</span><br><span class="line">hmget key field1 field2		获取key的field1,field2的值</span><br><span class="line">del key		删除整个key</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拓展：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexists key field		判断key里是否存在field</span><br><span class="line">hlen key		返回key里面field的数目</span><br><span class="line">hvals key		返回key里所有field的值</span><br><span class="line">hkeys key		返回key里所有的field名</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-List"><a href="#3-3-List" class="headerlink" title="3.3 List"></a>3.3 List</h2><ul>
+<li>主要用途：大数据的增删、任务队列</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lpush key value1 value2		从链表左边依次添加，结果为value2 value1</span><br><span class="line">rpush key value1 value2		从链表右边依次添加，结果为value1 value2</span><br><span class="line">lrange key start end		获取列表元素，非负数从左开始，负数从右开始，lrange key 0 -1获取所有元素</span><br><span class="line">lpop key	删除左侧元素，返回删除元素的值</span><br><span class="line">rpop key	删除右侧元素，返回删除元素的值</span><br><span class="line">llen key	获取list的长度</span><br><span class="line">rpoplpush source destination	把source右测的元素删除，并把它添加到destination的左测，做任务队列</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拓展（效率不高）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lrem key count value	当count=0时，删除所有的value，当count&gt;0时，从左往右删除count个value，当count&lt;0时，从右往左删除count个value</span><br><span class="line">lset key index value	把下标为index位置的元素设置为value</span><br><span class="line">linsert key before|after pivot value	在元素pivot前或者后插入值为value的元素</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-Set"><a href="#3-4-Set" class="headerlink" title="3.4 Set"></a>3.4 Set</h2><ul>
+<li>主要用途：做交集、并集、差集等操作、无序不可重复</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sadd key member1 [member2 ...]		往key中添加元素</span><br><span class="line">srem key member1 [member2 ...]		删除key中的元素</span><br><span class="line">smembers key		获取key的所有元素</span><br><span class="line">sismember key member		判断key中是否存在member</span><br><span class="line">scard key		获取key元素个数</span><br><span class="line">sdiff key1 key2		属于key1不属于key2</span><br><span class="line">sinter key1 key2		key1和key2交集</span><br><span class="line">sunion key1 key2		key1和key2并集</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拓展</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sdiffstore destination key1 key2		属于key1不属于key2的元素，并存于destination中</span><br><span class="line">sinterstroe destnation key1 key2		获取key1和key2交集，并存于destination中</span><br><span class="line">sunionstroe destination key1 key2		获取key1和key2并集，并存于destination中</span><br><span class="line">srandmember key [count]			从key中获取count个随机元素，count可以省略，默认获取一个</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-zset"><a href="#3-5-zset" class="headerlink" title="3.5 zset"></a>3.5 zset</h2><ul>
+<li>主要用途：做排行榜</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">zadd key score1 member1 [score2 member2 ...]		添加元素，并赋值分数，默认从小到大排序</span><br><span class="line">zrem key member1 [member2...]		删除元素</span><br><span class="line">zrange key start stop [withscores]		获取start到stop的元素，分数由小到大排序</span><br><span class="line">zrevrange key start stop [withscores]		获取start到stop的元素，分数由大到小排序</span><br><span class="line">zscore key member		获取member的score</span><br><span class="line">zcard key		获取key元素个数</span><br><span class="line">zremrangebyrank key start stop		按照排名进行范围删除</span><br><span class="line">zremrangebyscore key min max		按照分数进行范围删除</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拓展</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zrangebyscore key min max [withscore] [limit offset count]		返回分数在min与max之间的元素，从offset开始，共count个，分数由低到高排序</span><br><span class="line">zrevrangebyscore key max min [withscore] [limit offset count]		返回分数在min与max之间的元素，从offset开始，共count个，分数由高到低排序</span><br><span class="line">zincrby key incrememt member		为成员member增加incrememt分</span><br><span class="line">zcount key min max		获取分数在min,max之间的成员个数</span><br><span class="line">zrank key member		返回成员在集合中的排名，分数由低到高</span><br><span class="line">zrevrank key member		返回成员在集合中的排名，分数由高到低</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-持久化策略"><a href="#4-持久化策略" class="headerlink" title="4. 持久化策略"></a>4. 持久化策略</h1><ol>
+<li>RDB（默认，内存充裕推荐使用，快照为dump.rdb）</li>
+</ol>
+<blockquote>
+<p>优点：备份，还原速度快，高效，相当于照快照，适合灾难备份</p>
+<p>缺点：启动RDB策略有一定规则，可能随时启动，会占用较大内存</p>
+<p>启动条件：</p>
+<p>​     1.正常关闭，.&#x2F;redis&#x2F;bin&#x2F;redis-cli shutdown</p>
+<p>​     2.配置文件的：</p>
+<p>​          save 900 1    15分钟至少有1个key发生改变</p>
+<p>​          save 300 10   5分钟至少有10个key发生改变</p>
+<p>​          save 60 10000 1分钟至少有10000个key发生改变</p>
+</blockquote>
+<ol start="2">
+<li>AOF（通过日志记录改变key的语句来备份，备份文件appendonly.aof）</li>
+</ol>
+<blockquote>
+<p>优点：持续占用很小的内存来运行备份程序</p>
+<p>缺点：日志文件比较大，不适合灾难备份</p>
+<p>备份策略：每秒备份（默认，不安全 ）、每修改备份（建议使用）、不备份</p>
+<p>改appendonly为yes</p>
+</blockquote>
+<h1 id="5-主从复制"><a href="#5-主从复制" class="headerlink" title="5. 主从复制"></a>5. 主从复制</h1><ul>
+<li>这里以1个master，2个slave为例（主服务器负责写，从服务器只能读），新建配置6379.conf：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile /var/run/redis_6379.pid</span><br><span class="line">port 6379</span><br><span class="line">dbfilename dump6379.rdb</span><br><span class="line">appendonly no</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>复制多两份分别为6380.conf，6381.conf，并通过：%s&#x2F;6379&#x2F;6380和%s&#x2F;6379&#x2F;6381分别把内容中的6379替换为6380和6381：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 分别启动这三个配置文件</span><br><span class="line">redis-server 6379.conf</span><br><span class="line">redis-server 6380.conf</span><br><span class="line">redis-server 6381.conf</span><br><span class="line"></span><br><span class="line">redis-cli -h 127.0.0.1 -p 6380		// 分别连上6380和6381这两个redis，并执行slaveof命令</span><br><span class="line"></span><br><span class="line">slaveof 127.0.0.1 6379  // 表示6380和6381均以6379作为主服务器</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>相关命令</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">info replication     //查看节点信息</span><br><span class="line"></span><br><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;      //设置当前节点的主节点，从服务器可以作为下一个从服务器的主服务器，但是中间节点宕机的话，前后节点就没关联了，但是前面节点宕机的话，还有后面的节点可以做写入操作</span><br><span class="line"></span><br><span class="line">slaveof no one     //去掉主服务器（当前服务器为主服务器）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>缺点</li>
+</ul>
+<ol>
+<li><p>主服务器宕机后，只能进行读取操作</p>
+</li>
+<li><p>每次重启都得重新去建立主从节点的关系</p>
+</li>
+</ol>
+<h1 id="6-哨兵模式（sentinel）"><a href="#6-哨兵模式（sentinel）" class="headerlink" title="6. 哨兵模式（sentinel）"></a>6. 哨兵模式（sentinel）</h1><ul>
+<li>一主二从三哨兵（建立在主从模式的基础上，因此也需要用slaveof先设定好主从的关系），新建sentinel.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 1  #mymaster为哨兵服务的名字，1代表多少个哨兵认为主服务器宕机才算宕机，一般为基数</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动哨兵</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel sentinel.conf</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>优点：解决了主从复制的宕机后，只能读取的问题，且重启后，不需要手动确定主从关系（所哨兵都宕机除外）</li>
+<li>主服务器宕机后，主节点的选取机制：<ul>
+<li><p>不需要所有哨兵一起选举，只需要选举出一个Leader哨兵，由Leader哨兵再选举出主节点即可，选举Leader哨兵的方法（raft算法）：</p>
+<ul>
+<li>按照“先下手为强”的本质，每个哨兵每一轮都只有1票，每个哨兵分别为自己拉票，通常是最先发现主节点宕机的哨兵先发起拉票，票数超一半则选举结束，成为Leader哨兵，否则进入第二轮选举，所以通常哨兵个数为奇数。</li>
+</ul>
+</li>
+<li><p>Leader哨兵选举主节点的规则（优先级 &gt; offset &gt; run id）：</p>
+<ul>
+<li>优先级最高的，配置文件中slave-priority的值较小的，默认情况下都相同；</li>
+<li>偏移量offset最大的，代表从主节点同步的进度，越大代表数据量越接近主节点；</li>
+<li>run id最小的，每个redis实例启动后都会随机生成一个40位的run id；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="7-集群（至少要有3个主节点）"><a href="#7-集群（至少要有3个主节点）" class="headerlink" title="7. 集群（至少要有3个主节点）"></a>7. 集群（至少要有3个主节点）</h1><p>主从复制降低读写压力，集群降低内存压力，假设整个集群共N个节点，则每个节点存储1&#x2F;N的数据。尽量保证各个主节点不在同一个机器上，主节点和从节点也不在一个机器上。</p>
+<p>1）ruby环境的安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install ruby</span><br><span class="line">yum install rubygems</span><br></pre></td></tr></table></figure>
+
+<p>2）在主从模式的基础上，复制多三个配置文件6389.conf、6390.conf、6391.conf，共六个配置文件：6379.conf、6380.conf、6381.conf、6389.conf、6390.conf、6391.conf，</p>
+<ul>
+<li>分别增加</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cluster-enabled yes     #开启集群模式</span><br><span class="line">cluster-config-file nodes-6379.conf		#设定节点配置文件名，每个节点不一样</span><br><span class="line">cluster-node-timeout 15000       #设定节点失联时间，超过（ms），集群自动主从切换</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>单独修改</li>
+</ul>
+<ol>
+<li>单独修改对应的pidfile、port、dbfilename、cluster-config-file</li>
+<li>注释redis.conf中的bind 127.0.0.1和保护模式设为no，protected-mode no</li>
+</ol>
+<p>3）分别启动这六个节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-server 6379.conf</span><br><span class="line">redis-server 6380.conf</span><br><span class="line">redis-server 6381.conf</span><br><span class="line">redis-server 6389.conf</span><br><span class="line">redis-server 6390.conf</span><br><span class="line">redis-server 6391.conf</span><br></pre></td></tr></table></figure>
+
+<p>4）6个节点合为一个集群：</p>
+<p>旧版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd redis-xxx/src</span><br><span class="line"></span><br><span class="line">./redis-trib.rb create --replicas 1 192.168.199.140:6379 192.168.199.140:6380 192.168.199.140:6381 192.168.199.140:6389 192.168.199.140:6390 192.168.199.140:6391</span><br></pre></td></tr></table></figure>
+
+<p>新版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --cluster create 192.168.199.140:6379 192.168.199.140:6380 192.168.199.140:6381 192.168.199.140:6389 192.168.199.140:6390 192.168.199.140:6391 --cluster-replicas 1</span><br></pre></td></tr></table></figure>
+
+<p>这里的1为一个主节点有一个分片，这里的则为三主三从，需要写真实ip，不要写127.0.0.1，输入yes，有0-16383个插槽，共16384个，分布在各个主节点上，同时从节点有对应主节点的所有数据，数据具体插入到哪个节点上，由CRC(16)算法而得。</p>
+<p>5）以集群方式进入redis</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -p 任意一个节点的端口</span><br><span class="line">可通过set key&#123;分组名&#125; value 指定到同一个分组，同一个分组在同一个插槽上，不能使用mget/mset</span><br><span class="line">cluster nodes  //查看集群信息</span><br><span class="line">CLUSTER KEYSLOT k1    //计算k1应该放在哪个插槽上</span><br><span class="line">CLUSTER COUNTKEYSINSLOT 12706    //返回插槽12706包含的键值对数量</span><br><span class="line">CLUSTER GETKEYSINSLOT 12706 1     //返回插槽12706包含的1个键值对的键</span><br></pre></td></tr></table></figure>
+
+<p>6）要点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.主节点下线，从节点升为主节点；</span><br><span class="line"></span><br><span class="line">2.主节点重新上线，不会再次变为主节点，而是仍旧为从节点；</span><br><span class="line"></span><br><span class="line">3.某一段插槽的主从节点都宕机，redis默认不能使用，需要配置</span><br><span class="line">cluster-require-full-coverage no   //表示不需要16384个插槽都能正常时也对外提供服务</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-附件配置文件（sentinel-集群）"><a href="#8-附件配置文件（sentinel-集群）" class="headerlink" title="8. 附件配置文件（sentinel&#x2F;集群）"></a>8. 附件配置文件（sentinel&#x2F;集群）</h1><ul>
+<li>sentinel.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6380 1</span><br><span class="line"># Generated by CONFIG REWRITE</span><br><span class="line">protected-mode no</span><br><span class="line">port 26379</span><br><span class="line">user default on nopass ~* &amp;* +@all</span><br><span class="line">dir &quot;/usr/local/redis/conf&quot;</span><br><span class="line">sentinel myid c1bfe814b8700e48fa87d43c44582260d4afc002</span><br><span class="line">sentinel config-epoch mymaster 1</span><br><span class="line">sentinel leader-epoch mymaster 2</span><br><span class="line">sentinel current-epoch 2</span><br><span class="line">sentinel known-replica mymaster 127.0.0.1 6379</span><br><span class="line">sentinel known-replica mymaster 127.0.0.1 6381</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6379.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6379.pid&quot;</span><br><span class="line">port 6379</span><br><span class="line">dbfilename &quot;dump6379.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-6379.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6380.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6380.pid&quot;</span><br><span class="line">port 6380</span><br><span class="line">dbfilename &quot;dump6380.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes             </span><br><span class="line">cluster-config-file nodes-6380.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6381.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6381.pid&quot;</span><br><span class="line">port 6381</span><br><span class="line">dbfilename &quot;dump6381.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes             </span><br><span class="line">cluster-config-file nodes-6381.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6389.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6389.pid&quot;</span><br><span class="line">port 6389</span><br><span class="line">dbfilename &quot;dump6389.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-6389.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6390.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6390.pid&quot;</span><br><span class="line">port 6390</span><br><span class="line">dbfilename &quot;dump6390.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-6390.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6391.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">include /usr/local/redis/conf/redis.conf</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &quot;/var/run/redis_6391.pid&quot;</span><br><span class="line">port 6391</span><br><span class="line">dbfilename &quot;dump6391.rdb&quot;</span><br><span class="line">appendonly no</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-6391.conf</span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/13/Nexus%EF%BC%88Maven%E7%A7%81%E6%9C%8D%EF%BC%89%E6%90%AD%E5%BB%BA/" rel="prev" title="Nexus（Maven私服）搭建">
+                  <i class="fa fa-chevron-left"></i> Nexus（Maven私服）搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/26/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4(CentOS)/" rel="next" title="Linux常用命令(CentOS)">
+                  Linux常用命令(CentOS) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">he-zhifei</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">133k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span>总访客量</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span>总访问量</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/my_js/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/next-boot.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/search/local-search.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/pace.min.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"he-zhifei/blog-comments","issue_term":"pathname","theme":"github-light"}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/third-party/comments/utterances.min.js"></script>
+
+</body>
+</html>
