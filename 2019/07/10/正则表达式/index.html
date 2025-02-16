@@ -22,28 +22,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"he-zhifei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.11.0/config.min.js"></script>
 
-    <meta name="description" content="字符含义  12345678910111213+表示前面的字符重复至少1次，相当于&#123;1,&#125;，*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;通过在*或者+后面加上?，从贪心变成非贪心^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用^代表非的意思，">
+    <meta name="description" content="字符含义1234567891011121314151617181920?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;+表示前面的字符重复至少1次，相当于&#123;1,&#125;*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，在*或者+后面加上?，从贪心变成非贪心^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="正则表达式案例">
-<meta property="og:url" content="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A1%88%E4%BE%8B/index.html">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Zhifei&#39;s Blog">
-<meta property="og:description" content="字符含义  12345678910111213+表示前面的字符重复至少1次，相当于&#123;1,&#125;，*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;通过在*或者+后面加上?，从贪心变成非贪心^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用^代表非的意思，">
+<meta property="og:description" content="字符含义1234567891011121314151617181920?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;+表示前面的字符重复至少1次，相当于&#123;1,&#125;*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，在*或者+后面加上?，从贪心变成非贪心^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-07-10T03:05:13.000Z">
-<meta property="article:modified_time" content="2024-05-30T11:27:05.635Z">
+<meta property="article:modified_time" content="2025-02-16T07:24:28.076Z">
 <meta property="article:author" content="he-zhifei">
 <meta property="article:tag" content="正则表达式">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A1%88%E4%BE%8B/">
+<link rel="canonical" href="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A1%88%E4%BE%8B/","path":"2019/07/10/正则表达式案例/","title":"正则表达式案例"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/","path":"2019/07/10/正则表达式/","title":"正则表达式"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>正则表达式案例 | Zhifei's Blog</title>
+<title>正则表达式 | Zhifei's Blog</title>
   
 
 
@@ -140,7 +140,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -153,6 +153,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%90%AB%E4%B9%89"><span class="nav-text">字符含义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%9E%BB%E5%90%8E%E9%A1%BE"><span class="nav-text">前瞻后顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99"><span class="nav-text">常用正则</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -237,7 +238,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A1%88%E4%BE%8B/">
+    <link itemprop="mainEntityOfPage" href="https://he-zhifei.github.io/2019/07/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile-pic.svg">
@@ -250,12 +251,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="正则表达式案例 | Zhifei's Blog">
+      <meta itemprop="name" content="正则表达式 | Zhifei's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          正则表达式案例
+          正则表达式
         </h1>
 
         <div class="post-meta-container">
@@ -273,7 +274,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-30 19:27:05" itemprop="dateModified" datetime="2024-05-30T19:27:05+08:00">2024-05-30</time>
+      <time title="修改时间：2025-02-16 15:24:28" itemprop="dateModified" datetime="2025-02-16T15:24:28+08:00">2025-02-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -299,14 +300,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>595</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -317,25 +318,50 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <ul>
-<li>字符含义</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+表示前面的字符重复至少1次，相当于&#123;1,&#125;，*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;</span><br><span class="line"></span><br><span class="line">通过在*或者+后面加上?，从贪心变成非贪心</span><br><span class="line"></span><br><span class="line">^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用^代表非的意思，例如：[^abc]表示匹配abc以外的字符</span><br><span class="line"></span><br><span class="line">\b表示匹配单词边界中的字符，\B匹配非边界字符，例如：\bHel，表示匹配以Hel开头的单词中的Hel，Hel\b，表示以Hel结尾的单词中的Hel</span><br><span class="line"></span><br><span class="line">\n换行符，\r回车符，\f换页符，\t制表符，\d数字，\D非数字，\s任何空白字符，\S任何非空白字符，\w数字、字母、下划线，\W非数字、字母、下划线</span><br><span class="line"></span><br><span class="line">\1表示前面第一个()里面的表达式，例如：(abc)\1匹配abcabc</span><br><span class="line"></span><br><span class="line">|在括号内使用代表匹配其中一个，例如(a|b|c)等效于[abc]</span><br></pre></td></tr></table></figure>
+        <h1 id="字符含义"><a href="#字符含义" class="headerlink" title="字符含义"></a>字符含义</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">?表示前面的字符重复0次或1次，相当于&#123;0,1&#125;</span><br><span class="line">+表示前面的字符重复至少1次，相当于&#123;1,&#125;</span><br><span class="line">*表示前面的字符重复0次或多次，相当于&#123;0,&#125;，在*或者+后面加上?，从贪心变成非贪心</span><br><span class="line">^以什么开头，$以什么结尾，例如：^[0-9]+$表示以数字开始也以数字结尾，在方括号中使用^代表非的意思，例如：[^abc]表示匹配abc以外的字符</span><br><span class="line">|在括号内使用代表匹配其中一个，例如(a|b|c)等效于[abc]</span><br><span class="line"></span><br><span class="line">\b表示匹配单词边界中的字符，例如：\bHel，表示匹配以Hel开头的单词中的Hel，Hel\b，表示以Hel结尾的单词中的Hel</span><br><span class="line">\B匹配非边界字符</span><br><span class="line">\n换行符</span><br><span class="line">\r回车符</span><br><span class="line">\f换页符</span><br><span class="line">\t制表符</span><br><span class="line">\d数字</span><br><span class="line">\D非数字</span><br><span class="line">\s任何空白字符</span><br><span class="line">\S任何非空白字符</span><br><span class="line">\w数字、字母、下划线</span><br><span class="line">\W非数字、字母、下划线</span><br><span class="line"></span><br><span class="line">\1表示前面第一个()里面的表达式，例如：(abc)\1匹配abcabc</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>例子</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$        //非负整数</span><br><span class="line"></span><br><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$       //邮箱</span><br><span class="line"></span><br><span class="line">(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)         //匹配url，http://www.runoob.com:80/html/html-tutorial.html</span><br><span class="line"></span><br><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)         //身份证号</span><br><span class="line"></span><br><span class="line">[1-9][0-9]&#123;4,&#125;       //腾讯QQ号从10000开始</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>?&#x3D;、?&lt;&#x3D;、?!、?&lt;!</li>
-</ul>
+<h1 id="前瞻后顾"><a href="#前瞻后顾" class="headerlink" title="前瞻后顾"></a>前瞻后顾</h1><p>?&#x3D;、?&lt;&#x3D;、?!、?&lt;!</p>
 <p>exp1(?&#x3D;exp2) 	&#x2F;&#x2F; 前瞻，查找exp2前面的exp1<br>(?&lt;&#x3D;exp2)exp1 	&#x2F;&#x2F; 后顾，查找exp2后面的exp1<br>exp1(?!exp2) 	&#x2F;&#x2F;负前瞻，查找后面不是exp2的exp1<br>(?&lt;!exp2)exp1 	&#x2F;&#x2F;负后顾，查找前面不是exp2的exp1</p>
 <p>案例一：中国人 俄国人 法国人 德国人</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">匹配法国人的国字：(?&lt;=法)国(?=人)</span><br><span class="line">匹配除了法国人的其它国字：(?&lt;!法)国|国(?!人)</span><br></pre></td></tr></table></figure>
 
 <p>案例二：北京市(朝阳区)(西城区)(海淀区)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">匹配北京市：</span><br><span class="line"></span><br><span class="line">public class ProvinceMatcher &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String str = &quot;北京市(朝阳区)(西城区)(海淀区)&quot;;</span><br><span class="line">        Pattern p = Pattern.compile(&quot;[^()]+?(?=\\()&quot;);  //匹配北京市</span><br><span class="line">        Matcher m = p.matcher(str);</span><br><span class="line">//        m.groupCount();     //正则表达式有几个分组</span><br><span class="line">//        m.matches();     //只有整体匹配才返回true</span><br><span class="line">//        m.lookingAt();      //匹配开头部分</span><br><span class="line">//        m.find();       //部分匹配，匹配到的字符串可以在任何位置</span><br><span class="line">        while(m.find()) &#123;</span><br><span class="line">//            start、end、group均可加一个参数，代表的是第几组匹配的字符串的下标</span><br><span class="line">//            m.start();      //获取匹配字符串开始的下标</span><br><span class="line">//            m.end();       //获取匹配字符串结束+1的下标</span><br><span class="line">//            m.group();  //获取匹配的字符串</span><br><span class="line">            System.out.println(m.group());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="常用正则"><a href="#常用正则" class="headerlink" title="常用正则"></a>常用正则</h1><ul>
+<li>非负整数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>[0-N]的数字规律，以N为65535为例（最大为5位数）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1位数字：(0|[1-9])</span><br><span class="line">2位数字：[1-9][0-9]&#123;1&#125;</span><br><span class="line">3位数字：[1-9][0-9]&#123;2&#125;</span><br><span class="line">4位数字：[1-9][0-9]&#123;3&#125;</span><br><span class="line">5位数字：</span><br><span class="line"> - 以[1-5]开头：[1-5][0-9]&#123;4&#125;</span><br><span class="line"> - 以6[0-4]开头：6[0-4][0-9]&#123;3&#125;</span><br><span class="line"> - 以65[0-4]开头：65[0-4][0-9]&#123;2&#125;</span><br><span class="line"> - 以655[0-2]开头：655[0-2][0-9]&#123;1&#125;，&#123;1&#125;可省略</span><br><span class="line"> - 最后，6553[0-5]</span><br><span class="line"></span><br><span class="line">1-4位数字：(0|[1-9][0-9]&#123;0,3&#125;)；</span><br><span class="line">最大位数（这里为5）：([1-5][0-9]&#123;4&#125;|6[0-4][0-9]&#123;3&#125;|65[0-4][0-9]&#123;2&#125;|655[0-2][0-9]|6553[0-5])；</span><br><span class="line">总结：(0|[1-9][0-9]&#123;0,3&#125;|[1-5][0-9]&#123;4&#125;|6[0-4][0-9]&#123;3&#125;|65[0-4][0-9]&#123;2&#125;|655[0-2][0-9]|6553[0-5])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>IP</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^((0|[1-9][0-9]&#123;0,1&#125;|1[0-9]&#123;2&#125;|2[0-4][0-9]|25[0-5])\.)&#123;3&#125;(0|[1-9][0-9]&#123;0,1&#125;|1[0-9]&#123;2&#125;|2[0-4][0-9]|25[0-5])$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>PORT</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(0|[1-9][0-9]&#123;0,3&#125;|[1-5][0-9]&#123;4&#125;|6[0-4][0-9]&#123;3&#125;|65[0-4][0-9]&#123;2&#125;|655[0-2][0-9]|6553[0-5])$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>邮箱</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 常见</span><br><span class="line">^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]&#123;2,&#125;$</span><br><span class="line"></span><br><span class="line"># 支持国际化</span><br><span class="line">^(?=.&#123;1,254&#125;$)(?=.&#123;1,64&#125;@)[-!#$%&amp;&#x27;*+/0-9=?A-Z^_`a-z&#123;|&#125;~]+(\.[-!#$%&amp;&#x27;*+/0-9=?A-Z^_`a-z&#123;|&#125;~]+)*@[A-Za-z0-9]([A-Za-z0-9-]&#123;0,61&#125;[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]&#123;0,61&#125;[A-Za-z0-9])?)*$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>URL，例如：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?ie=utf-8&f=8">https://www.baidu.com/s?ie=utf-8&amp;f=8</a></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 常见</span><br><span class="line">^(https?|ftp):\/\/([^\s\/?#]+)([^\s?#]*)(\?([^\s#]*))?(#(.*))?$</span><br><span class="line"></span><br><span class="line"># 严格</span><br><span class="line">^(https?|ftp):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]&#123;1,256&#125;\.[a-zA-Z0-9()]&#123;1,6&#125;\b([-a-zA-Z0-9()@:%_\+.~#?&amp;//=]*)$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>身份证号码</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 18位</span><br><span class="line">^[1-9]\d&#123;5&#125;(18|19|20)\d&#123;2&#125;(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d&#123;3&#125;[\dXx]$</span><br><span class="line"></span><br><span class="line"># 15位</span><br><span class="line">^[1-9]\d&#123;5&#125;\d&#123;2&#125;(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d&#123;3&#125;$</span><br><span class="line"></span><br><span class="line"># 同时支持15、18位</span><br><span class="line">(^[1-9]\d&#123;5&#125;(18|19|20)\d&#123;2&#125;(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d&#123;3&#125;[\dXx]$)|(^[1-9]\d&#123;5&#125;\d&#123;2&#125;(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d&#123;3&#125;$)</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -382,7 +408,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -399,7 +425,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">8:03</span>
+    <span title="站点阅读时长">8:05</span>
   </span>
 </div>
 <div class="busuanzi-count">
